@@ -10,24 +10,25 @@
  */
 
 bool parseCmdArgs(int argc, char **argv, char** shaders){
-  if((argc <= 2) || (strcmp(argv[1],"-h")==0)){
-    printf("%s -v [vertex_shaders] -f [fragment_shaders]\n",argv[0]);
+  char help_message[256];
+  sprintf(help_message,"%s -v [vertex_shader] -f [fragment_shader]\n",argv[0]);
+  if(argc < 2){
+    printf("%s",help_message);
     return false;
   }
-  else if(strcmp(argv[1],"-f") && strcmp(argv[3],"-v")){
-    shaders[0] = argv[2];
-    shaders[1] = argv[4];
-    return true;
+  for(int i = 1; i < argc; i++){
+    if((strcmp(argv[i],"-h")==0)){
+      printf("%s",help_message);
+      return false;
+    }
+    if((strcmp(argv[i],"-v")==0)){
+      shaders[0] = argv[i+1];
+    }
+    else if((strcmp(argv[i],"-f")==0)){
+      shaders[1] = argv[i+1];
+    }
   }
-  else if(strcmp(argv[1],"-v") && strcmp(argv[3],"-f")){
-    shaders[0] = argv[4];
-    shaders[1] = argv[2];
-    return true;
-  }
-  else{
-    printf("%s -v [vertex_shaders =f [fragment_shaders]\n",argv[0]);
-    return false;
-  }
+  return true;
 }
  
 
