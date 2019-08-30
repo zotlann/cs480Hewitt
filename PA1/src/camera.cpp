@@ -28,7 +28,7 @@ bool Camera::Initialize(int w, int h)
 }
 
 glm::mat4 Camera::GetProjection()
-{
+{	
   return projection;
 }
 
