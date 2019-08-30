@@ -4,6 +4,7 @@
 
 ```bash
 mkdir build
+cp makefile build
 cd build
 make
 ```
