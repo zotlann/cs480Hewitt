@@ -26,6 +26,7 @@ bool parseCmdArgs(int argc, char **argv, char** shaders){
   }
   else{
     printf("%s -v [vertex_shaders =f [fragment_shaders]\n",argv[0]);
+    return false;
   }
 }
  
