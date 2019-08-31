@@ -32,7 +32,7 @@ This version of the program takes user input and alters the motion of the cube b
 
 NOTE:Changes in motion are visually clunky.  Changing the speed/direction of orbit often causes the cube to to jerk to a new location before smoothing out it's path again.
 
-## KEYBINDS:
+## KEYBINDS
 
 ### Mouse:
 Left Mouse Button: Change the direction the cube rotates about it's y axis.  
