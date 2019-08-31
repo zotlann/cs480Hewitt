@@ -34,11 +34,11 @@ NOTE:Changes in motion are visually clunky.  Changing the speed/direction of orb
 
 ## KEYBINDS:
 
-# Mouse:
+### Mouse:
 Left Mouse Button: Change the direction the cube rotates about it's y axis.  
 Right Mouse Button: Change the direction the cube orbits about the center of the window.  
 
-# Keyboard:
+### Keyboard:
 A: Change the direction the cube rotates about it's y axis.  
 S: Change the direction the cube orbits about the center of the window.  
 D: Increase the speed at which the cube rotates by a factor of 1.1.  
