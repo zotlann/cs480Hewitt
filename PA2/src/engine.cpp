@@ -130,6 +130,7 @@ char Engine::Keyboard()
 	break;
       }
   }
+  return '\0';
 }
 unsigned int Engine::getDT()
 {
