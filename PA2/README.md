@@ -1,4 +1,4 @@
-# PA1: Spinning Cube
+# PA2: Interactions: Menus, Keyboard, and Mouse
 
 ## Build Instructions
 
