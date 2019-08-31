@@ -52,6 +52,7 @@ bool Engine::Initialize(char** shaders)
 
 void Engine::Run()
 {
+  char input = 's';  
   m_running = true;
 
   while(m_running)
@@ -62,11 +63,12 @@ void Engine::Run()
     // Check the keyboard input
     while(SDL_PollEvent(&m_event) != 0)
     {
-      Keyboard();
+      input = Keyboard() | Mouse();
+      if(input) break;
     }
 
     // Update and render the graphics
-    m_graphics->Update(m_DT);
+    m_graphics->Update(m_DT,input);
     m_graphics->Render();
 
     // Swap to the Window
@@ -74,22 +76,61 @@ void Engine::Run()
   }
 }
 
-void Engine::Keyboard()
+char Engine::Mouse()
 {
   if(m_event.type == SDL_QUIT)
   {
     m_running = false;
+    return '\0';
+  }
+  else if (m_event.type == SDL_MOUSEBUTTONDOWN){
+    if(m_event.button.button == SDL_BUTTON_LEFT){
+      return 'a';
+    }
+    if(m_event.button.button == SDL_BUTTON_RIGHT){
+      return 's';
+    }
+  }
+  return '\0';
+}
+
+char Engine::Keyboard()
+{
+  if(m_event.type == SDL_QUIT)
+  {
+    m_running = false;
+    return '\0';
   }
   else if (m_event.type == SDL_KEYDOWN)
   {
-    // handle key down events here
-    if (m_event.key.keysym.sym == SDLK_ESCAPE)
-    {
-      m_running = false;
-    }
+    switch(m_event.key.keysym.sym){
+      case SDLK_ESCAPE:
+        m_running = false;
+	break;
+      case SDLK_a:
+	return 'a';
+	break;
+      case SDLK_s:
+	return 's';
+	break;
+      case SDLK_d:
+        return 'd';
+	break;
+      case SDLK_f:
+	return 'f';
+	break;
+      case SDLK_g:
+        return 'g';
+	break;
+      case SDLK_h:
+	return 'h';
+	break;
+      default:
+	return '\0';
+	break;
+      }
   }
 }
-
 unsigned int Engine::getDT()
 {
   long long TimeNowMillis = GetCurrentTimeMillis();
