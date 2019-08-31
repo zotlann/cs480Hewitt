@@ -60,7 +60,10 @@ Object::Object()
     Indices[i] = Indices[i] - 1;
   }
 
-  angle = 0.0f;
+  rotation_angle = orbit_angle = 0.0f;
+  rotation_speed = orbit_speed = 1.0f;
+  rotation_direction = 1;
+  orbit_direction = 1;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -77,12 +80,37 @@ Object::~Object()
   Indices.clear();
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt,char input)
 {
-  angle -= dt * M_PI/1000;
-  model = glm::rotate(glm::mat4(1.0f),angle,glm::vec3(0.0,1.0,0.0));
-  model *= glm::translate(glm::mat4(1.0f),glm::vec3(5.0,0.0,0.0));
-  model *= glm::rotate(glm::mat4(1.0f),angle,glm::vec3(0.0,1.0,0.0));
+  float distance = dt/5;
+  rotation_angle += dt * M_PI/1000;
+  orbit_angle += dt * M_PI/1000;
+  switch(input){
+    case 'a':
+      rotation_direction *= -1;
+      break;
+    case 's':
+      orbit_direction *= -1;
+      break;
+    case 'd':
+      rotation_speed *= 1.1;
+      break;
+    case 'f':
+      rotation_speed /= 1.1;
+      break;
+    case 'g':
+      orbit_speed *= 1.1;
+      break;
+    case 'h':
+      orbit_speed /= 1.1;
+      break;
+  } 
+
+  model = glm::rotate(glm::mat4(1.0f),(orbit_angle * orbit_speed * orbit_direction),glm::vec3(0.0,1.0,0.0));
+  model *= glm::translate(glm::mat4(1.0f),glm::vec3(distance,0.0,0.0));
+  model *= glm::rotate(glm::mat4(1.0f),(rotation_angle * rotation_speed * rotation_direction),glm::vec3(0.0,1.0,0.0));
+
+
 }
 
 glm::mat4 Object::GetModel()
