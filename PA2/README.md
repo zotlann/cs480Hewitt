@@ -30,6 +30,8 @@ or
 ##User Interaction
 This version of the program takes user input and alters the motion of the cube based on the input.
 
+NOTE:Changes in motion are visually clunky.  Changing the speed/direction of orbit often causes the cube to to jerk to a new location before smoothing out it's path again.
+
 KEYBINDS:
 
 Mouse:
