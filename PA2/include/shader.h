@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <fstream>
+#include "assets.h"
 
 #include "graphics_headers.h"
 

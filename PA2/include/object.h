@@ -9,7 +9,7 @@ class Object
   public:
     Object();
     ~Object();
-    void Update(unsigned int dt, char input);
+    void Update(unsigned int dt);
     void Render();
 
     glm::mat4 GetModel();
@@ -21,12 +21,7 @@ class Object
     GLuint VB;
     GLuint IB;
 
-    float rotation_angle;
-    float orbit_angle;
-    float rotation_speed;
-    float orbit_speed;
-    float rotation_direction;
-    float orbit_direction;
+    float angle;
 };
 
 #endif /* OBJECT_H */
