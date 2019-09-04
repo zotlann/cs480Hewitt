@@ -14,7 +14,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, char** shaders);
+    bool Initialize(int width, int height, ShaderFiles shaders);
     void Update(unsigned int dt);
     void Render();
 
