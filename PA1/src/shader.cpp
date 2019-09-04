@@ -50,9 +50,10 @@ bool Shader::AddShader(GLenum ShaderType,char* filename)
   }
 
 
-  s = std::string( std::istreambuf_iterator<char>(shader_file),
-		      std::istreambuf_iterator<char>()
-		    );
+  s = std::string(std::istreambuf_iterator<char>(shader_file),std::istreambuf_iterator<char>());
+
+  shader_file.close();
+
   GLuint ShaderObj = glCreateShader(ShaderType);
 
   if (ShaderObj == 0) 

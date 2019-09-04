@@ -9,7 +9,7 @@
  * set shaders[1] to the filename following -f for the fragment shader
  */
 
-bool parseCmdArgs(int argc, char **argv, char** shaders){
+bool parseCmdArgs(int argc, char **argv,ShaderFiles* shaders){
   char help_message[256];
   sprintf(help_message,"%s -v [vertex_shader] -f [fragment_shader]\n",argv[0]);
   if(argc < 2){
@@ -22,10 +22,10 @@ bool parseCmdArgs(int argc, char **argv, char** shaders){
       return false;
     }
     if((strcmp(argv[i],"-v")==0)){
-      shaders[0] = argv[i+1];
+      shaders->vshader_filename = argv[i+1];
     }
     else if((strcmp(argv[i],"-f")==0)){
-      shaders[1] = argv[i+1];
+      shaders->fshader_filename = argv[i+1];
     }
   }
   return true;
@@ -35,7 +35,7 @@ bool parseCmdArgs(int argc, char **argv, char** shaders){
 
 int main(int argc, char **argv)
 {
-  char* shaders[2];
+  ShaderFiles *shaders = new ShaderFiles;
 
   if(!parseCmdArgs(argc,argv,shaders)){
     return 0;
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 800, 600);
-  if(!engine->Initialize(shaders))
+  if(!engine->Initialize(*shaders))
   {
     printf("The engine failed to start.\n");
     delete engine;
