@@ -25,7 +25,7 @@ Engine::~Engine()
   m_graphics = NULL;
 }
 
-bool Engine::Initialize(char** shaders)
+bool Engine::Initialize(ShaderFiles shaders)
 {
   // Start a window
   m_window = new Window();
