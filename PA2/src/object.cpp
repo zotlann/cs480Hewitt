@@ -294,8 +294,8 @@ void Object::parseObjectConfig(char* object_config_filename){
       std::getline(config_file,temp_string);
     }
   }
-  config.orbit_angle = 2 * M_PI;
-  config.rotation_angle = 2 * M_PI;
+  config.orbit_angle = 0;
+  config.rotation_angle = 0;
   config_file.close();
   std::cout << "NAME: " << config.name << std::endl;
   std::cout << "SCALE: " << config.scale << std::endl;
