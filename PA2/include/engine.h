@@ -15,7 +15,8 @@ class Engine
     ~Engine();
     bool Initialize(ShaderFiles shaders);
     void Run();
-    void Keyboard();
+    char Keyboard();
+    char Mouse();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
   
