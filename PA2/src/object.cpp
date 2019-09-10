@@ -82,32 +82,6 @@ Object::Object()
 
 Object::Object(char* object_config_filename)
 {  
-  /*
-    # Blender File for a Cube
-    o Cube
-    v 1.000000 -1.000000 -1.000000
-    v 1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 -1.000000
-    v 1.000000 1.000000 -0.999999
-    v 0.999999 1.000000 1.000001
-    v -1.000000 1.000000 1.000000
-    v -1.000000 1.000000 -1.000000
-    s off
-    f 2 3 4
-    f 8 7 6
-    f 1 5 6
-    f 2 6 7
-    f 7 8 4
-    f 1 4 8
-    f 1 2 4
-    f 5 8 6
-    f 2 1 6
-    f 3 2 7
-    f 3 7 4
-    f 5 1 8
-  */
-
   Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
@@ -158,41 +132,75 @@ Object::~Object()
   Indices.clear();
 }
 
+//takes a character representing keyboard input and performs the
+//proper mutations on the objects config
 void Object::processInput(char input){
  switch(input){
-    case 'a':
+    case 'q':
       config.rotation_direction *= -1;
       break;
-    case 's':
-      config.orbit_direction *= -1;
-      break;
-    case 'd':
-      config.rotation_speed *= 1.1;
-      break;
-    case 'f':
+    case 'w':
       config.rotation_speed /= 1.1;
       break;
-    case 'g':
+    case 'e':
+      config.rotation_speed *= 1.1;
+      break;
+    case 'r':
+      config.rotation_paused = !config.rotation_paused;
+      break;
+    case 'a':
+      config.orbit_direction *= -1;
+      break;
+    case 's':
+      config.orbit_speed /= 1.1;
+      break;
+    case 'd':
       config.orbit_speed *= 1.1;
       break;
-    case 'h':
-      config.orbit_speed /= 1.1;
+    case 'f':
+      config.orbit_paused = !config.orbit_paused;
+      break;
+    case 'z':
+      config.orbit_distance /= 1.1;
+      break;
+    case 'x':
+      config.orbit_distance *= 1.1;
+      break;
+    case 'c':
+      config.scale /= 1.1;
+      break;
+    case 'v':
+      config.scale *= 1.1;
+      break;
+    default:
       break;
   }
 }
 
 void Object::Update(unsigned int dt)
 {
-  config.rotation_angle += dt * M_PI/1000;
-  config.orbit_angle += dt * M_PI/1000;
-  float orbit_angle = config.orbit_angle * config.orbit_speed * config.orbit_direction;
-  float rotation_angle = config.rotation_angle * config.rotation_speed * config.rotation_direction;
+  //If rotation/orbit are not paused, increment the angles.
+  if(!config.orbit_paused){
+    config.orbit_angle += dt * M_PI/1000;
+  }
+  if(!config.rotation_paused){
+    config.rotation_angle += dt * M_PI/1000;
+  }
+
+  //Calculate the final angles with all scalars.
+  float orbit_angle = config.orbit_angle * config.orbit_direction * config.orbit_speed;
+  float rotation_angle = config.rotation_angle * config.rotation_direction * config.rotation_speed;
+
   glm::mat4 orbit;
   glm::mat4 rotation;
+  glm::mat4 scale;
+
+  //perform the rotations and translations
   orbit = glm::rotate(glm::mat4(1.0f),orbit_angle,glm::vec3(0.0,1.0,0.0)); 
   orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(config.orbit_distance,0.0,0.0));
   rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,glm::vec3(0.0,1.0,0.0));
-  model = orbit * rotation;
+  scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
+  model = scale * orbit * rotation;
 }
 
 glm::mat4 Object::GetModel()
@@ -217,6 +225,8 @@ void Object::Render()
   glDisableVertexAttribArray(1);
 }
 
+//Parses planet config files and creates an object with the proper config settings.
+//An example config file can be found in ../assets/entities/planet.conf
 void Object::parseObjectConfig(char* object_config_filename){
   std::string temp_string;
   float temp_float;
@@ -296,15 +306,9 @@ void Object::parseObjectConfig(char* object_config_filename){
   }
   config.orbit_angle = 0;
   config.rotation_angle = 0;
+  config.orbit_paused = false;
+  config.rotation_paused = false;
+  prev_model_set = false;
   config_file.close();
-  std::cout << "NAME: " << config.name << std::endl;
-  std::cout << "SCALE: " << config.scale << std::endl;
-  std::cout << "ORBIT SPEED: " << config.orbit_speed << std::endl;
-  std::cout << "ORBIT DIRECTION: " << config.orbit_direction << std::endl;
-  std::cout << "ORBIT ANGLE: " << config.orbit_angle << std::endl;
-  std::cout << "ORBIT DISTANCE: " << config.orbit_distance << std::endl;
-  std::cout << "ROTATION SPEED: " << config.rotation_speed << std::endl;
-  std::cout << "ROTATION DIRECTION: " << config.rotation_direction << std::endl;
-  std::cout << "ROTATION ANGLE: " << config.rotation_angle << std::endl;
 }
 
