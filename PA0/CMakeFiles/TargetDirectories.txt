@@ -1,4 +1,0 @@
-/home/jonathon/Documents/github/zotlann/cs480/PA0/CMakeFiles/edit_cache.dir
-/home/jonathon/Documents/github/zotlann/cs480/PA0/CMakeFiles/rebuild_cache.dir
-/home/jonathon/Documents/github/zotlann/cs480/PA0/CMakeFiles/Tutorial.dir
-/home/jonathon/Documents/github/zotlann/cs480/PA0/CMakeFiles/Tutorial_SUCCESSFUL.dir
