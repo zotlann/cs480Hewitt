@@ -44,9 +44,14 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
     return false;
   }
 
-  // Create the object
-  m_cube = new Object(shaders.config_filename);
-
+  //Create the object
+  //if a config filename was given, use that to create the object, else use default values
+  if(NULL == shaders.config_filename){
+    m_cube = new Object();
+  }
+  else{
+    m_cube = new Object(shaders.config_filename);
+  }
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
