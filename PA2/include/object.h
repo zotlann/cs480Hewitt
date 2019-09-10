@@ -13,10 +13,12 @@ struct ObjectConfig{
 	float orbit_angle;
 	int orbit_direction;
 	float orbit_distance;
+	bool orbit_paused;
 
 	float rotation_speed;
 	float rotation_angle;
 	int rotation_direction;
+	bool rotation_paused;
 
 	float scale;
 };
@@ -38,6 +40,8 @@ class Object
 
   private:
     glm::mat4 model;
+    glm::mat4 prev_model;
+    bool prev_model_set;
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     GLuint VB;
