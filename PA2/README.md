@@ -51,14 +51,14 @@ Right Mouse Button: Change the direction the cube orbits about the center of the
 
 ### Keyboard:
 Q: Change the direction the cube rotates about it's y axis.  
-W: Decrease the speed of rotation.
-E: Increase the speed of rotaion.
-R: Toggle pause/resume rotation.
-A: Change the direction the cube orbits around the center.
-S: Decrease the speed of orbit.
-D: Increase the speed of orbit.
-F: Toggle pause/resume orbit.
-Z: Decrease the radius of the orbit.
-X: Increase the radius of the orbit.
-C: Decrease the size of the cube.
-V: Increase the size of the cube.
+W: Decrease the speed of rotation.  
+E: Increase the speed of rotaion.  
+R: Toggle pause/resume rotation.  
+A: Change the direction the cube orbits around the center.  
+S: Decrease the speed of orbit.  
+D: Increase the speed of orbit.  
+F: Toggle pause/resume orbit.  
+Z: Decrease the radius of the orbit.  
+X: Increase the radius of the orbit.  
+C: Decrease the size of the cube.  
+V: Increase the size of the cube.  
