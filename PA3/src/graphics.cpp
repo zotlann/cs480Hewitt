@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height,char** shaders)
+bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -44,9 +44,14 @@ bool Graphics::Initialize(int width, int height,char** shaders)
     return false;
   }
 
-  // Create the object
-  m_cube = new Object();
-
+  //Create the object
+  //if a config filename was given, use that to create the object, else use default values
+  if(NULL == shaders.config_filename){
+    m_cube = new Object();
+  }
+  else{
+    m_cube = new Object(shaders.config_filename);
+  }
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -56,14 +61,14 @@ bool Graphics::Initialize(int width, int height,char** shaders)
   }
 
   // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER,shaders[0]))
+  if(!m_shader->AddShader(GL_VERTEX_SHADER,shaders.vshader_filename))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER,shaders[1]))
+  if(!m_shader->AddShader(GL_FRAGMENT_SHADER,shaders.fshader_filename))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -107,10 +112,11 @@ bool Graphics::Initialize(int width, int height,char** shaders)
   return true;
 }
 
-void Graphics::Update(unsigned int dt, char input)
+void Graphics::Update(unsigned int dt,char input)
 {
   // Update the object
-  m_cube->Update(dt,input);
+  m_cube->processInput(input);
+  m_cube->Update(dt);
 }
 
 void Graphics::Render()

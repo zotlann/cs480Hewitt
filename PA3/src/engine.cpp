@@ -25,7 +25,7 @@ Engine::~Engine()
   m_graphics = NULL;
 }
 
-bool Engine::Initialize(char** shaders)
+bool Engine::Initialize(ShaderFiles shaders)
 {
   // Start a window
   m_window = new Window();
@@ -76,6 +76,7 @@ void Engine::Run()
   }
 }
 
+//gets the mouse event and returns a char represent the mouse action 
 char Engine::Mouse()
 {
   if(m_event.type == SDL_QUIT)
@@ -85,15 +86,16 @@ char Engine::Mouse()
   }
   else if (m_event.type == SDL_MOUSEBUTTONDOWN){
     if(m_event.button.button == SDL_BUTTON_LEFT){
-      return 'a';
+      return 'q';
     }
     if(m_event.button.button == SDL_BUTTON_RIGHT){
-      return 's';
+      return 'a';
     }
   }
   return '\0';
 }
 
+//gets the keyboard event and returns a char representing the key hit
 char Engine::Keyboard()
 {
   if(m_event.type == SDL_QUIT)
@@ -107,23 +109,41 @@ char Engine::Keyboard()
       case SDLK_ESCAPE:
         m_running = false;
 	break;
+      case SDLK_q:
+	return 'q';
+	break;
+      case SDLK_w:
+	return 'w';
+	break;
+      case SDLK_e:
+        return 'e';
+	break;
+      case SDLK_r:
+	return 'r';
+	break;
       case SDLK_a:
-	return 'a';
+        return 'a';
 	break;
       case SDLK_s:
 	return 's';
 	break;
       case SDLK_d:
-        return 'd';
+	return 'd';
 	break;
       case SDLK_f:
-	return 'f';
+        return 'f';
 	break;
-      case SDLK_g:
-        return 'g';
+      case SDLK_z:
+	return 'z';
 	break;
-      case SDLK_h:
-	return 'h';
+      case SDLK_x:
+	return 'x';
+	break;
+      case SDLK_c:
+	return 'c';
+	break;
+      case SDLK_v:
+	return 'v';
 	break;
       default:
 	return '\0';
