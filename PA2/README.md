@@ -41,8 +41,6 @@ NOTE: When using a planet config file, the parseConfig command currently falsely
 ## User Interaction
 This version of the program takes user input and alters the motion of the cube based on the input.
 
-NOTE:Changes in motion are visually clunky.  Changing the speed/direction of orbit often causes the cube to to jerk to a new location before smoothing out it's path again.  I tried keeping a record of previous location and basing the movement on that, but I couldn't get it into a working state yet.
-
 ## KEYBINDS
 
 ### Mouse:
@@ -51,12 +49,12 @@ Right Mouse Button: Change the direction the cube orbits about the center of the
 
 ### Keyboard:
 Q: Change the direction the cube rotates about it's y axis.  
-W: Decrease the speed of rotation.  
-E: Increase the speed of rotaion.  
+W: Decrease the speed of rotation when moving counter-clockwise.
+E: Increase the speed of rotaion when moving couner-clockwise.
 R: Toggle pause/resume rotation.  
 A: Change the direction the cube orbits around the center.  
-S: Decrease the speed of orbit.  
-D: Increase the speed of orbit.  
+S: Decrease the speed of orbit when moving counter-clockwise.  
+D: Increase the speed of orbit when moving counter-clockwise.
 F: Toggle pause/resume orbit.  
 Z: Decrease the radius of the orbit.  
 X: Increase the radius of the orbit.  
