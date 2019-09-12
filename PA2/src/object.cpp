@@ -70,12 +70,12 @@ Object::Object()
 
   //Set Default config settings
   config.orbit_angle = 0;
-  config.orbit_speed = 1;
+  config.orbit_speed = 0;
   config.orbit_direction = 1;
   config.orbit_distance = 3;
 
   config.rotation_angle = 0;
-  config.rotation_speed = 1;
+  config.rotation_speed = 0;
   config.rotation_direction = 1;
   config.scale = 1;
 }
@@ -140,10 +140,10 @@ void Object::processInput(char input){
       config.rotation_direction *= -1;
       break;
     case 'w':
-      config.rotation_speed /= 1.1;
+      config.rotation_speed -= 0.5;
       break;
     case 'e':
-      config.rotation_speed *= 1.1;
+      config.rotation_speed += 0.5;
       break;
     case 'r':
       config.rotation_paused = !config.rotation_paused;
@@ -152,10 +152,10 @@ void Object::processInput(char input){
       config.orbit_direction *= -1;
       break;
     case 's':
-      config.orbit_speed /= 1.1;
+      config.orbit_speed -= 0.5;
       break;
     case 'd':
-      config.orbit_speed *= 1.1;
+      config.orbit_speed += 0.5;
       break;
     case 'f':
       config.orbit_paused = !config.orbit_paused;
@@ -181,15 +181,26 @@ void Object::Update(unsigned int dt)
 {
   //If rotation/orbit are not paused, increment the angles.
   if(!config.orbit_paused){
-    config.orbit_angle += dt * M_PI/1000;
+    if(config.orbit_direction > 0){
+      config.orbit_angle += dt * (M_PI + config.orbit_speed)/1000;
+    }
+    else{
+      config.orbit_angle -= dt * (M_PI + config.orbit_speed)/1000;
+    }
   }
   if(!config.rotation_paused){
-    config.rotation_angle += dt * M_PI/1000;
+    if(config.rotation_direction > 0){
+      config.rotation_angle += dt * (M_PI + config.rotation_speed)/1000;
+    }
+    else{
+      config.rotation_angle -= dt * (M_PI + config.orbit_speed)/1000;
+    }
   }
 
+
   //Calculate the final angles with all scalars.
-  float orbit_angle = config.orbit_angle * config.orbit_direction * config.orbit_speed;
-  float rotation_angle = config.rotation_angle * config.rotation_direction * config.rotation_speed;
+  float orbit_angle = config.orbit_angle;
+  float rotation_angle = config.rotation_angle;
 
   glm::mat4 orbit;
   glm::mat4 rotation;
