@@ -44,21 +44,21 @@ Right Mouse Button: Change the direction the cube orbits about the center of the
 ### Keyboard:
 TAB: Change the entity that is targeted and therefore effected by input.  
 e.g if the planet is selected and you hit tab the moon will become selected and any subsequent inputs will alter the moon's motion and vice versa.  
-The program starts with the planet selected.
+The program starts with the planet selected.  
 Q: Change the direction the cube rotates about it's y axis.  
-W: Decrease the speed of rotation when moving counter-clockwise.
-E: Increase the speed of rotaion when moving couner-clockwise.
+W: Decrease the speed of rotation when moving counter-clockwise. 
+E: Increase the speed of rotaion when moving couner-clockwise.  
 R: Toggle pause/resume rotation.  
 A: Change the direction the cube orbits around the center.  
 S: Decrease the speed of orbit when moving counter-clockwise.  
-D: Increase the speed of orbit when moving counter-clockwise.
+D: Increase the speed of orbit when moving counter-clockwise.  
 F: Toggle pause/resume orbit.  
 Z: Decrease the radius of the orbit.  
 X: Increase the radius of the orbit.  
 C: Decrease the size of the cube.  
 V: Increase the size of the cube. 
 
-###EXTRA CREDIT:
+### EXTRA CREDIT:
 Scaled Moon:  
 The moon starts off with a scalar of 0.5 it's original size.  You can alter this at runtime by hitting tab, to target the moon, and then c or v to decrease or increase the size of it respectively.
 
