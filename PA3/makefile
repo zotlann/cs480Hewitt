@@ -26,7 +26,7 @@ INDLUDES=-I../include
 
 
 all: $(O_FILES)
-	$(CC) $(CXXFLAGS) -o PA2 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
+	$(CC) $(CXXFLAGS) -o PA3 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
 
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INDLUDES)

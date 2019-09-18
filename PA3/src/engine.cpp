@@ -52,7 +52,7 @@ bool Engine::Initialize(ShaderFiles shaders)
 
 void Engine::Run()
 {
-  char input = 's';  
+  char input = '\0';  
   m_running = true;
 
   while(m_running)
@@ -66,10 +66,10 @@ void Engine::Run()
       input = Keyboard() | Mouse();
       if(input) break;
     }
-
     // Update and render the graphics
     m_graphics->Update(m_DT,input);
     m_graphics->Render();
+    input = '\0';
 
     // Swap to the Window
     m_window->Swap();
@@ -85,11 +85,17 @@ char Engine::Mouse()
     return '\0';
   }
   else if (m_event.type == SDL_MOUSEBUTTONDOWN){
-    if(m_event.button.button == SDL_BUTTON_LEFT){
-      return 'q';
-    }
-    if(m_event.button.button == SDL_BUTTON_RIGHT){
-      return 'a';
+    
+    switch(m_event.button.button){
+      case SDL_BUTTON_LEFT:
+        return 'q';
+	break;
+      case SDL_BUTTON_RIGHT:
+	return 'a';
+	break;
+      default:
+	return '\0';
+	break;
     }
   }
   return '\0';
@@ -108,6 +114,9 @@ char Engine::Keyboard()
     switch(m_event.key.keysym.sym){
       case SDLK_ESCAPE:
         m_running = false;
+	break;
+      case SDLK_TAB:
+	return '\t';
 	break;
       case SDLK_q:
 	return 'q';

@@ -1,7 +1,7 @@
 #include "object.h"
 
 Object::Object()
-{  
+{ 
   /*
     # Blender File for a Cube
     o Cube
@@ -38,7 +38,6 @@ Object::Object()
     {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
     {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}}
   };
-
   Indices = {
     2, 3, 4,
     8, 7, 6,
@@ -59,25 +58,27 @@ Object::Object()
   {
     Indices[i] = Indices[i] - 1;
   }
-
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-
+  parent = NULL;
   //Set Default config settings
   config.orbit_angle = 0;
   config.orbit_speed = 0;
   config.orbit_direction = 1;
   config.orbit_distance = 3;
 
+
   config.rotation_angle = 0;
   config.rotation_speed = 0;
   config.rotation_direction = 1;
   config.scale = 1;
+
+  config.orbit_paused = false;
+  config.rotation_paused = false;
 }
 
 Object::Object(char* object_config_filename)
@@ -146,7 +147,12 @@ void Object::processInput(char input){
       config.rotation_speed += 0.5;
       break;
     case 'r':
-      config.rotation_paused = !config.rotation_paused;
+      if(config.rotation_paused){
+        config.rotation_paused = false;
+      }
+      else{
+        config.rotation_paused = true;
+      }
       break;
     case 'a':
       config.orbit_direction *= -1;
@@ -158,7 +164,12 @@ void Object::processInput(char input){
       config.orbit_speed += 0.5;
       break;
     case 'f':
-      config.orbit_paused = !config.orbit_paused;
+      if(config.orbit_paused){
+        config.orbit_paused = false;
+      }
+      else{
+        config.orbit_paused = true;
+      } 
       break;
     case 'z':
       config.orbit_distance /= 1.1;
@@ -196,8 +207,6 @@ void Object::Update(unsigned int dt)
       config.rotation_angle -= dt * (M_PI + config.orbit_speed)/1000;
     }
   }
-
-
   //Calculate the final angles with all scalars.
   float orbit_angle = config.orbit_angle;
   float rotation_angle = config.rotation_angle;
@@ -205,13 +214,20 @@ void Object::Update(unsigned int dt)
   glm::mat4 orbit;
   glm::mat4 rotation;
   glm::mat4 scale;
-
+  
   //perform the rotations and translations
   orbit = glm::rotate(glm::mat4(1.0f),orbit_angle,glm::vec3(0.0,1.0,0.0)); 
   orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(config.orbit_distance,0.0,0.0));
+  orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,glm::vec3(0.0,1.0,0.));
+  location = orbit;
   rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,glm::vec3(0.0,1.0,0.0));
   scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
-  model = scale * orbit * rotation;
+  if(parent != NULL){
+    model = parent->GetLocation() * orbit * rotation * scale;
+  }
+  else{
+    model = orbit * rotation * scale;
+  }
 }
 
 glm::mat4 Object::GetModel()
@@ -319,7 +335,39 @@ void Object::parseObjectConfig(char* object_config_filename){
   config.rotation_angle = 0;
   config.orbit_paused = false;
   config.rotation_paused = false;
-  prev_model_set = false;
   config_file.close();
 }
 
+std::vector<Object*> Object::getSatelites(){
+  return satelites;
+}
+
+void Object::setSatelites(std::vector<Object*> s){
+  satelites = s;
+}
+
+Object* Object::getParent(){
+  return parent;
+}
+
+void Object::setParent(Object* p){
+  parent = p;
+}
+
+glm::mat4 Object::GetLocation(){
+  return location;
+}
+
+bool Object::isSelected(){
+  return selected;
+}
+void Object::Select(){
+  selected = true;
+}
+void Object::Deselect(){
+  selected = false;
+}
+
+void Object::setScale(float s){
+  config.scale = s;
+}

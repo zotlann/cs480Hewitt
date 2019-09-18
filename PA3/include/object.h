@@ -34,18 +34,33 @@ class Object
     void Input(char input);
     void Render();
 
+    std::vector<Object*> getSatelites();
+    void setSatelites(std::vector<Object*> vectors);
+
+    Object* getParent();
+    void setParent(Object* p);
+
     void parseObjectConfig(char* object_config_filename);
 
     glm::mat4 GetModel();
+    glm::mat4 GetLocation();
+
+    bool isSelected();
+    void Select();
+    void Deselect();
+
+    void setScale(float);
 
   private:
     glm::mat4 model;
-    glm::mat4 prev_model;
-    bool prev_model_set;
+    glm::mat4 location;
+    bool selected;
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    std::vector<Object*> satelites;
+    Object* parent;
 
     ObjectConfig config;
 };

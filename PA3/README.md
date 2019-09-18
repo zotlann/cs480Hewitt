@@ -13,32 +13,22 @@ make
 
 ## Usage Instructions
 ```bash
-./PA2 -v [vector_shader] -f [fragment_shader] -c [planet_config]
+./PA3 -v [vector_shader] -f [fragment_shader]
 ```
 
-The -v, -f, and -c command line arguments can be used in any order, use the -h command line argument to display the proper format for running the program.
+The -v and -f command line arguments can be used in any order, use the -h command line argument to display the proper format for running the program.
 
 [vector_shader] and [fragment_shader] are paths to the vector and fragment shader files respectively. By default these are in ../assets/shaders/vshader and ../assets/shaders/fshader respectively.
 
-[planet_config] is a config file with planet data. If no planet config is given default values will be used.  There is an example planet.conf in ../assets/entities/planet.conf.  Feel free to alter data in this config file to change the intial movement patterns of the planet.
-
 To run the program with it's default shaders and standard settings run
 ```bash
-./PA2 -v ../assets/shaders/vshader -f ../assets/shaders/fshader
+./PA3 -v ../assets/shaders/vshader -f ../assets/shaders/fshader
 ```
 or
 ```bash
-./PA2 -f ../assets/shaders/fshader -v ../assets/shaders/vshader
-```
+./PA3 -f ../assets/shaders/fshader -v ../assets/shaders/vshader
 
-To add in the planet config try
-```bash
-./PA2 -v ../assets/shaders/vshader -f ../assets/shaders/fshader -c ../assets/entities/planet.conf
-```
-
-NOTE: When using a planet config file, the parseConfig command currently falsely reports an error in formatting on a null string.  This error should be ignored for now.  Any other errors from improperly formatted configs or unexpected tokens should be properly reported, but no extensive testing has been done on the parser as of now.
-
-## User Interaction
+```## User Interaction
 This version of the program takes user input and alters the motion of the cube based on the input.
 
 ## KEYBINDS
@@ -48,6 +38,9 @@ Left Mouse Button: Change the direction the cube rotates about it's y axis.
 Right Mouse Button: Change the direction the cube orbits about the center of the window.  
 
 ### Keyboard:
+TAB: Change the entity that is targeted and therefore effected by input.  
+e.g if the planet is selected and you hit tab the moon will become selected and any subsequent inputs will alter the moon's motion and vice versa.  
+The program starts with the planet selected.
 Q: Change the direction the cube rotates about it's y axis.  
 W: Decrease the speed of rotation when moving counter-clockwise.
 E: Increase the speed of rotaion when moving couner-clockwise.
@@ -59,4 +52,11 @@ F: Toggle pause/resume orbit.
 Z: Decrease the radius of the orbit.  
 X: Increase the radius of the orbit.  
 C: Decrease the size of the cube.  
-V: Increase the size of the cube.  
+V: Increase the size of the cube. 
+
+###EXTRA CREDIT:
+Scaled Moon:  
+The moon starts off with a scalar of 0.5 it's original size.  You can alter this at runtime by hitting tab, to target the moon, and then c or v to decrease or increase the size of it respectively.
+
+Adjust Moon Speed:  
+The moon starts off at the same relative speed as the planet.  You can alter this at runtime by hitting tab, to target the moon, and then w or e to decrease or increase the speed of the rotation respectively, and s or d to decrease or increase the speed of the orbit respectively.  Any other binds shown above work properly as well when targeted on the moon.
