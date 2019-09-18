@@ -46,8 +46,8 @@ TAB: Change the entity that is targeted and therefore effected by input.
 e.g if the planet is selected and you hit tab the moon will become selected and any subsequent inputs will alter the moon's motion and vice versa.  
 The program starts with the planet selected.  
 Q: Change the direction the cube rotates about it's y axis.  
-W: Decrease the speed of rotation when moving counter-clockwise. 
-E: Increase the speed of rotaion when moving couner-clockwise.  
+W: Decrease the speed of rotation when moving counter-clockwise.   
+E: Increase the speed of rotaion when moving couner-clockwise.   
 R: Toggle pause/resume rotation.  
 A: Change the direction the cube orbits around the center.  
 S: Decrease the speed of orbit when moving counter-clockwise.  
