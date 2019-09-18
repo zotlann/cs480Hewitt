@@ -1,4 +1,7 @@
-# PA2: Interactions: Menus, Keyboard, and Mouse
+# PA3: Moons
+
+## Project Description
+This project added another object to render in a moon that orbits the original cube.  Both objects are controlled independantly similarly to the capabilities in PA2.  
 
 ## Build Instructions
 
@@ -27,8 +30,9 @@ To run the program with it's default shaders and standard settings run
 or
 ```bash
 ./PA3 -f ../assets/shaders/fshader -v ../assets/shaders/vshader
+```
 
-```## User Interaction
+## User Interaction
 This version of the program takes user input and alters the motion of the cube based on the input.
 
 ## KEYBINDS
