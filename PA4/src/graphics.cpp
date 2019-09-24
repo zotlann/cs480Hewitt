@@ -30,7 +30,6 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
       return false;
     }
   #endif
-
   // For OpenGL 3
   GLuint vao;
   glGenVertexArrays(1, &vao);
@@ -43,25 +42,9 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
     printf("Camera Failed to Initialize\n");
     return false;
   }
-
   //Create the object
   //if a config filename was given, use that to create the object, else use default values
-  if(NULL == shaders.config_filename){
-    m_cube = new Object();
-    m_cube->Select();
-  }
-  else{
-    m_cube = new Object(shaders.config_filename);
-  }
-
-  //Set up moon
-  std::vector<Object*> s;
-  Object* m_moon = new Object();
-  m_moon->setScale(0.5);
-  m_moon->setParent(m_cube);
-  s.push_back(m_moon);
-  m_cube->setSatelites(s);
-
+  m_cube =  new Object(shaders.config_filename,shaders.obj_filename,shaders.scale);
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -69,7 +52,6 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
     printf("Shader Failed to Initialize\n");
     return false;
   }
-
   // Add the vertex shader
   if(!m_shader->AddShader(GL_VERTEX_SHADER,shaders.vshader_filename))
   {
@@ -83,7 +65,6 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
     printf("Fragment Shader failed to Initialize\n");
     return false;
   }
-
   // Connect the program
   if(!m_shader->Finalize())
   {
@@ -114,7 +95,6 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
     printf("m_modelMatrix not found\n");
     return false;
   }
-
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
@@ -124,25 +104,7 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
 
 void Graphics::Update(unsigned int dt,char input)
 {
-  if(input == '\t'){
-    if(m_cube->isSelected()){
-      m_cube->Deselect();
-      m_cube->getSatelites()[0]->Select();
-    }
-    else{
-      m_cube->Select();
-      m_cube->getSatelites()[0]->Deselect();
-    }
-  }
-  // Update the object
-  if(m_cube->isSelected()){
-    m_cube->processInput(input);
-  }
-  else{
-    m_cube->getSatelites()[0]->processInput(input);
-  }
   m_cube->Update(dt);
-  m_cube->getSatelites()[0]->Update(dt);
 }
 
 void Graphics::Render()
@@ -161,9 +123,6 @@ void Graphics::Render()
   // Render the object
   glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
   m_cube->Render();
-  Object* m_moon = m_cube->getSatelites()[0];
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_moon->GetModel()));
-  m_moon->Render();
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )

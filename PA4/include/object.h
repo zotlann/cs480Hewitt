@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include "graphics_headers.h"
 #include "assets.h"
 
@@ -21,13 +22,25 @@ struct ObjectConfig{
 	bool rotation_paused;
 
 	float scale;
+
+	ObjectConfig(){
+	  name = " ";
+	  orbit_speed = 0;
+	  orbit_angle = 0;
+	  orbit_distance = 2;
+	  orbit_paused = false;
+	  rotation_speed = 0;
+	  rotation_angle = 0;
+	  rotation_paused = false;
+	  scale = 1;
+	}
 };
 
 class Object
 {
   public:
     Object();
-    Object(char* object_config_filename);
+    Object(char* object_config_filename, char* obj_filename,float scale);
     ~Object();
     void Update(unsigned int dt);
     void processInput(char input);
@@ -40,7 +53,8 @@ class Object
     Object* getParent();
     void setParent(Object* p);
 
-    void parseObjectConfig(char* object_config_filename);
+    void parseObjFile(char* obj_filename);
+    ObjectConfig parseObjectConfig(char* object_config_filename);
 
     glm::mat4 GetModel();
     glm::mat4 GetLocation();
