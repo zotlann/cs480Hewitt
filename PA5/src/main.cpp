@@ -30,6 +30,12 @@ bool parseCmdArgs(int argc, char **argv,ShaderFiles* shaders){
     else if((strcmp(argv[i],"-c")==0)){
       shaders->config_filename = argv[i+1];
     }
+    else if((strcmp(argv[i],"--obj")==0)){
+      shaders->obj_filename = argv[i+1];
+    }
+    else if((strcmp(argv[i],"-s")==0)){
+      shaders->scale = (float)atof(argv[i+1]);
+    }
   }
   return true;
 }
@@ -39,11 +45,10 @@ bool parseCmdArgs(int argc, char **argv,ShaderFiles* shaders){
 int main(int argc, char **argv)
 {
   ShaderFiles* shaders = new ShaderFiles;
-
+   
   if(!parseCmdArgs(argc,argv,shaders)){
     return 0;
   }
-
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 800, 600);
   if(!engine->Initialize(*shaders))

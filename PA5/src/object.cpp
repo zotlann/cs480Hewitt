@@ -2,32 +2,6 @@
 
 Object::Object()
 { 
-  /*
-    # Blender File for a Cube
-    o Cube
-    v 1.000000 -1.000000 -1.000000
-    v 1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 1.000000
-    v -1.000000 -1.000000 -1.000000
-    v 1.000000 1.000000 -0.999999
-    v 0.999999 1.000000 1.000001
-    v -1.000000 1.000000 1.000000
-    v -1.000000 1.000000 -1.000000
-    s off
-    f 2 3 4
-    f 8 7 6
-    f 1 5 6
-    f 2 6 7
-    f 7 8 4
-    f 1 4 8
-    f 1 2 4
-    f 5 8 6
-    f 2 1 6
-    f 3 2 7
-    f 3 7 4
-    f 5 1 8
-  */
-
   Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
@@ -65,50 +39,11 @@ Object::Object()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
   parent = NULL;
-  //Set Default config settings
-  config.orbit_angle = 0;
-  config.orbit_speed = 0;
-  config.orbit_direction = 1;
-  config.orbit_distance = 3;
-
-
-  config.rotation_angle = 0;
-  config.rotation_speed = 0;
-  config.rotation_direction = 1;
-  config.scale = 1;
-
-  config.orbit_paused = false;
-  config.rotation_paused = false;
 }
 
-Object::Object(char* object_config_filename)
+Object::Object(char* object_config_filename,char* obj_filename,float scl)
 {  
-  Vertices = {
-    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
-    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
-    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
-    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}},
-    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}},
-    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}},
-    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
-    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}}
-  };
-
-  Indices = {
-    2, 3, 4,
-    8, 7, 6,
-    1, 5, 6,
-    2, 6, 7,
-    7, 8, 4,
-    1, 4, 8,
-    1, 2, 4,
-    5, 8, 6,
-    2, 1, 6,
-    3, 2, 7,
-    3, 7, 4,
-    5, 1, 8
-  };
-
+  parseObjFile(obj_filename);
   // The index works at a 0th index
   for(unsigned int i = 0; i < Indices.size(); i++)
   {
@@ -123,8 +58,11 @@ Object::Object(char* object_config_filename)
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
 
-  //Pares an object config file and makes the appropriate assignments to the config
-  parseObjectConfig(object_config_filename);
+  //Parse an object config file and makes the appropriate assignments to the config
+  config = parseObjectConfig(object_config_filename);
+  if(scl > 0.0){
+    config.scale = scl;
+  }
 }
 
 Object::~Object()
@@ -190,6 +128,8 @@ void Object::processInput(char input){
 
 void Object::Update(unsigned int dt)
 {
+  model = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
+  /*
   //If rotation/orbit are not paused, increment the angles.
   if(!config.orbit_paused){
     if(config.orbit_direction > 0){
@@ -227,7 +167,7 @@ void Object::Update(unsigned int dt)
   }
   else{
     model = orbit * rotation * scale;
-  }
+  }*/
 }
 
 glm::mat4 Object::GetModel()
@@ -254,89 +194,65 @@ void Object::Render()
 
 //Parses planet config files and creates an object with the proper config settings.
 //An example config file can be found in ../assets/entities/planet.conf
-void Object::parseObjectConfig(char* object_config_filename){
+ObjectConfig Object::parseObjectConfig(char* object_config_filename){
   std::string temp_string;
   float temp_float;
-
+  
   std::ifstream config_file;
   config_file.open(object_config_filename);
   if(!config_file.good()){
-    printf("Invalid object config filepath: %s\n",object_config_filename);
-    return;
+    printf("Invalid object config filepath: %s\nUsing default object config.\n",object_config_filename);
+    return ObjectConfig();
   }
 
-  while(!config_file.eof()){
-    config_file >> temp_string;
-    if(temp_string == "Planet"){
-      config_file >> temp_string;
-      config_file >> temp_string;
-      config.name = temp_string;
-    }
-    else if(temp_string == "Orbit"){
-      config_file >> temp_string;
-      if(temp_string == "Speed:"){
-        config_file >> temp_float;
-	config.orbit_speed = temp_float;
-      }
-      else if(temp_string == "Direction:"){
-        config_file >> temp_string;
-	if(temp_string == "Clockwise"){
-	  config.orbit_direction = 1;
-	}
-	else{
-	  config.orbit_direction = -1;
-	}
-      }
-      else if(temp_string == "Distance:"){
-        config_file >> temp_float;
-	config.orbit_distance = temp_float;
-      }
-      else{
-        std::cout << "Invalid config option Orbit " << temp_string << std::endl;
-	std::cout << "In: " << object_config_filename << std::endl;
-      }
-      std::getline(config_file,temp_string);
-    }
-    else if(temp_string == "Rotation"){
-      config_file >> temp_string;
-      if(temp_string == "Speed:"){
-        config_file >> temp_float;
-	config.rotation_speed = temp_float;
-      }
-      else if(temp_string == "Direction:"){
-        config_file >> temp_string;
-	if(temp_string == "Clockwise"){
-	  config.rotation_direction = 1;
-	}
-	else{
-	  config.rotation_direction = -1;
-	}
-      }
-      else{
-        std::cout << "Invalid config option Rotation " << temp_string << std::endl;
-	std::cout << "In: " << object_config_filename << std::endl;
-      }
-      std::getline(config_file,temp_string);
-    }
-    else if(temp_string == "Scale:"){
-      config_file >> temp_float;
-      config.scale = temp_float;
-      std::getline(config_file,temp_string);
-    }
-    else{
-      std::cout << "Invalid config option " << temp_string << std::endl;
-      std::getline(config_file,temp_string);
-      std::cout << temp_string << std::endl;
-      std::cout <<"In: " << object_config_filename << std::endl;
-      std::getline(config_file,temp_string);
-    }
-  }
-  config.orbit_angle = 0;
-  config.rotation_angle = 0;
-  config.orbit_paused = false;
-  config.rotation_paused = false;
-  config_file.close();
 }
+
+void Object::parseObjFile(char* obj_filename){
+  Assimp::Importer importer;
+  const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate);
+  
+  //assuming there is only one mesh, which should be the case for .obj files, the first mesh is
+  //the one we're interested in
+  aiMesh* mesh = my_scene->mMeshes[0]; 
+
+  //Process Vertices
+  for(int i = 0; i < mesh->mNumVertices; i++){
+    aiVector3D ai_vec = mesh->mVertices[i]; 
+    glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
+    glm::vec3 color = {0.0,0.0,1.0};
+    if(i % 2){
+      color = {0.2,0.5,0.5};
+    }
+    Vertices.push_back({vertex,color});
+  }
+  
+  //Process Faces
+  for(int i = 0; i < mesh->mNumFaces; i++){
+    aiFace face = mesh->mFaces[i];
+    
+    //if we were not given triangles throw an error and abort
+    if(face.mNumIndices != 3){
+      std::string error;
+      std::string file_name(obj_filename);
+      error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh->mNumFaces) + " indices.\n";
+      throw std::logic_error(error);
+    }
+    Indices.push_back(face.mIndices[0]);
+    Indices.push_back(face.mIndices[1]);
+    Indices.push_back(face.mIndices[2]);
+  }
+  for(int i = 0; i < Vertices.size(); i++){
+	  std::cout << i << ": " << Vertices[i].vertex.x << " " << Vertices[i].vertex.y << " " << Vertices[i].vertex.z << std::endl;
+  }
+  for(int i = 0; i < Indices.size(); i+=3){
+    std::cout << i << ": " << Indices[i] << " " << Indices[i+1] << " " << Indices[i+2] << std::endl;
+  }
+  std::cout << std::endl;
+
+}
+      
+    
+ 
 
 std::vector<Object*> Object::getSatelites(){
   return satelites;
