@@ -10,8 +10,6 @@
  */
 
 bool parseCmdArgs(int argc, char **argv,ShaderFiles* shaders){
-  tinyxml2::XMLDocument doc;
-  doc.LoadFile("~/testxml/config.xml");
   printf("%s\n",doc.FirstChildElement("planet")->FirstChildElement("name")->GetText());
   char help_message[256];
   sprintf(help_message,"%s -v [vertex_shader] -f [fragment_shader]\n",argv[0]);
