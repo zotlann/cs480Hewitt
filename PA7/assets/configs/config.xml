@@ -1,0 +1,15 @@
+<planet>
+	<name>Earth</name>
+	<ospeed>0</ospeed>
+	<oangle>0</oangle>
+	<odistance>2</odistance>
+	<opaused>false</opaused>
+	<rspeed>0</rspeed>
+	<rangle>0</rangle>
+	<rpaused>false</rpaused>
+	<scale>1</scale>
+	<satelites>
+		<s1>moon.txt</s1>
+		<s2>test.txt</s2>
+	</satelites>
+</planet>
