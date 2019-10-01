@@ -49,6 +49,10 @@ int main(int argc, char **argv)
   if(!parseCmdArgs(argc,argv,shaders)){
     return 0;
   }
+  if(!shaders->obj_filename){
+    printf("No .obj file specified, using ../assets/objects/tray.obj");
+    shaders->obj_filename = "../assets/objects/tray.obj";
+  }
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 800, 600);
   if(!engine->Initialize(*shaders))
