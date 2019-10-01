@@ -1,7 +1,7 @@
 # PA5: Assimp Model Loader
 ## Team:
-Benjamin Estela
-Jonathon Hewitt
+Benjamin Estela  
+Jonathon Hewitt  
 Sidney Inouye
 
 ## Project Description
@@ -33,4 +33,4 @@ To run the program with it's default shaders and standard settings run and test 
 To run the program and test the dragon object try:
 ```bash
 ./PA5 -f ../assets/shaders/fshader -v ../assets/shaders/vshader --obj ../assets/objects/dragon.obj
-``
+```
