@@ -1,4 +1,4 @@
-# PA5: Assimp Model Loader
+# PA7: Solar System
 ## Team:
 Benjamin Estela
 Jonathon Hewitt
@@ -19,18 +19,9 @@ make
 
 ## Usage Instructions
 ```bash
-./PA5 -v [vector_shader] -f [fragment_shader] -s [scale] --obj [obj_file]
+./PA5 -v [vector_shader] -f [fragment_shader] -c [master_config_file]
 ```
-The command line arguments can appear in any order, the vertex_shader, fragment_shader and obj_file arguments are strings with the filepath to the respective files.
-scale is a string representing a floating point number that indicates the scale we want the model to be loaded at, given the large difference in default scale in the models provided.
-It is recommended to omit the -s option for the dragon.obj and buddha.obj files included in ../assets/objects/
-It is recommended to use about a 20 scale when loading tray.obj files
-
-To run the program with it's default shaders and standard settings run and test using the tray.obj file with recommended scaling try:
-```bash
-./PA5 -v ../assets/shaders/vshader -f ../assets/shaders/fshader --obj ../assets/objects/tray.obj -s 20
+EXAMPLE:
 ```
-To run the program and test the dragon object try:
-```bash
-./PA5 -f ../assets/shaders/fshader -v ../assets/shaders/vshader --obj ../assets/objects/dragon.obj
-``
+./PA5 -v ../assets/shaders/vshader -f ../assets/shaders/fshader -c ../assets/configs/sun.xml
+```
