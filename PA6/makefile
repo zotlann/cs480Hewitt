@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 # Linux
 ifeq ($(UNAME_S), Linux)
 	CC=g++
-	LIBS=-lSDL2 -lGLEW -lGL -lassimp 
+	LIBS=-lSDL2 -lGLEW -lGL -lassimp `Magick++-config --cppflags --cxxflags --ldflags --libs`
 	# Mac
 else
 	CC=clang++
@@ -39,7 +39,7 @@ engine.o: ../src/engine.cpp
 	$(CC) $(CXXFLAGS) -c ../src/engine.cpp -o engine.o $(INDLUDES)
 
 graphics.o: ../src/graphics.cpp
-	$(CC) $(CXXFLAGS) -c ../src/graphics.cpp -o graphics.o $(INDLUDES)
+	$(CC) $(CXXFLAGS) -c ../src/graphics.cpp -o graph`Magick++-config --cppflags --cxxflags --ldflags --libs`cs.o $(INDLUDES)
 
 object.o: ../src/object.cpp
 	$(CC) $(CXXFLAGS) -c ../src/object.cpp -o object.o $(INDLUDES)
