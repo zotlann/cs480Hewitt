@@ -29,6 +29,8 @@ class Graphics
     GLint m_modelMatrix;
 
     Object *m_cube;
+    std::vector<Object*> objects;
+    int selected_index;
 };
 
 #endif /* GRAPHICS_H */

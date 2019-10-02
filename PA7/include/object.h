@@ -33,9 +33,11 @@ struct ObjectConfig{
 	  orbit_speed = 0;
 	  orbit_angle = 0;
 	  orbit_distance = 2;
+	  orbit_direction = 1;
 	  orbit_paused = false;
 	  rotation_speed = 0;
 	  rotation_angle = 0;
+	  rotation_direction = 1;
 	  rotation_paused = false;
 	  scale = 1;
 	}
@@ -45,7 +47,7 @@ class Object
 {
   public:
     Object();
-    Object(char* object_config_filename, char* obj_filename,float scale);
+    Object(char* object_config_filename);
     ~Object();
     void Update(unsigned int dt);
     void processInput(char input);
@@ -58,8 +60,10 @@ class Object
     Object* getParent();
     void setParent(Object* p);
 
+    std::string getName();
+
     void parseObjFile(char* obj_filename);
-    ObjectConfig parseObjectConfig(char* object_config_filename);
+    void parseObjectConfig(char* object_config_filename);
 
     glm::mat4 GetModel();
     glm::mat4 GetLocation();

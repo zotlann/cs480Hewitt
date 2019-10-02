@@ -41,9 +41,10 @@ Object::Object()
   parent = NULL;
 }
 
-Object::Object(char* object_config_filename,char* obj_filename,float scl)
-{  
-  parseObjFile(obj_filename);
+Object::Object(char* object_config_filename)
+{ 
+  parseObjectConfig(object_config_filename);
+  parent = NULL;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -52,12 +53,6 @@ Object::Object(char* object_config_filename,char* obj_filename,float scl)
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-
-  //Parse an object config file and makes the appropriate assignments to the config
-  config = parseObjectConfig(object_config_filename);
-  if(scl > 0.0){
-    config.scale = scl;
-  }
 }
 
 Object::~Object()
@@ -123,8 +118,7 @@ void Object::processInput(char input){
 
 void Object::Update(unsigned int dt)
 {
-  model = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
-  /*
+  
   //If rotation/orbit are not paused, increment the angles.
   if(!config.orbit_paused){
     if(config.orbit_direction > 0){
@@ -142,6 +136,7 @@ void Object::Update(unsigned int dt)
       config.rotation_angle -= dt * (M_PI + config.orbit_speed)/1000;
     }
   }
+
   //Calculate the final angles with all scalars.
   float orbit_angle = config.orbit_angle;
   float rotation_angle = config.rotation_angle;
@@ -159,10 +154,11 @@ void Object::Update(unsigned int dt)
   scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
   if(parent != NULL){
     model = parent->GetLocation() * orbit * rotation * scale;
+    location = parent->GetLocation() * orbit;
   }
   else{
     model = orbit * rotation * scale;
-  }*/
+  }
 }
 
 glm::mat4 Object::GetModel()
@@ -189,15 +185,90 @@ void Object::Render()
 
 //Parses planet config files and creates an object with the proper config settings.
 //An example config file can be found in ../assets/entities/planet.conf
-ObjectConfig Object::parseObjectConfig(char* object_config_filename){
-  std::string temp_string;
-  float temp_float;
-  
-  std::ifstream config_file;
-  config_file.open(object_config_filename);
-  if(!config_file.good()){
-    printf("Invalid object config filepath: %s\nUsing default object config.\n",object_config_filename);
-    return ObjectConfig();
+void Object::parseObjectConfig(char* object_config_filename){
+  if(!object_config_filename){
+    return;
+  }
+
+  //TODO tinyxml LoadFile failure error handling  
+  tinyxml2::XMLDocument doc;
+  doc.LoadFile(object_config_filename);
+  tinyxml2::XMLElement* object = doc.FirstChildElement("planet");
+  tinyxml2::XMLElement* element = NULL;
+
+  //set the model
+  if(element = object->FirstChildElement("model")){
+    char* filename = new char[256];
+    strcpy(filename,element->GetText());
+    parseObjFile(filename);
+    delete filename;
+  }
+
+  //set the name
+  if(element = object->FirstChildElement("name")){
+    char* name = new char[256];
+    strcpy(name,element->GetText());
+    config.name = name;
+    delete name;
+  }
+
+  //set the orbit_speed
+  if(element = object->FirstChildElement("ospeed")){
+    config.orbit_speed = element->FloatText();
+  }
+
+  //set the orbit_angle
+  if(element = object->FirstChildElement("oangle")){
+    config.orbit_angle = element->FloatText();
+  }
+
+  //set the orbit_distance
+  if(element = object->FirstChildElement("odistance")){
+    config.orbit_distance = element->FloatText();
+  }
+  //set the orbit_direction
+
+  //set the orbit_paused flag
+  if(element = object->FirstChildElement("opaused")){
+    config.orbit_paused = element->BoolText();
+  }
+
+  //set the rotation_speed
+  if(element = object->FirstChildElement("rspeed")){
+    config.rotation_speed = element->FloatText();
+  }
+
+  //set the rotation_angle
+  if(element = object->FirstChildElement("rangle")){
+    config.rotation_angle = element->FloatText();
+  }
+
+  //set the rotation_paused flag
+  if(element = object->FirstChildElement("rpaused")){
+    config.rotation_paused = element->BoolText();
+  }
+
+  //set the scale
+  if(element = object->FirstChildElement("scale")){
+    config.scale = element->FloatText();
+  }
+
+  //set satelites
+  if(element = object->FirstChildElement("satelites")){
+    char* filename = new char[256];
+    if(element = element->FirstChildElement()){
+      strcpy(filename,element->GetText());
+      Object* satelite = new Object(filename);
+      satelite->setParent(this);
+      satelites.push_back(satelite);
+      while(element = element->NextSiblingElement()){
+	strcpy(filename,element->GetText());
+        Object* new_satelite = new Object(filename);
+	new_satelite->setParent(this);
+	satelites.push_back(new_satelite);
+      }
+    }
+    delete filename;
   }
 
 }
@@ -205,7 +276,9 @@ ObjectConfig Object::parseObjectConfig(char* object_config_filename){
 void Object::parseObjFile(char* obj_filename){
   Assimp::Importer importer;
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
-  
+  if(!my_scene){
+    throw std::logic_error("Could not open .obj file");
+  } 
   //assuming there is only one mesh, which should be the case for .obj files, the first mesh is
   //the one we're interested in
   for(int j = 0; j < my_scene->mNumMeshes; j++){ 
@@ -274,4 +347,7 @@ void Object::Deselect(){
 
 void Object::setScale(float s){
   config.scale = s;
+}
+std::string Object::getName(){
+  return config.name;
 }

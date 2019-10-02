@@ -1,0 +1,12 @@
+<planet>
+	<model>../assets/objects/cube.obj</model>
+	<name>Mercury</name>
+	<ospeed>0</ospeed>
+	<oangle>2.7</oangle>
+	<odistance>9</odistance>
+	<opaused>false</opaused>
+	<rspeed>0</rspeed>
+	<rangle>0</rangle>
+	<rpaused>false</rpaused>
+	<scale>0.9</scale>
+</planet>

@@ -10,7 +10,6 @@
  */
 
 bool parseCmdArgs(int argc, char **argv,ShaderFiles* shaders){
-  printf("%s\n",doc.FirstChildElement("planet")->FirstChildElement("name")->GetText());
   char help_message[256];
   sprintf(help_message,"%s -v [vertex_shader] -f [fragment_shader]\n",argv[0]);
   if(argc < 2){
@@ -49,10 +48,6 @@ int main(int argc, char **argv)
    
   if(!parseCmdArgs(argc,argv,shaders)){
     return 0;
-  }
-  if(!shaders->obj_filename){
-    printf("No .obj file specified, using ../assets/objects/tray.obj");
-    shaders->obj_filename = "../assets/objects/tray.obj";
   }
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 800, 600);
