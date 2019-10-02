@@ -2,6 +2,7 @@
 
 Object::Object()
 { 
+  /*
   Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
@@ -25,7 +26,7 @@ Object::Object()
     3, 2, 7,
     3, 7, 4,
     5, 1, 8
-  };
+  }; */
 
   // The index works at a 0th index
   for(unsigned int i = 0; i < Indices.size(); i++)
@@ -204,32 +205,40 @@ ObjectConfig Object::parseObjectConfig(char* object_config_filename){
 
 void Object::parseObjFile(char* obj_filename){
   Assimp::Importer importer;
-  const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
-  
+  Magick::Blob blob;
+  Magick::Image *image;
+  image = new Magick::Image();
+  image->write(&blob, "RGBA");
+  const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate);
+
   //assuming there is only one mesh, which should be the case for .obj files, the first mesh is
   //the one we're interested in
-  for(int j = 0; j < my_scene->mNumMeshes; j++){ 
-  aiMesh* mesh = my_scene->mMeshes[j];
-  //Process Vertices
-    for(int i = 0; i < mesh->mNumVertices; i++){
-      aiVector3D ai_vec = mesh->mVertices[i]; 
+  aiMesh** mesh = my_scene->mMeshes;
+
+  // processing vertices for each mesh
+  for( int j = 0; j < my_scene->mNumMeshes; j++ )
+  {
+    //Process Vertices
+    for(int i = 0; i < mesh[j]->mNumVertices; i++){
+      aiVector3D ai_vec = mesh[j]->mVertices[i]; 
+      std::cout << ai_vec.x << ai_vec.y << ai_vec.z << std::endl;
       glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
       glm::vec3 color = {0.0,0.0,1.0};
       if(i % 2){
         color = {0.2,0.5,0.5};
       }
-      Vertices.push_back({vertex,color});
+      //Vertices.push_back({vertex,color});
     }
   
-  //Process Faces
-    for(int i = 0; i < mesh->mNumFaces; i++){
-      aiFace face = mesh->mFaces[i];
-    
-    //if we were not given triangles throw an error and abort
+    //Process Faces
+    for(int i = 0; i < mesh[j]->mNumFaces; i++){
+      aiFace face = mesh[j]->mFaces[i];
+
+      //if we were not given triangles throw an error and abort
       if(face.mNumIndices != 3){
         std::string error;
         std::string file_name(obj_filename);
-        error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh->mNumFaces) + " indices.\n";
+        error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh[j]->mNumFaces) + " indices.\n";
         throw std::logic_error(error);
       }
       Indices.push_back(face.mIndices[0]);
@@ -237,6 +246,16 @@ void Object::parseObjFile(char* obj_filename){
       Indices.push_back(face.mIndices[2]);
     }
   }
+  
+  
+  for(int i = 0; i < Vertices.size(); i++){
+	  std::cout << i << ": " << Vertices[i].vertex.x << " " << Vertices[i].vertex.y << " " << Vertices[i].vertex.z << std::endl;
+  }
+  for(int i = 0; i < Indices.size(); i+=3){
+    std::cout << i << ": " << Indices[i] << " " << Indices[i+1] << " " << Indices[i+2] << std::endl;
+  }
+  std::cout << my_scene->mNumMeshes << std::endl;
+
 }
       
     

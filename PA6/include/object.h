@@ -7,7 +7,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <assimp/color4.h>
-
+#include <Magick++.h>
 
 #include "graphics_headers.h"
 #include "assets.h"
