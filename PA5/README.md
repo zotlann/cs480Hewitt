@@ -1,7 +1,7 @@
 # PA5: Assimp Model Loader
 ## Team:
-Benjamin Estela
-Jonathon Hewitt
+Benjamin Estela  
+Jonathon Hewitt  
 Sidney Inouye
 
 ## Project Description
