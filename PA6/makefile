@@ -4,7 +4,8 @@ UNAME_S := $(shell uname -s)
 # Linux
 ifeq ($(UNAME_S), Linux)
 	CC=g++
-	LIBS=-lSDL2 -lGLEW -lGL -lassimp # Mac
+	LIBS=-lSDL2 -lGLEW -lGL -lassimp 
+	# Mac
 else
 	CC=clang++
 	LIBS=-lSDL2 -framework OpenGL -framework Cocoa -lGLEW -stdlib=libc++ -lassimp
@@ -50,4 +51,4 @@ window.o: ../src/window.cpp
 	$(CC) $(CXXFLAGS) -c ../src/window.cpp -o window.o $(INDLUDES)
 
 clean:
-	-@if rm *.o PA6 2>/dev/null || true; then echo "Main Removed"; else echo "No Main";
+	-@if rm *.o PA6 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
