@@ -33,4 +33,4 @@ To run the program with it's default shaders and standard settings run and test 
 To run the program and test the dragon object try:
 ```bash
 ./PA5 -f ../assets/shaders/fshader -v ../assets/shaders/vshader --obj ../assets/objects/dragon.obj
-``
+```
