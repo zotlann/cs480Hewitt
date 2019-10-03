@@ -175,17 +175,24 @@ void Object::Render()
 {
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
+  glEnableVertexArrayAttrib(2);
 
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+  glVertexAttribPointer(2,2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+
+  //bind texture
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, texture);
 
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
 }
 
 //Parses planet config files and creates an object with the proper config settings.
@@ -205,10 +212,6 @@ ObjectConfig Object::parseObjectConfig(char* object_config_filename){
 
 void Object::parseObjFile(char* obj_filename){
   Assimp::Importer importer;
-  Magick::Blob blob;
-  Magick::Image *image;
-  image = new Magick::Image();
-  image->write(&blob, "RGBA");
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate);
 
   //assuming there is only one mesh, which should be the case for .obj files, the first mesh is
@@ -218,16 +221,41 @@ void Object::parseObjFile(char* obj_filename){
   // processing vertices for each mesh
   for( int j = 0; j < my_scene->mNumMeshes; j++ )
   {
+    //Image Magick magic
+    if(my_scene->HasMaterials())
+    {
+      aiString texture_filename;
+      std::string path = "../assets/objects/";
+      aiMaterial* material = my_scene->mMaterials[j + 1];
+      material->GetTexture(aiTextureType_DIFFUSE, 0, &texture_filename, NULL, NULL, NULL, NULL, NULL);
+      path.operator+=(texture_filename.C_Str());
+      Magick::Blob blob;
+      Magick::Image *image;
+      std::cout << "Texture name: " << path << std::endl;
+
+      image = new Magick::Image(path);
+      image->write(&blob, "RGBA");
+
+      std::cout << "OWO ONO" << std::endl;
+
+      glGenTextures(1, &texture);
+      glBindTexture(GL_TEXTURE_2D, texture);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      delete image;
+    } 
+
     //Process Vertices
     for(int i = 0; i < mesh[j]->mNumVertices; i++){
       aiVector3D ai_vec = mesh[j]->mVertices[i]; 
-      std::cout << ai_vec.x << ai_vec.y << ai_vec.z << std::endl;
       glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
       glm::vec3 color = {0.0,0.0,1.0};
+      glm::vec2 texture = {0.0, 0.0};
       if(i % 2){
         color = {0.2,0.5,0.5};
       }
-      //Vertices.push_back({vertex,color});
+      Vertices.push_back({vertex,color, texture});
     }
   
     //Process Faces
@@ -246,15 +274,6 @@ void Object::parseObjFile(char* obj_filename){
       Indices.push_back(face.mIndices[2]);
     }
   }
-  
-  
-  for(int i = 0; i < Vertices.size(); i++){
-	  std::cout << i << ": " << Vertices[i].vertex.x << " " << Vertices[i].vertex.y << " " << Vertices[i].vertex.z << std::endl;
-  }
-  for(int i = 0; i < Indices.size(); i+=3){
-    std::cout << i << ": " << Indices[i] << " " << Indices[i+1] << " " << Indices[i+2] << std::endl;
-  }
-  std::cout << my_scene->mNumMeshes << std::endl;
 
 }
       

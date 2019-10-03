@@ -39,7 +39,7 @@ engine.o: ../src/engine.cpp
 	$(CC) $(CXXFLAGS) -c ../src/engine.cpp -o engine.o $(INDLUDES)
 
 graphics.o: ../src/graphics.cpp
-	$(CC) $(CXXFLAGS) -c ../src/graphics.cpp -o graph`Magick++-config --cppflags --cxxflags --ldflags --libs`cs.o $(INDLUDES)
+	$(CC) $(CXXFLAGS) -c ../src/graphics.cpp -o graphics.o $(INDLUDES)
 
 object.o: ../src/object.cpp
 	$(CC) $(CXXFLAGS) -c ../src/object.cpp -o object.o $(INDLUDES)

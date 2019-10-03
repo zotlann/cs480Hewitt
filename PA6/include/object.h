@@ -82,6 +82,9 @@ class Object
     Object* parent;
 
     ObjectConfig config;
+
+    //Texture loading
+    GLuint texture;
 };
 
 #endif /* OBJECT_H */
