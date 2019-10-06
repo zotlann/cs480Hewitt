@@ -230,7 +230,7 @@ void Object::parseObjFile(char* obj_filename){
     material->GetTexture(aiTextureType_DIFFUSE,0,&aistring_filename,NULL,NULL,NULL,NULL,NULL);
     
     //prepend ../assets/textures/ to the image filename so it knows where to look
-    texture_filepath = "../assets/objects/" + std::string(aistring_filename.C_Str());
+    texture_filepath = "../assets/textures/" + std::string(aistring_filename.C_Str());
 
     //load the image and write it into blob
     image = new Magick::Image(texture_filepath);
