@@ -1,6 +1,7 @@
 <planet>
-	<model>../assets/objects/cube.obj</model>
-	<name>Mercury</name>
+	<model>../assets/objects/Planet.obj</model>
+	<texture>../assets/textures/2k_uranus.jpg</texture>
+	<name>Uranus</name>
 	<ospeed>0</ospeed>
 	<oangle>2.4</oangle>
 	<odistance>8</odistance>

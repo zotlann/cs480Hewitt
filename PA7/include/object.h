@@ -8,6 +8,7 @@
 #include <assimp/postprocess.h>
 #include <assimp/color4.h>
 #include <tinyxml2.h>
+#include <Magick++.h>
 
 #include "graphics_headers.h"
 #include "assets.h"
@@ -28,6 +29,8 @@ struct ObjectConfig{
 
 	float scale;
 
+	char texture_filepath[256];
+
 	ObjectConfig(){
 	  name = " ";
 	  orbit_speed = 0;
@@ -40,6 +43,7 @@ struct ObjectConfig{
 	  rotation_direction = 1;
 	  rotation_paused = false;
 	  scale = 1;
+	  strcpy(texture_filepath,"\0");
 	}
 };
 
@@ -64,6 +68,10 @@ class Object
 
     void parseObjFile(char* obj_filename);
     void parseObjectConfig(char* object_config_filename);
+    void loadTexture(char* texture_filepath);
+
+    GLuint getTexture();
+    void setTexture(GLuint text);
 
     glm::mat4 GetModel();
     glm::mat4 GetLocation();
@@ -82,6 +90,7 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    GLuint m_texture;
     std::vector<Object*> satelites;
     Object* parent;
 

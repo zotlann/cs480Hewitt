@@ -1,7 +1,7 @@
 #include "object.h"
 
 Object::Object()
-{ 
+{/* 
   Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
@@ -26,7 +26,7 @@ Object::Object()
     3, 7, 4,
     5, 1, 8
   };
-
+*/
   // The index works at a 0th index
   for(unsigned int i = 0; i < Indices.size(); i++)
   {
@@ -44,6 +44,7 @@ Object::Object()
 Object::Object(char* object_config_filename)
 { 
   parseObjectConfig(object_config_filename);
+  loadTexture(config.texture_filepath);
   parent = NULL;
 
   glGenBuffers(1, &VB);
@@ -173,12 +174,13 @@ void Object::Render()
 
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture_coordinates));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
+  glBindTexture(GL_TEXTURE_2D,m_texture);
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
 }
@@ -253,6 +255,11 @@ void Object::parseObjectConfig(char* object_config_filename){
     config.scale = element->FloatText();
   }
 
+  //set the texture filepath
+  if(element = object->FirstChildElement("texture")){
+    strcpy(config.texture_filepath,element->GetText());
+  }
+
   //set satelites
   if(element = object->FirstChildElement("satelites")){
     char* filename = new char[256];
@@ -285,13 +292,11 @@ void Object::parseObjFile(char* obj_filename){
   aiMesh* mesh = my_scene->mMeshes[j];
   //Process Vertices
     for(int i = 0; i < mesh->mNumVertices; i++){
-      aiVector3D ai_vec = mesh->mVertices[i]; 
+      aiVector3D ai_vec = mesh->mVertices[i];
+      aiVector3D ai_texture = mesh->mTextureCoords[0][i]; 
       glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
-      glm::vec3 color = {0.0,0.0,1.0};
-      if(i % 2){
-        color = {0.2,0.5,0.5};
-      }
-      Vertices.push_back({vertex,color});
+      glm::vec2 texture_coordinates = {ai_texture.x,ai_texture.y};
+      Vertices.push_back({vertex,texture_coordinates});
     }
   
   //Process Faces
@@ -311,9 +316,33 @@ void Object::parseObjFile(char* obj_filename){
     }
   }
 }
-      
-    
- 
+
+void Object::loadTexture(char* texture_filepath){
+  Magick::Image* image;
+  Magick::Blob blob;
+  GLuint texture;
+
+  Magick::InitializeMagick(NULL);
+
+  image = new Magick::Image(texture_filepath);
+  image->write(&blob,"RGBA");
+  std::cout << "Texture for " << config.name << ": " << texture_filepath << std::endl; 
+  glGenTextures(1,&texture);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, texture);
+  glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->columns(),image->rows(),-0.5,GL_RGBA,GL_UNSIGNED_BYTE,blob.data());
+  glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+  glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+  setTexture(texture);
+}
+
+GLuint Object::getTexture(){
+	return m_texture;
+}
+
+void Object::setTexture(GLuint text){
+	m_texture = text;
+}
 
 std::vector<Object*> Object::getSatelites(){
   return satelites;

@@ -45,7 +45,6 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
   }
   //Create the object
   m_cube =  new Object(shaders.config_filename);
-  
   //set up the objects vector
   objects.clear();
   objects.push_back(m_cube);

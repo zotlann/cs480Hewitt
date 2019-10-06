@@ -1,6 +1,7 @@
 <planet>
-	<model>../assets/objects/cube.obj</model>
-	<name>Mercury</name>
+	<model>../assets/objects/Planet.obj</model>
+	<texture>../assets/textures/2k_mars.jpg</texture>
+	<name>Mars</name>
 	<ospeed>0</ospeed>
 	<oangle>1.2</oangle>
 	<odistance>4</odistance>
