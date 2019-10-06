@@ -179,8 +179,12 @@ void Object::Render()
 
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+<<<<<<< HEAD
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
   glVertexAttribPointer(2,2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
+=======
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture_coordinates));
+>>>>>>> 48b82b711e4f58c1766f930bb47a1379b3a99c90
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
@@ -211,16 +215,25 @@ ObjectConfig Object::parseObjectConfig(char* object_config_filename){
 }
 
 void Object::parseObjFile(char* obj_filename){
+  
+  //set up importer and load in my_scene
   Assimp::Importer importer;
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate);
 
-  //assuming there is only one mesh, which should be the case for .obj files, the first mesh is
-  //the one we're interested in
-  aiMesh** mesh = my_scene->mMeshes;
+  //variables for getting texture info and storing imagedata
+  std::string texture_filepath;
+  aiString aistring_filename;
+  GLuint texture;
+  Magick::Image* image;
+  Magick::Blob blob;
 
-  // processing vertices for each mesh
+  //Initialize Magick
+  Magick::InitializeMagick(NULL);
+
+  //iterate through meshes and process their vertices,faces and texture bindings
   for( int j = 0; j < my_scene->mNumMeshes; j++ )
   {
+<<<<<<< HEAD
     //Image Magick magic
     if(my_scene->HasMaterials())
     {
@@ -256,25 +269,58 @@ void Object::parseObjFile(char* obj_filename){
         color = {0.2,0.5,0.5};
       }
       Vertices.push_back({vertex,color, texture});
+=======
+    //set mesh to current mesh to process
+    aiMesh* mesh = my_scene->mMeshes[j];
+
+    //load the material, and get the path for the texture image
+    const aiMaterial* material = my_scene->mMaterials[1];
+    material->GetTexture(aiTextureType_DIFFUSE,0,&aistring_filename,NULL,NULL,NULL,NULL,NULL);
+    
+    //prepend ../assets/textures/ to the image filename so it knows where to look
+    texture_filepath = "../assets/textures/" + std::string(aistring_filename.C_Str());
+
+    //load the image and write it into blob
+    image = new Magick::Image(texture_filepath);
+    image->write(&blob,"RGBA");
+
+    //Process Vertices
+    for(int i = 0; i < mesh->mNumVertices; i++){
+      aiVector3D ai_vec = mesh->mVertices[i]; 
+      aiVector3D ai_texture = mesh->mTextureCoords[0][i];
+      glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
+      glm::vec2 texture_coordinates = {ai_texture.x,ai_texture.y};
+      Vertices.push_back({vertex,texture_coordinates});
+>>>>>>> 48b82b711e4f58c1766f930bb47a1379b3a99c90
     }
   
     //Process Faces
-    for(int i = 0; i < mesh[j]->mNumFaces; i++){
-      aiFace face = mesh[j]->mFaces[i];
+    for(int i = 0; i < mesh->mNumFaces; i++){
+      aiFace face = mesh->mFaces[i];
 
       //if we were not given triangles throw an error and abort
       if(face.mNumIndices != 3){
         std::string error;
         std::string file_name(obj_filename);
-        error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh[j]->mNumFaces) + " indices.\n";
+        error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh->mNumFaces) + " indices.\n";
         throw std::logic_error(error);
       }
       Indices.push_back(face.mIndices[0]);
       Indices.push_back(face.mIndices[1]);
       Indices.push_back(face.mIndices[2]);
     }
+    //Bind Textures
+    glGenTextures(1,&texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->columns(),image->rows(),-0.5,GL_RGBA,GL_UNSIGNED_BYTE,blob.data());
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48b82b711e4f58c1766f930bb47a1379b3a99c90
 }
       
     
