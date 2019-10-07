@@ -235,7 +235,7 @@ void Object::parseObjFile(char* obj_filename){
     if( my_scene->HasMaterials() )
     {
       //load the material, and get the path for the texture image
-      const aiMaterial* material = my_scene->mMaterials[1];
+      const aiMaterial* material = my_scene->mMaterials[j + 1];
       material->GetTexture(aiTextureType_DIFFUSE,0,&aistring_filename,NULL,NULL,NULL,NULL,NULL);
       std::cout << aistring_filename.C_Str() << std::endl;
       //prepend ../assets/textures/ to the image filename so it knows where to look
