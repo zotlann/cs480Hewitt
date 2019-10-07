@@ -185,7 +185,7 @@ void Object::Render()
 
   //bind texture
   glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, texture);
+  glBindTexture(GL_TEXTURE_2D, m_texture);
 
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
@@ -237,7 +237,7 @@ void Object::parseObjFile(char* obj_filename){
       //load the material, and get the path for the texture image
       const aiMaterial* material = my_scene->mMaterials[j + 1];
       material->GetTexture(aiTextureType_DIFFUSE,0,&aistring_filename,NULL,NULL,NULL,NULL,NULL);
-      std::cout << aistring_filename.C_Str() << std::endl;
+      
       //prepend ../assets/textures/ to the image filename so it knows where to look
       texture_filepath = "../assets/textures/" + std::string(aistring_filename.C_Str());
 
@@ -279,6 +279,7 @@ void Object::parseObjFile(char* obj_filename){
       Indices.push_back(face.mIndices[2]);
     }
   }
+  m_texture = texture;
 }
       
     

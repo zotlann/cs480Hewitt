@@ -78,13 +78,11 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    GLuint m_texture;
     std::vector<Object*> satelites;
     Object* parent;
 
     ObjectConfig config;
-
-    //Texture loading
-    GLuint texture;
 };
 
 #endif /* OBJECT_H */
