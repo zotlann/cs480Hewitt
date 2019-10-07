@@ -9,7 +9,10 @@
  * set shaders[1] to the filename following -f for the fragment shader
  */
 
+float Object::orbit_scale = 1.0/4.0;
+
 bool parseCmdArgs(int argc, char **argv,ShaderFiles* shaders){
+
   char help_message[256];
   sprintf(help_message,"%s -v [vertex_shader] -f [fragment_shader]\n",argv[0]);
   if(argc < 2){
@@ -49,8 +52,14 @@ int main(int argc, char **argv)
   if(!parseCmdArgs(argc,argv,shaders)){
     return 0;
   }
+   if(shaders->vshader_filename == NULL){
+    shaders->vshader_filename = "../assets/shaders/vshader";
+ }
+  if(shaders->fshader_filename == NULL){
+    shaders->fshader_filename = "../assets/shaders/fshader";
+  } 
   // Start an engine and run it then cleanup after
-  Engine *engine = new Engine("Tutorial Window Name", 800, 600);
+  Engine *engine = new Engine("Solar System :)", 1024, 768);
   if(!engine->Initialize(*shaders))
   {
     printf("The engine failed to start.\n");

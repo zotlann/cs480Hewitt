@@ -44,7 +44,6 @@ Object::Object()
 Object::Object(char* object_config_filename)
 { 
   parseObjectConfig(object_config_filename);
-  loadTexture(config.texture_filepath);
   parent = NULL;
 
   glGenBuffers(1, &VB);
@@ -147,11 +146,11 @@ void Object::Update(unsigned int dt)
   glm::mat4 scale;
   
   //perform the rotations and translations
-  orbit = glm::rotate(glm::mat4(1.0f),orbit_angle,glm::vec3(0.0,1.0,0.0)); 
-  orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(config.orbit_distance,0.0,0.0));
-  orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,glm::vec3(0.0,1.0,0.));
+  orbit = glm::rotate(glm::mat4(1.0f),orbit_angle,config.orbit_axis); 
+  orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(orbit_scale * config.orbit_distance,0.0,0.0));
+  orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,config.orbit_axis);
   location = orbit;
-  rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,glm::vec3(0.0,1.0,0.0));
+  rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
   scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
   if(parent != NULL){
     model = parent->GetLocation() * orbit * rotation * scale;
@@ -169,6 +168,8 @@ glm::mat4 Object::GetModel()
 
 void Object::Render()
 {
+  glBindTexture(GL_TEXTURE_2D,m_texture);
+
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
 
@@ -180,7 +181,6 @@ void Object::Render()
 
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
-  glBindTexture(GL_TEXTURE_2D,m_texture);
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
 }
@@ -228,7 +228,12 @@ void Object::parseObjectConfig(char* object_config_filename){
   if(element = object->FirstChildElement("odistance")){
     config.orbit_distance = element->FloatText();
   }
-  //set the orbit_direction
+  
+  //set the orbit_axis
+  if(element = object->FirstChildElement("oaxis")){
+    float angle_radians = element->FloatText() * M_PI / 180;
+    config.orbit_axis = glm::vec3(0.0,cos(angle_radians),sin(angle_radians));
+  }
 
   //set the orbit_paused flag
   if(element = object->FirstChildElement("opaused")){
@@ -245,6 +250,12 @@ void Object::parseObjectConfig(char* object_config_filename){
     config.rotation_angle = element->FloatText();
   }
 
+  //set the rotation_acis
+  if(element = object->FirstChildElement("raxis")){
+    float angle_radians = element->FloatText() * M_PI / 180;
+    config.rotation_axis = glm::vec3(cos(angle_radians),sin(angle_radians),0.0);
+  }
+
   //set the rotation_paused flag
   if(element = object->FirstChildElement("rpaused")){
     config.rotation_paused = element->BoolText();
@@ -255,9 +266,10 @@ void Object::parseObjectConfig(char* object_config_filename){
     config.scale = element->FloatText();
   }
 
-  //set the texture filepath
+  //set the texture filepath and load the texture
   if(element = object->FirstChildElement("texture")){
     strcpy(config.texture_filepath,element->GetText());
+    loadTexture(config.texture_filepath);
   }
 
   //set satelites
@@ -326,14 +338,14 @@ void Object::loadTexture(char* texture_filepath){
 
   image = new Magick::Image(texture_filepath);
   image->write(&blob,"RGBA");
-  std::cout << "Texture for " << config.name << ": " << texture_filepath << std::endl; 
   glGenTextures(1,&texture);
+  setTexture(texture);
   glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, texture);
+  glBindTexture(GL_TEXTURE_2D,texture);
   glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->columns(),image->rows(),-0.5,GL_RGBA,GL_UNSIGNED_BYTE,blob.data());
   glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-  glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-  setTexture(texture);
+  glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+  glBindTexture(GL_TEXTURE_2D,0);
 }
 
 GLuint Object::getTexture(){

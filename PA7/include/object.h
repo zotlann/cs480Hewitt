@@ -31,16 +31,21 @@ struct ObjectConfig{
 
 	char texture_filepath[256];
 
+	glm::vec3 orbit_axis;
+	glm::vec3 rotation_axis;
+
 	ObjectConfig(){
 	  name = " ";
 	  orbit_speed = 0;
 	  orbit_angle = 0;
 	  orbit_distance = 2;
 	  orbit_direction = 1;
+	  orbit_axis = glm::vec3(0.0,1.0,0.0);
 	  orbit_paused = false;
 	  rotation_speed = 0;
 	  rotation_angle = 0;
 	  rotation_direction = 1;
+	  rotation_axis = glm::vec3(0.0,1.0,0.0);
 	  rotation_paused = false;
 	  scale = 1;
 	  strcpy(texture_filepath,"\0");
@@ -50,6 +55,8 @@ struct ObjectConfig{
 class Object
 {
   public:
+    static float orbit_scale;
+
     Object();
     Object(char* object_config_filename);
     ~Object();
@@ -81,7 +88,6 @@ class Object
     void Deselect();
 
     void setScale(float);
-
   private:
     glm::mat4 model;
     glm::mat4 location;
