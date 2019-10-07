@@ -5,9 +5,11 @@
 	<ospeed>0</ospeed>
 	<oangle>0.9</oangle>
 	<odistance>3</odistance>
+	<oaxis>27</oaxis>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
 	<rangle>0</rangle>
+	<raxis>27</raxis>
 	<rpaused>false</rpaused>
 	<scale>1.2</scale>
 	<satelites>

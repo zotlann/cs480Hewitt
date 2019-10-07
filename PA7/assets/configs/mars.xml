@@ -4,7 +4,7 @@
 	<name>Mars</name>
 	<ospeed>0</ospeed>
 	<oangle>1.2</oangle>
-	<odistance>4</odistance>
+	<odistance>142</odistance>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
 	<rangle>0</rangle>

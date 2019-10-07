@@ -4,7 +4,7 @@
 	<name>Venus</name>
 	<ospeed>0</ospeed>
 	<oangle>0.6</oangle>
-	<odistance>2</odistance>
+	<odistance>67</odistance>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
 	<rangle>0</rangle>
