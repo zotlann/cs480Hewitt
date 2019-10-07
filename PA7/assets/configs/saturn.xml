@@ -1,6 +1,7 @@
 <planet>
-	<model>../assets/objects/cube.obj</model>
-	<name>Mercury</name>
+	<model>../assets/objects/Planet.obj</model>
+	<texture>../assets/textures/2k_saturn.jpg</texture>
+	<name>Saturn</name>
 	<ospeed>0</ospeed>
 	<oangle>1.8</oangle>
 	<odistance>6</odistance>

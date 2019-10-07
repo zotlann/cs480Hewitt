@@ -1,5 +1,6 @@
 <planet>
-	<model>../assets/objects/cube.obj</model>
+	<model>../assets/objects/Planet.obj</model>
+	<texture>../assets/textures/2k_moon.jpg</texture>
 	<name>Moon</name>
 	<ospeed>0</ospeed>
 	<oangle>0</oangle>
