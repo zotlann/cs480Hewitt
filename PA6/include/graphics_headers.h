@@ -30,6 +30,7 @@ struct Vertex
   glm::vec2 texture_coordinates;
 
   Vertex(glm::vec3 v, glm::vec2 t): vertex(v), texture_coordinates(t) {}
+  Vertex(glm::vec3 v): vertex(v) {}
 };
 
 #endif /* GRAPHICS_HEADERS_H */

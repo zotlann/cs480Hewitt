@@ -1,6 +1,6 @@
 # Blender3D MTL File: 
 # Material Count: 2
-newmtl ~/cs480Hewitt/PA6/assets/objects/Buddha_granite.jpg
+newmtl Buddha_granite.jpg
 Ns 92.156863
 Ka 0.000000 0.000000 0.000000
 Kd 0.800000 0.800000 0.800000

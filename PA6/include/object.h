@@ -71,13 +71,15 @@ class Object
     void setScale(float);
 
   private:
+    int numMeshes;
     glm::mat4 model;
     glm::mat4 location;
     bool selected;
-    std::vector<Vertex> Vertices;
-    std::vector<unsigned int> Indices;
-    GLuint VB;
-    GLuint IB;
+    std::vector<Vertex> Vertices[2];
+    std::vector<unsigned int> Indices[2];
+    GLuint VB[2];
+    GLuint IB[2];
+    GLuint m_texture[2];
     std::vector<Object*> satelites;
     Object* parent;
 

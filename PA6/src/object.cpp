@@ -26,7 +26,7 @@ Object::Object()
     3, 2, 7,
     3, 7, 4,
     5, 1, 8
-  }; */
+  }; 
 
   // The index works at a 0th index
   for(unsigned int i = 0; i < Indices.size(); i++)
@@ -40,20 +40,24 @@ Object::Object()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
   parent = NULL;
+  */
 }
 
 Object::Object(char* object_config_filename,char* obj_filename,float scl)
 {  
   parseObjFile(obj_filename);
 
-  glGenBuffers(1, &VB);
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+  for(int i = 0; i < numMeshes; i++)
+  {
+    glGenBuffers(1, &VB[i]);
+    glBindBuffer(GL_ARRAY_BUFFER, VB[i]);
+    
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices[i].size(), &Vertices[i][0], GL_STATIC_DRAW);
 
-  glGenBuffers(1, &IB);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-
+    glGenBuffers(1, &IB[i]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB[i]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices[i].size(), &Indices[i][0], GL_STATIC_DRAW);
+  }
   //Parse an object config file and makes the appropriate assignments to the config
   config = parseObjectConfig(object_config_filename);
   if(scl > 0.0){
@@ -63,8 +67,11 @@ Object::Object(char* object_config_filename,char* obj_filename,float scl)
 
 Object::~Object()
 {
-  Vertices.clear();
-  Indices.clear();
+  for(int i = 0; i < numMeshes; i++)
+  {
+    Vertices[i].clear();
+    Indices[i].clear();
+  }
 }
 
 //takes a character representing keyboard input and performs the
@@ -173,19 +180,28 @@ glm::mat4 Object::GetModel()
 
 void Object::Render()
 {
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
+  for( int i = 0; i < numMeshes; i++ )
+  {
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture_coordinates));
+    glBindBuffer(GL_ARRAY_BUFFER, VB[i]);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture_coordinates));
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB[i]);
 
-  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
+    //bind texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_texture[i]);
 
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
+    glDrawElements(GL_TRIANGLES, Indices[i].size(), GL_UNSIGNED_INT, 0);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+  }
 }
 
 //Parses planet config files and creates an object with the proper config settings.
@@ -204,7 +220,7 @@ ObjectConfig Object::parseObjectConfig(char* object_config_filename){
 }
 
 void Object::parseObjFile(char* obj_filename){
-  
+  bool lol = false;
   //set up importer and load in my_scene
   Assimp::Importer importer;
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate);
@@ -219,22 +235,38 @@ void Object::parseObjFile(char* obj_filename){
   //Initialize Magick
   Magick::InitializeMagick(NULL);
 
+  numMeshes = my_scene->mNumMeshes;
+
   //iterate through meshes and process their vertices,faces and texture bindings
-  for( int j = 0; j < my_scene->mNumMeshes; j++ )
+  for( int j = my_scene->mNumMeshes - 1; j >= 0; j-- )
   {
     //set mesh to current mesh to process
     aiMesh* mesh = my_scene->mMeshes[j];
 
-    //load the material, and get the path for the texture image
-    const aiMaterial* material = my_scene->mMaterials[1];
-    material->GetTexture(aiTextureType_DIFFUSE,0,&aistring_filename,NULL,NULL,NULL,NULL,NULL);
-    
-    //prepend ../assets/textures/ to the image filename so it knows where to look
-    texture_filepath = "../assets/textures/" + std::string(aistring_filename.C_Str());
+    // if object has a mtl file, process images
+    if( my_scene->HasMaterials() )
+    {
+      //load the material, and get the path for the texture image
+      const aiMaterial* material = my_scene->mMaterials[j + 1];
+      material->GetTexture(aiTextureType_DIFFUSE,0,&aistring_filename,NULL,NULL,NULL,NULL,NULL);
+      
+      //prepend ../assets/textures/ to the image filename so it knows where to look
+      texture_filepath = "../assets/textures/" + std::string(aistring_filename.C_Str());
 
-    //load the image and write it into blob
-    image = new Magick::Image(texture_filepath);
-    image->write(&blob,"RGBA");
+      //load the image and write it into blob
+      image = new Magick::Image(texture_filepath);
+      image->write(&blob,"RGBA");
+
+      //Bind Textures
+      glGenTextures(1,&texture);
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, texture);
+      glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->columns(),image->rows(),-0.5,GL_RGBA,GL_UNSIGNED_BYTE,blob.data());
+      glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+      glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+      m_texture[j] = texture;
+    }
 
     //Process Vertices
     for(int i = 0; i < mesh->mNumVertices; i++){
@@ -242,7 +274,7 @@ void Object::parseObjFile(char* obj_filename){
       aiVector3D ai_texture = mesh->mTextureCoords[0][i];
       glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
       glm::vec2 texture_coordinates = {ai_texture.x,ai_texture.y};
-      Vertices.push_back({vertex,texture_coordinates});
+      Vertices[j].push_back({vertex,texture_coordinates});
     }
   
     //Process Faces
@@ -253,20 +285,13 @@ void Object::parseObjFile(char* obj_filename){
       if(face.mNumIndices != 3){
         std::string error;
         std::string file_name(obj_filename);
-        error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh->mNumFaces) + " indices.\n";
+        error = "Expected triangles in faces from file: " + file_name + " but received " + std::to_string(mesh->mNumFaces) + " indices.\n";
         throw std::logic_error(error);
       }
-      Indices.push_back(face.mIndices[0]);
-      Indices.push_back(face.mIndices[1]);
-      Indices.push_back(face.mIndices[2]);
+      Indices[j].push_back(face.mIndices[0]);
+      Indices[j].push_back(face.mIndices[1]);
+      Indices[j].push_back(face.mIndices[2]);
     }
-    //Bind Textures
-    glGenTextures(1,&texture);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->columns(),image->rows(),-0.5,GL_RGBA,GL_UNSIGNED_BYTE,blob.data());
-    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
   }
 }
       
