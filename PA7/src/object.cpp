@@ -192,9 +192,11 @@ void Object::parseObjectConfig(char* object_config_filename){
     return;
   }
 
-  //TODO tinyxml LoadFile failure error handling  
   tinyxml2::XMLDocument doc;
-  if(doc.LoadFile(object_config_filename)){
+  tinyxml2::XMLError file_loaded = doc.LoadFile(object_config_filename);
+  if(file_loaded != tinyxml2::XML_SUCCESS){
+    std::cout << file_loaded << std::endl;
+    std::cout << tinyxml2::XML_ERROR_MISMATCHED_ELEMENT << std::endl;
     std::string error;
     std::string filename(object_config_filename);
     error  = "Could not find XML file: " + filename + "\n";
