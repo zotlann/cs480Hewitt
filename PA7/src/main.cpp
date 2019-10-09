@@ -53,9 +53,11 @@ int main(int argc, char **argv)
     return 0;
   }
    if(shaders->vshader_filename == NULL){
+    shaders->vshader_filename = new char[35];
     strcpy(shaders->vshader_filename,"../assets/shaders/vshader");
  }
   if(shaders->fshader_filename == NULL){
+    shaders->fshader_filename = new char[35];
     strcpy(shaders->fshader_filename,"../assets/shaders/fshader");
   } 
   // Start an engine and run it then cleanup after
