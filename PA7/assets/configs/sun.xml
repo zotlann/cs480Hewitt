@@ -13,9 +13,9 @@
 	<satelites>
 		<s1>../assets/configs/mercury.xml</s1>
 		<s2>../assets/configs/venus.xml</s2>
-			<!--	<s3>../assets/configs/earth.xml</s3> -->
+		<s3>../assets/configs/earth.xml</s3>
 		<s4>../assets/configs/mars.xml</s4>
-			<!-- <s5>../assets/configs/jupiter.xml</s5> -->
+		<s5>../assets/configs/jupiter.xml</s5>
 		<s6>../assets/configs/saturn.xml</s6>
 		<s7>../assets/configs/neptune.xml</s7>
 		<s8>../assets/configs/uranus.xml</s8>

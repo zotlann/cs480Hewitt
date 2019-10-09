@@ -1,13 +1,13 @@
 <planet>
 	<model>../assets/objects/Planet.obj</model>
-	<texture>../assets/textures/2k_jupiter.jpg</textures>
+	<texture>../assets/textures/2k_jupiter.jpg</texture>
 	<name>Jupiter</name>
 	<ospeed>0</ospeed>
 	<oangle>1.5</oangle>
-	<odistance>5</odistance>
+	<odistance>483</odistance>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
 	<rangle>0</rangle>
 	<rpaused>false</rpaused>
-	<scale>2</scale>
+	<scale>3.5</scale>
 </planet>
