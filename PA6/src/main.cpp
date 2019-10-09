@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     shaders->obj_filename = "../assets/objects/tray.obj";
   }
   // Start an engine and run it then cleanup after
-  Engine *engine = new Engine("Tutorial Window Name", 800, 600);
+  Engine *engine = new Engine("PA6 - CS480", 800, 600);
   if(!engine->Initialize(*shaders))
   {
     printf("The engine failed to start.\n");

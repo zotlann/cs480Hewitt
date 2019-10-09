@@ -206,21 +206,18 @@ void Object::Render()
 
 //Parses planet config files and creates an object with the proper config settings.
 //An example config file can be found in ../assets/entities/planet.conf
-ObjectConfig Object::parseObjectConfig(char* object_config_filename){
+ObjectConfig Object::parseObjectConfig(char* object_config_filename)
+{
   std::string temp_string;
-  float temp_float;
-  
   std::ifstream config_file;
   config_file.open(object_config_filename);
   if(!config_file.good()){
     printf("Invalid object config filepath: %s\nUsing default object config.\n",object_config_filename);
     return ObjectConfig();
   }
-
 }
 
 void Object::parseObjFile(char* obj_filename){
-  bool lol = false;
   //set up importer and load in my_scene
   Assimp::Importer importer;
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate);
@@ -238,6 +235,7 @@ void Object::parseObjFile(char* obj_filename){
   numMeshes = my_scene->mNumMeshes;
 
   //iterate through meshes and process their vertices,faces and texture bindings
+  //unable to make j into a unsigned int at the moment for PA6
   for( int j = my_scene->mNumMeshes - 1; j >= 0; j-- )
   {
     //set mesh to current mesh to process
