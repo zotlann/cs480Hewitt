@@ -53,10 +53,10 @@ int main(int argc, char **argv)
     return 0;
   }
    if(shaders->vshader_filename == NULL){
-    shaders->vshader_filename = "../assets/shaders/vshader";
+    strcpy(shaders->vshader_filename,"../assets/shaders/vshader");
  }
   if(shaders->fshader_filename == NULL){
-    shaders->fshader_filename = "../assets/shaders/fshader";
+    strcpy(shaders->fshader_filename,"../assets/shaders/fshader");
   } 
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Solar System :)", 1024, 768);

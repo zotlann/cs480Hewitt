@@ -49,10 +49,10 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
   objects.clear();
   objects.push_back(m_cube);
   std::vector<Object*> sat = m_cube->getSatelites();
-  for(int i = 0; i < sat.size(); i++){
+  for(unsigned int i = 0; i < sat.size(); i++){
     std::vector<Object*> sats = sat[i]->getSatelites();
     objects.push_back(sat[i]);
-    for(int j = 0; j < sats.size(); j++){
+    for(unsigned int j = 0; j < sats.size(); j++){
       objects.push_back(sats[j]);
     }
   }
@@ -123,7 +123,7 @@ void Graphics::Update(unsigned int dt,char input)
     selected_index = selected_index % objects.size();
   }
   objects[selected_index]->processInput(input);
-  for(int i = 0; i < objects.size(); i++){
+  for(unsigned int i = 0; i < objects.size(); i++){
     objects[i]->Update(dt);
   }
 }
@@ -142,7 +142,7 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the objects
-  for(int i = 0; i < objects.size(); i++){
+  for(unsigned int i = 0; i < objects.size(); i++){
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
     objects[i]->Render();
   }

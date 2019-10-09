@@ -194,12 +194,17 @@ void Object::parseObjectConfig(char* object_config_filename){
 
   //TODO tinyxml LoadFile failure error handling  
   tinyxml2::XMLDocument doc;
-  doc.LoadFile(object_config_filename);
+  if(doc.LoadFile(object_config_filename)){
+    std::string error;
+    std::string filename(object_config_filename);
+    error  = "Could not find XML file: " + filename + "\n";
+    throw std::logic_error(error);
+  }
   tinyxml2::XMLElement* object = doc.FirstChildElement("planet");
   tinyxml2::XMLElement* element = NULL;
 
   //set the model
-  if(element = object->FirstChildElement("model")){
+  if((element = object->FirstChildElement("model"))){
     char* filename = new char[256];
     strcpy(filename,element->GetText());
     parseObjFile(filename);
@@ -207,7 +212,7 @@ void Object::parseObjectConfig(char* object_config_filename){
   }
 
   //set the name
-  if(element = object->FirstChildElement("name")){
+  if((element = object->FirstChildElement("name"))){
     char* name = new char[256];
     strcpy(name,element->GetText());
     config.name = name;
@@ -215,72 +220,72 @@ void Object::parseObjectConfig(char* object_config_filename){
   }
 
   //set the orbit_speed
-  if(element = object->FirstChildElement("ospeed")){
+  if((element = object->FirstChildElement("ospeed"))){
     config.orbit_speed = element->FloatText();
   }
 
   //set the orbit_angle
-  if(element = object->FirstChildElement("oangle")){
+  if((element = object->FirstChildElement("oangle"))){
     config.orbit_angle = element->FloatText();
   }
 
   //set the orbit_distance
-  if(element = object->FirstChildElement("odistance")){
+  if((element = object->FirstChildElement("odistance"))){
     config.orbit_distance = element->FloatText();
   }
   
   //set the orbit_axis
-  if(element = object->FirstChildElement("oaxis")){
+  if((element = object->FirstChildElement("oaxis"))){
     float angle_radians = element->FloatText() * M_PI / 180;
     config.orbit_axis = glm::vec3(0.0,cos(angle_radians),sin(angle_radians));
   }
 
   //set the orbit_paused flag
-  if(element = object->FirstChildElement("opaused")){
+  if((element = object->FirstChildElement("opaused"))){
     config.orbit_paused = element->BoolText();
   }
 
   //set the rotation_speed
-  if(element = object->FirstChildElement("rspeed")){
+  if((element = object->FirstChildElement("rspeed"))){
     config.rotation_speed = element->FloatText();
   }
 
   //set the rotation_angle
-  if(element = object->FirstChildElement("rangle")){
+  if((element = object->FirstChildElement("rangle"))){
     config.rotation_angle = element->FloatText();
   }
 
   //set the rotation_acis
-  if(element = object->FirstChildElement("raxis")){
+  if((element = object->FirstChildElement("raxis"))){
     float angle_radians = element->FloatText() * M_PI / 180;
     config.rotation_axis = glm::vec3(cos(angle_radians),sin(angle_radians),0.0);
   }
 
   //set the rotation_paused flag
-  if(element = object->FirstChildElement("rpaused")){
+  if((element = object->FirstChildElement("rpaused"))){
     config.rotation_paused = element->BoolText();
   }
 
   //set the scale
-  if(element = object->FirstChildElement("scale")){
+  if((element = object->FirstChildElement("scale"))){
     config.scale = element->FloatText();
   }
 
   //set the texture filepath and load the texture
-  if(element = object->FirstChildElement("texture")){
+  if((element = object->FirstChildElement("texture"))){
     strcpy(config.texture_filepath,element->GetText());
     loadTexture(config.texture_filepath);
   }
 
   //set satelites
-  if(element = object->FirstChildElement("satelites")){
+  if((element = object->FirstChildElement("satelites"))){
     char* filename = new char[256];
-    if(element = element->FirstChildElement()){
+    if((element = element->FirstChildElement())){
       strcpy(filename,element->GetText());
       Object* satelite = new Object(filename);
       satelite->setParent(this);
       satelites.push_back(satelite);
-      while(element = element->NextSiblingElement()){
+      while((element = element->NextSiblingElement())){
 	strcpy(filename,element->GetText());
         Object* new_satelite = new Object(filename);
 	new_satelite->setParent(this);
@@ -300,10 +305,10 @@ void Object::parseObjFile(char* obj_filename){
   } 
   //assuming there is only one mesh, which should be the case for .obj files, the first mesh is
   //the one we're interested in
-  for(int j = 0; j < my_scene->mNumMeshes; j++){ 
+  for(unsigned int j = 0; j < my_scene->mNumMeshes; j++){ 
   aiMesh* mesh = my_scene->mMeshes[j];
   //Process Vertices
-    for(int i = 0; i < mesh->mNumVertices; i++){
+    for(unsigned int i = 0; i < mesh->mNumVertices; i++){
       aiVector3D ai_vec = mesh->mVertices[i];
       aiVector3D ai_texture = mesh->mTextureCoords[0][i]; 
       glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
@@ -312,7 +317,7 @@ void Object::parseObjFile(char* obj_filename){
     }
   
   //Process Faces
-    for(int i = 0; i < mesh->mNumFaces; i++){
+    for(unsigned int i = 0; i < mesh->mNumFaces; i++){
       aiFace face = mesh->mFaces[i];
     
     //if we were not given triangles throw an error and abort
