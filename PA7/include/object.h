@@ -56,6 +56,8 @@ class Object
 {
   public:
     static float orbit_scale;
+    static float planet_scale;
+    static float time_scale;
 
     Object();
     Object(char* object_config_filename);
@@ -87,7 +89,7 @@ class Object
     void Select();
     void Deselect();
 
-    void setScale(float);
+    float getScale();
   private:
     glm::mat4 model;
     glm::mat4 location;

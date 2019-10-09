@@ -2,67 +2,26 @@
 
 #include "engine.h"
 
-/*
- * Parses the command line arguments. If the command line arguments are 
- * invalid or -h, display the correct format for the command line arguments.
- * set shaders[0] to the filename following -v for the vertex shader
- * set shaders[1] to the filename following -f for the fragment shader
- */
+float Object::orbit_scale;
+float Object::planet_scale;
+float Object::time_scale;
 
-float Object::orbit_scale = 1.0/4.0;
-
-bool parseCmdArgs(int argc, char **argv,ShaderFiles* shaders){
-
-  char help_message[256];
-  sprintf(help_message,"%s -v [vertex_shader] -f [fragment_shader]\n",argv[0]);
-  if(argc < 2){
-    printf("%s",help_message);
-    return false;
-  }
-  for(int i = 1; i < argc; i++){
-    if((strcmp(argv[i],"-h")==0)){
-      printf("%s",help_message);
-      return false;
-    }
-    if((strcmp(argv[i],"-v")==0)){
-      shaders->vshader_filename = argv[i+1];
-    }
-    else if((strcmp(argv[i],"-f")==0)){
-      shaders->fshader_filename = argv[i+1];
-    }
-    else if((strcmp(argv[i],"-c")==0)){
-      shaders->config_filename = argv[i+1];
-    }
-    else if((strcmp(argv[i],"--obj")==0)){
-      shaders->obj_filename = argv[i+1];
-    }
-    else if((strcmp(argv[i],"-s")==0)){
-      shaders->scale = (float)atof(argv[i+1]);
-    }
-  }
-  return true;
-}
- 
-
+bool parseCmdArgs(int argc, char **argv, Config* cfg);
+void loadConfig(char* config_filename, Config* cfg);
 
 int main(int argc, char **argv)
 {
-  ShaderFiles* shaders = new ShaderFiles;
+  Config* cfg = new Config;
    
-  if(!parseCmdArgs(argc,argv,shaders)){
+  if(!parseCmdArgs(argc,argv,cfg)){
     return 0;
   }
-   if(shaders->vshader_filename == NULL){
-    shaders->vshader_filename = new char[35];
-    strcpy(shaders->vshader_filename,"../assets/shaders/vshader");
- }
-  if(shaders->fshader_filename == NULL){
-    shaders->fshader_filename = new char[35];
-    strcpy(shaders->fshader_filename,"../assets/shaders/fshader");
-  } 
+  Object::orbit_scale = cfg->orbit_scale*2;
+  Object::planet_scale = cfg->planet_scale;
+  Object::time_scale = cfg->time_scale; 
   // Start an engine and run it then cleanup after
-  Engine *engine = new Engine("Solar System :)", 1024, 768);
-  if(!engine->Initialize(*shaders))
+  Engine *engine = new Engine(cfg->window_name, cfg->w, cfg->h);
+  if(!engine->Initialize(*cfg))
   {
     printf("The engine failed to start.\n");
     delete engine;
@@ -74,3 +33,93 @@ int main(int argc, char **argv)
   engine = NULL;
   return 0;
 }
+
+bool parseCmdArgs(int argc, char **argv, Config* cfg){
+
+  char help_message[256];
+  sprintf(help_message,"%s -c [config_file]\n",argv[0]);
+  if(argc < 2){
+    printf("%s",help_message);
+    return false;
+  }
+  for(int i = 1; i < argc; i++){
+    if((strcmp(argv[i],"-h")==0)){
+      printf("%s",help_message);
+      return false;
+    }
+    else if((strcmp(argv[i],"-c")==0)){
+      loadConfig(argv[i+1],cfg);
+      return true;
+    }
+    else{
+      printf("Invalid flag, %s \n %s",argv[i],help_message);
+      return false;
+    }
+  }
+  return false;
+}
+
+void loadConfig(char* config_filename, Config* cfg){
+  
+  tinyxml2::XMLDocument doc;
+  tinyxml2::XMLError file_loaded = doc.LoadFile(config_filename);
+  if(file_loaded != tinyxml2::XML_SUCCESS){
+    std::string error;
+    std::string filename(config_filename);
+    error = "Error loading or parsing master config: " + filename  + "\n";
+    throw std::logic_error(error);
+  }
+  tinyxml2::XMLElement* config = doc.FirstChildElement("config");
+  tinyxml2::XMLElement* element = NULL;
+
+  //set the vertex shader filename
+  if((element = config->FirstChildElement("vshader"))){
+    cfg->vshader_filename = new char[256];
+    strcpy(cfg->vshader_filename,element->GetText());
+  }
+  
+  //set the fragment shader filename
+  if((element = config->FirstChildElement("fshader"))){
+    cfg->fshader_filename = new char[256];
+    strcpy(cfg->fshader_filename,element->GetText());
+  }
+
+  //set the window name
+  if((element = config->FirstChildElement("windowname"))){
+   cfg->window_name = new char[256];
+   strcpy(cfg->window_name,element->GetText());
+  }
+
+  //set the window width
+  if((element = config->FirstChildElement("w"))){
+    cfg->w =  element->Int64Text();
+  }
+
+  //set the window height
+  if((element = config->FirstChildElement("h"))){
+    cfg->h = element->Int64Text();
+  }
+
+  //set the root object filename
+  if((element = config->FirstChildElement("root"))){
+    cfg->root_planet_filename = new char[256];
+    strcpy(cfg->root_planet_filename,element->GetText());
+  }
+
+  //set the global orbit_scale
+  if((element = config->FirstChildElement("oscale"))){
+    cfg->orbit_scale  = element->FloatText();
+  }
+
+  //set the global planet_scale
+  if((element = config->FirstChildElement("pscale"))){
+    cfg->planet_scale = element->FloatText();
+  }
+
+  //set the global time_scale
+  if((element = config->FirstChildElement("tscale"))){
+    cfg->time_scale = element->FloatText();
+  }
+
+}
+

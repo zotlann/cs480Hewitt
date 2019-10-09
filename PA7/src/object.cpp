@@ -151,7 +151,7 @@ void Object::Update(unsigned int dt)
   orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,config.orbit_axis);
   location = orbit;
   rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
-  scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
+  scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
   if(parent != NULL){
     model = parent->GetLocation() * orbit * rotation * scale;
     location = parent->GetLocation() * orbit;
@@ -393,9 +393,9 @@ void Object::Deselect(){
   selected = false;
 }
 
-void Object::setScale(float s){
-  config.scale = s;
-}
 std::string Object::getName(){
   return config.name;
+}
+float Object::getScale(){
+  return config.scale;
 }

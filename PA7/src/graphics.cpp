@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
+bool Graphics::Initialize(int width, int height, Config cfg)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -44,7 +44,8 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
     return false;
   }
   //Create the object
-  m_cube =  new Object(shaders.config_filename);
+  m_cube =  new Object(cfg.root_planet_filename);
+  std::cout << "ORBIT_SCALE: " << Object::orbit_scale << std::endl;
   //set up the objects vector
   objects.clear();
   objects.push_back(m_cube);
@@ -67,14 +68,14 @@ bool Graphics::Initialize(int width, int height, ShaderFiles shaders)
     return false;
   }
   // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER,shaders.vshader_filename))
+  if(!m_shader->AddShader(GL_VERTEX_SHADER,cfg.vshader_filename))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER,shaders.fshader_filename))
+  if(!m_shader->AddShader(GL_FRAGMENT_SHADER,cfg.fshader_filename))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
