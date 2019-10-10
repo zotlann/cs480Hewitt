@@ -45,7 +45,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
   //Create the object
   m_cube =  new Object(cfg.root_planet_filename);
-  std::cout << "ORBIT_SCALE: " << Object::orbit_scale << std::endl;
   //set up the objects vector
   objects.clear();
   objects.push_back(m_cube);
