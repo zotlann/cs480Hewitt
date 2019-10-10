@@ -23,7 +23,7 @@ CXXFLAGS=-g -Wall -std=c++0x #`Magick++-config --cppflags --cxxflags --ldflags -
 O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o
 
 # Point to includes of local directories
-INDLUDES=-I../include
+INDLUDES=-I../include -I/usr/include/x86_64-linux-gnu/ImageMagick-6/ -I/usr/include/ImageMagick-6/
 
 
 all: $(O_FILES)
