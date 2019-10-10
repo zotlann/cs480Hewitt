@@ -66,10 +66,12 @@ Object::~Object()
 void Object::processInput(char input){
  switch(input){
     case 'q':
-      config.rotation_direction *= -1;
+      time_scale -= 0.5;
+      //config.rotation_direction *= -1;
       break;
     case 'w':
-      config.rotation_speed -= 0.5;
+      time_scale += 0.5;
+      //config.rotation_speed -= 0.5;
       break;
     case 'e':
       config.rotation_speed += 0.5;
@@ -122,18 +124,18 @@ void Object::Update(unsigned int dt)
   //If rotation/orbit are not paused, increment the angles.
   if(!config.orbit_paused){
     if(config.orbit_direction > 0){
-      config.orbit_angle += dt * (M_PI + config.orbit_speed)/1000;
+      config.orbit_angle += dt * time_scale * (M_PI + config.orbit_speed)/1000;
     }
     else{
-      config.orbit_angle -= dt * (M_PI + config.orbit_speed)/1000;
+      config.orbit_angle -= dt * time_scale * (M_PI + config.orbit_speed)/1000;
     }
   }
   if(!config.rotation_paused){
     if(config.rotation_direction > 0){
-      config.rotation_angle += dt * (M_PI + config.rotation_speed)/1000;
+      config.rotation_angle += dt * time_scale * (M_PI + config.rotation_speed)/1000;
     }
     else{
-      config.rotation_angle -= dt * (M_PI + config.orbit_speed)/1000;
+      config.rotation_angle -= dt * time_scale * (M_PI + config.orbit_speed)/1000;
     }
   }
 
@@ -195,8 +197,6 @@ void Object::parseObjectConfig(char* object_config_filename){
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLError file_loaded = doc.LoadFile(object_config_filename);
   if(file_loaded != tinyxml2::XML_SUCCESS){
-    std::cout << file_loaded << std::endl;
-    std::cout << tinyxml2::XML_ERROR_MISMATCHED_ELEMENT << std::endl;
     std::string error;
     std::string filename(object_config_filename);
     error  = "Could not find XML file: " + filename + "\n";
