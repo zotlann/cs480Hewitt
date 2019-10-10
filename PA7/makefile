@@ -27,7 +27,7 @@ INDLUDES=-I../include
 
 
 all: $(O_FILES)
-	$(CC) $(CXXFLAGS) -o PA6 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
+	$(CC) $(CXXFLAGS) -o PA7 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
 
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INDLUDES)
@@ -54,4 +54,4 @@ tinyxml2.o: ../src/tinyxml2.cpp
 	$(CC) $(CXXFLAGS) -c ../src/tinyxml2.cpp -o tinyxml2.o $(INDLUDES)
 
 clean:
-	-@if rm *.o PA6 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
+	-@if rm *.o PA7 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
