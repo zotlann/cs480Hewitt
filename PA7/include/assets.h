@@ -10,6 +10,6 @@ struct Config{
   char* root_planet_filename;
   float orbit_scale;
   float planet_scale;
-  float time_scale; // added this because Jonathon forgot? -Ben
+  float time_scale; 
 };
 #endif
