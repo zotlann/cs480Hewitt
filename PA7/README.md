@@ -43,11 +43,16 @@ make
 ./PA7 -c ../assets/configs/small_sun/master.xml
 ```
 
-## Keyboard and Mouse
+## Mouse
 | Input | Output |
 | - |:-:|
-| M1 | . |
-| M2 | . |
+| Left Mouse | . |
+| Right Mouse | . |
+| Middle Mouse | . |
+
+## Keyboard
+| Input | Output |
+| - |:-:|
 | <kbd>Q</kbd> | . |
 | <kbd>W</kbd> | . |
 | <kbd>A</kbd> | . |
@@ -72,11 +77,11 @@ make
 | <kbd>0</kbd> | . |
 
 ## Extra Credit
-Live adjustment of simulation speed? **Of course.**
-Configuration file? **Ever heard of .xml? We got plenty of those.**
+Live adjustment of simulation speed? **Of course.**  
+Configuration file? **Ever heard of .xml? We got plenty of those.**  
 
-Draws planet orbit path? **NOT YET**
-Option to go from actual data to scaled view? **ehhh**
-Proper rings on other planets? **uhhh**
+Draws planet orbit path?  
+Option to go from actual data to scaled view?   
+Proper rings on other planets?  
 
-*Flat Earth though...* Let me show you this: `--flat `
+*Flat Earth though...* Let me show you this: `--flat `  

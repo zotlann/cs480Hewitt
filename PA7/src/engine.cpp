@@ -66,8 +66,6 @@ void Engine::Run()
       if(input) break;
     }
 
-    // Time for Ben to update the camera with input
-
     // Update and render the graphics
     m_graphics->Update(m_DT,input);
     m_graphics->Render();
