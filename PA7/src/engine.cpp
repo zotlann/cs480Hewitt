@@ -65,6 +65,9 @@ void Engine::Run()
       input = Keyboard() | Mouse();
       if(input) break;
     }
+
+    // Time for Ben to update the camera with input
+
     // Update and render the graphics
     m_graphics->Update(m_DT,input);
     m_graphics->Render();
@@ -83,18 +86,21 @@ char Engine::Mouse()
     m_running = false;
     return '\0';
   }
-  else if (m_event.type == SDL_MOUSEBUTTONDOWN){
-    
+  else if (m_event.type == SDL_MOUSEBUTTONDOWN)
+  {
     switch(m_event.button.button){
       case SDL_BUTTON_LEFT:
-        return 'q';
-	break;
+        return 1;
+        break;
       case SDL_BUTTON_RIGHT:
-	return 'a';
-	break;
+        return 2;
+        break;
+      case SDL_BUTTON_MIDDLE:
+        return 3;
+        break;
       default:
-	return '\0';
-	break;
+        return '\0';
+        break;
     }
   }
   return '\0';
@@ -113,49 +119,76 @@ char Engine::Keyboard()
     switch(m_event.key.keysym.sym){
       case SDLK_ESCAPE:
         m_running = false;
-	break;
+        break;
       case SDLK_TAB:
-	return '\t';
-	break;
+        return '\t';
+        break;
       case SDLK_q:
-	return 'q';
-	break;
+        return 'q';
+        break;
       case SDLK_w:
-	return 'w';
-	break;
+        return 'w';
+        break;
       case SDLK_e:
         return 'e';
-	break;
+        break;
       case SDLK_r:
-	return 'r';
-	break;
+        return 'r';
+        break;
+      case SDLK_t:
+        return 't';
+        break;
+      case SDLK_y:
+        return 'y';
+        break;
       case SDLK_a:
         return 'a';
-	break;
+        break;
       case SDLK_s:
-	return 's';
-	break;
+        return 's';
+        break;
       case SDLK_d:
-	return 'd';
-	break;
+        return 'd';
+        break;
       case SDLK_f:
         return 'f';
-	break;
+        break;
       case SDLK_z:
-	return 'z';
-	break;
+        return 'z';
+        break;
       case SDLK_x:
-	return 'x';
-	break;
+        return 'x';
+        break;
       case SDLK_c:
-	return 'c';
-	break;
+        return 'c';
+        break;
       case SDLK_v:
-	return 'v';
-	break;
+        return 'v';
+        break;
+      case SDLK_b:
+        return 'b';
+        break;
+      case SDLK_n:
+        return 'n';
+        break;
+      case SDLK_m:
+        return 'm';
+        break;
+      case SDLK_UP:
+        return '^';
+        break;
+      case SDLK_DOWN:
+        return 'V'; // yes, that's a capital v
+        break;
+      case SDLK_LEFT:
+        return '<';
+        break;
+      case SDLK_RIGHT:
+        return '>';
+        break;
       default:
-	return '\0';
-	break;
+        return '\0';
+        break;
       }
   }
   return '\0';

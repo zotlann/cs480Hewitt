@@ -14,9 +14,9 @@ To run this project on Linux, installation of these three programs are required 
 This project uses OpenGL 3.3. Some computers, such as virtual machines in the ECC, can not run this version. In in order to run OpenGL 2.7 follow the instructions at [Using OpenGL 2.7](https://github.com/HPC-Vis/computer-graphics/wiki/Using-OpenGL-2.7)
 
 ### Ubuntu/Linux
-Assimp and Magick++ are needed.
+Assimp and Magick++ are needed. Also fun fact, the makefile we use will be different than the one pushed for grading.
 ```bash
-sudo apt-get install libglew-dev libglm-dev libsdl2-dev libassimp-dev libMagick++.a
+sudo apt-get install libglew-dev libglm-dev libsdl2-dev libassimp-dev
 ```
 
 ## Build Instructions
@@ -42,3 +42,41 @@ make
 ```bash
 ./PA7 -c ../assets/configs/small_sun/master.xml
 ```
+
+## Keyboard and Mouse
+| Input | Output |
+| - |:-:|
+| M1 | . |
+| M2 | . |
+| <kbd>Q</kbd> | . |
+| <kbd>W</kbd> | . |
+| <kbd>A</kbd> | . |
+| <kbd>S</kbd> | . |
+| <kbd>D</kbd> | . |
+| <kbd>F</kbd> | . |
+| <kbd>R</kbd> | . |
+| <kbd>&#8592;</kbd> | . |
+| <kbd>&#8593;</kbd> | . |
+| <kbd>&#8594;</kbd> | . |
+| <kbd>&#8595;</kbd> | . |
+| <kbd>`</kbd> | . |
+| <kbd>1</kbd> | . |
+| <kbd>2</kbd> | . |
+| <kbd>3</kbd> | . |
+| <kbd>4</kbd> | . |
+| <kbd>5</kbd> | . |
+| <kbd>6</kbd> | . |
+| <kbd>7</kbd> | . |
+| <kbd>8</kbd> | . |
+| <kbd>9</kbd> | . |
+| <kbd>0</kbd> | . |
+
+## Extra Credit
+Live adjustment of simulation speed? **Of course.**
+Configuration file? **Ever heard of .xml? We got plenty of those.**
+
+Draws planet orbit path? **NOT YET**
+Option to go from actual data to scaled view? **ehhh**
+Proper rings on other planets? **uhhh**
+
+*Flat Earth though...* Let me show you this: `--flat `

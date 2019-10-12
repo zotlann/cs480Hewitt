@@ -119,14 +119,18 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
 void Graphics::Update(unsigned int dt,char input)
 {
+  // To scroll through planets
   if(input == '\t'){
     selected_index++;
     selected_index = selected_index % objects.size();
   }
+  // Update objects
   objects[selected_index]->processInput(input);
   for(unsigned int i = 0; i < objects.size(); i++){
     objects[i]->Update(dt);
   }
+  // Update m_camera
+  m_camera->Input(input);
 }
 
 void Graphics::Render()
