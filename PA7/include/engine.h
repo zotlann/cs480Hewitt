@@ -17,8 +17,10 @@ class Engine
     void Run();
     char Keyboard();
     char Mouse();
+    glm::vec2 MouseMovement();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
+
   
   private:
     // Window related variables

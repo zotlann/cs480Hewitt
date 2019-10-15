@@ -234,7 +234,7 @@ void Object::parseObjectConfig(char* object_config_filename){
 
   //set the rotation_acis
   if((element = object->FirstChildElement("raxis"))){
-    float angle_radians = element->FloatText() * M_PI / 180;
+    float angle_radians = (element->FloatText() + 90) * M_PI / 180;
     config.rotation_axis = glm::vec3(cos(angle_radians),sin(angle_radians),0.0);
   }
 

@@ -116,7 +116,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   return true;
 }
 
-void Graphics::Update(unsigned int dt,char input)
+void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
   // To scroll through planets
   if(input == '\t'){
@@ -130,12 +130,13 @@ void Graphics::Update(unsigned int dt,char input)
   }
   // Update m_camera
   m_camera->Input(input);
+  m_camera->Update(dt, mouseLocation);
 }
 
 void Graphics::Render()
 {
   //clear the screen
-  glClearColor(0.0, 0.0, 0.2, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Start the correct program

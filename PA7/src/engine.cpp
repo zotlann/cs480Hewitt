@@ -51,6 +51,7 @@ bool Engine::Initialize(Config cfg)
 
 void Engine::Run()
 {
+  glm::vec2 mouseLocation = {0.0,0.0};
   char input = '\0';  
   m_running = true;
 
@@ -58,6 +59,8 @@ void Engine::Run()
   {
     // Update the DT
     m_DT = getDT();
+
+    mouseLocation = MouseMovement();
 
     // Check the keyboard input
     while(SDL_PollEvent(&m_event) != 0)
@@ -67,13 +70,21 @@ void Engine::Run()
     }
 
     // Update and render the graphics
-    m_graphics->Update(m_DT,input);
+    m_graphics->Update(m_DT,input,mouseLocation);
     m_graphics->Render();
     input = '\0';
 
     // Swap to the Window
     m_window->Swap();
   }
+}
+
+glm::vec2 Engine::MouseMovement()
+{
+  int x = 0;
+  int y = 0;
+  SDL_GetRelativeMouseState(&x, &y);
+  return glm::vec2(x,y);
 }
 
 //gets the mouse event and returns a char represent the mouse action 
