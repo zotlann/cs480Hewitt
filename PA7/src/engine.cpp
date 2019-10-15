@@ -127,6 +127,7 @@ char Engine::Keyboard()
   {
     switch(m_event.key.keysym.sym){
       case SDLK_ESCAPE:
+        printf("Exiting Solar System\n");
         m_running = false;
         break;
       case SDLK_TAB:
