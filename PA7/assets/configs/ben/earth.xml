@@ -13,6 +13,6 @@
 	<rpaused>false</rpaused>
 	<scale>3.9588</scale>
 	<satelites>
-		<s1>../assets/configs/small_sun/moon.xml</s1>
+		<s1>../assets/configs/ben/moon.xml</s1>
 	</satelites>
 </planet>

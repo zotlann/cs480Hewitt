@@ -4,7 +4,7 @@
 	<windowname>Solar System: Ben's Config@1280x720</windowname>
 	<w>1280</w>
 	<h>720</h>
-	<root>../assets/configs/small_sun/sun.xml</root>
+	<root>../assets/configs/ben/sun.xml</root>
 	<oscale>.25</oscale>
 	<pscale>1.39</pscale>
 </config>
