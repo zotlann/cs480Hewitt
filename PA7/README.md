@@ -6,7 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-It's the solar system.
+Welcome to our Solar System. Using Assimp and ImageMagick, we have been able to create a solar system reminiscent of the one we are living in with the Sun in the center and us, on planet Earth.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -40,14 +40,14 @@ make
 ```
 *OR*
 ```bash
-./PA7 -c ../assets/configs/small_sun/master.xml
+./PA7 -c ../assets/configs/ben/master.xml
 ```
 
 ## Mouse
 | Input | Output |
 | - |:-:|
-| Left Mouse | . |
-| Right Mouse | . |
+| Left Mouse | Move up |
+| Right Mouse | Move down |
 | Middle Mouse | . |
 
 ## Keyboard
@@ -60,10 +60,10 @@ make
 | <kbd>D</kbd> | . |
 | <kbd>F</kbd> | . |
 | <kbd>R</kbd> | . |
-| <kbd>&#8592;</kbd> | . |
-| <kbd>&#8593;</kbd> | . |
-| <kbd>&#8594;</kbd> | . |
-| <kbd>&#8595;</kbd> | . |
+| <kbd>&#8592;</kbd> | Move left |
+| <kbd>&#8593;</kbd> | Move forward |
+| <kbd>&#8594;</kbd> | Move right |
+| <kbd>&#8595;</kbd> | Move back |
 | <kbd>`</kbd> | . |
 | <kbd>1</kbd> | . |
 | <kbd>2</kbd> | . |
@@ -81,7 +81,7 @@ Live adjustment of simulation speed? **Of course.**
 Configuration file? **Ever heard of .xml? We got plenty of those.**  
 
 Draws planet orbit path?  
-Option to go from actual data to scaled view?   
+Option to go from actual data to scaled view? **By switching the config folder, you can do just that.**
 Proper rings on other planets?  
 
-*Flat Earth though...* Let me show you this: `--flat `  
+*Flat Earth though...*
