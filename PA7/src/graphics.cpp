@@ -122,6 +122,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   if(input == '\t'){
     selected_index++;
     selected_index = selected_index % objects.size();
+    printf("Planet: %d\n", selected_index); // Maybe have it print the planet name...
   }
   // Update objects
   objects[selected_index]->processInput(input);
@@ -135,7 +136,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 
 void Graphics::Render()
 {
-  //clear the screen
+  //clear the screen and sets the black background
   glClearColor(0.0, 0.0, 0.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

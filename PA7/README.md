@@ -42,13 +42,14 @@ make
 ```bash
 ./PA7 -c ../assets/configs/ben/master.xml
 ```
+NOTE: After starting, would recommend resetting the view with middle mouse as mouse movement to set the window into focus can throw off the camera.
 
 ## Mouse
 | Input | Output |
 | - |:-:|
 | Left Mouse | Move up |
 | Right Mouse | Move down |
-| Middle Mouse | . |
+| Middle Mouse | Reset camera |
 
 ## Keyboard
 | Input | Output |
@@ -64,6 +65,7 @@ make
 | <kbd>&#8593;</kbd> | Move forward |
 | <kbd>&#8594;</kbd> | Move right |
 | <kbd>&#8595;</kbd> | Move back |
+| <kbd>Tab</kbd> | Cycle through planets (terminal prints selected planet) |
 | <kbd>`</kbd> | . |
 | <kbd>1</kbd> | . |
 | <kbd>2</kbd> | . |
@@ -77,11 +79,8 @@ make
 | <kbd>0</kbd> | . |
 
 ## Extra Credit
-Live adjustment of simulation speed? **Of course.**  
-Configuration file? **Ever heard of .xml? We got plenty of those.**  
-
-Draws planet orbit path?  
-Option to go from actual data to scaled view? **By switching the config folder, you can do just that.**
-Proper rings on other planets?  
+Live adjustment of simulation speed - Done.  
+Configuration file - Using the implemented timyxml2 library, we use .xml files for configurations.  
+Option to go from actual data to scaled view - By switching the config folder, you can do just that.  
 
 *Flat Earth though...*

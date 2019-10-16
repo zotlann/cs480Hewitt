@@ -1,5 +1,5 @@
 #include "camera.h"
-glm::vec3 front; // yes, it's global
+glm::vec3 front; // Yes, it's global. We got memory corruption if it was in camera.h
 Camera::Camera()
 {
 
@@ -66,10 +66,10 @@ void Camera::Input(char input, unsigned int dt)
   switch(input)
   {
     case 1:
-      cameraLocation_y += movement;
+      cameraLocation_y += 10;
       break;
     case 2:
-      cameraLocation_y -= movement;
+      cameraLocation_y -= 10;
       break;
     case 3:
       cameraLocation_x = 90;
