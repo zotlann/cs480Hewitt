@@ -129,7 +129,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     objects[i]->Update(dt);
   }
   // Update m_camera
-  m_camera->Input(input);
+  m_camera->Input(input, dt);
   m_camera->Update(dt, mouseLocation);
 }
 
