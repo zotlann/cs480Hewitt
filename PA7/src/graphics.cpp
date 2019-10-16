@@ -43,21 +43,32 @@ bool Graphics::Initialize(int width, int height, Config cfg)
     printf("Camera Failed to Initialize\n");
     return false;
   }
+
   //Create the object
   m_cube =  new Object(cfg.root_planet_filename);
-  //set up the objects vector
+
+  //set up the objects and followable_objects vectors
   objects.clear();
   objects.push_back(m_cube);
+
+  followable_objects.clear();
+  followable_objects.push_back(m_cube);
+
   std::vector<Object*> sat = m_cube->getSatelites();
+
   for(unsigned int i = 0; i < sat.size(); i++){
     std::vector<Object*> sats = sat[i]->getSatelites();
     objects.push_back(sat[i]);
+    followable_objects.push_back(sat[i]);
     for(unsigned int j = 0; j < sats.size(); j++){
       objects.push_back(sats[j]);
     }
   }
+  followable_objects.push_back(NULL);
+
   sat.clear();
   selected_index = 0;
+  following_index = followable_objects.size() - 1;
   
   // Set up the shaders
   m_shader = new Shader();
@@ -122,7 +133,10 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   if(input == '\t'){
     selected_index++;
     selected_index = selected_index % objects.size();
-    printf("Planet: %d\n", selected_index); // Maybe have it print the planet name...
+    std::cout << "Selected Object: " << objects[selected_index]->getName() << std::endl;
+  }
+  if(std::isdigit(input)){
+    following_index = input - '0';
   }
   // Update objects
   objects[selected_index]->processInput(input);

@@ -30,7 +30,9 @@ class Graphics
 
     Object *m_cube;
     std::vector<Object*> objects;
+    std::vector<Object*> followable_objects;
     int selected_index;
+    int following_index;
 };
 
 #endif /* GRAPHICS_H */

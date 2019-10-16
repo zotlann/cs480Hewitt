@@ -90,6 +90,7 @@ class Object
     void Deselect();
 
     float getScale();
+  
   private:
     glm::mat4 model;
     glm::mat4 location;
