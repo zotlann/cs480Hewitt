@@ -10,4 +10,7 @@
 	<rangle>0</rangle>
 	<rpaused>false</rpaused>
 	<scale>36.184</scale>
+	<satelites>
+		<s1>../assets/configs/ben/sring.xml</s1>
+	</satelites>
 </planet>
