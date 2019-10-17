@@ -124,6 +124,8 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  flat_earth = false; // Yes, the earth is round.
+
   return true;
 }
 
@@ -140,9 +142,36 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   }
   // Update objects
   objects[selected_index]->processInput(input);
-  for(unsigned int i = 0; i < objects.size(); i++){
-    objects[i]->Update(dt);
+  // Enables flatness for just Earth
+  if(input == 'f' && selected_index == 3)
+  {
+    HandleFlatEarth();
+    /*
+    if(flat_earth == false)
+    {
+      flat_earth = true;
+    }
+    else
+    {
+      flat_earth = false;
+    }
+    std::cout << "The Earth is flat: " << std::boolalpha << flat_earth << std::endl;
+    */
   }
+  // Update selected object
+  for(unsigned int i = 0; i < objects.size(); i++)
+  {
+    if(i == 3)
+    {
+      objects[i]->Update(dt, flat_earth);
+    }
+    else
+    {
+      objects[i]->Update(dt, false);
+    }
+    
+  }
+  
   // Update m_camera
   m_camera->Input(input, dt);
   m_camera->Update(dt, mouseLocation);
@@ -171,6 +200,41 @@ void Graphics::Render()
   if ( error != GL_NO_ERROR )
   {
     string val = ErrorString( error );
+  }
+}
+
+void Graphics::HandleFlatEarth()
+{
+  if(flat_earth == false)
+  {
+    flat_earth = true;
+    std::cout << 
+    std::endl <<
+    "What is the Flat Earth Society?" << 
+    std::endl <<
+    "The Flat Earth Society is a group actively promoting the Flat Earth Movement worldwide. " <<
+    "Descending from Samuel Shenton's International Flat Earth Research Society, and the " << 
+    "Universal Zetetic Society before it, we continue the age-old tradition of questioning " << 
+    "the Round Earth doctrine and challenging authorities. Acknowledging the link between " <<
+    "various unconventional beliefs, the Society also occasionally engages in other " <<
+    "controversial debates, striving to provide a voice for all free thinkers and Zeteticists." << 
+    std::endl <<
+    "Source: wiki.tfes.org" <<
+    std::endl <<
+    "What evidence do you have?" << 
+    std::endl <<
+    "Just look at that solar system..." << 
+    std::endl;
+  }
+  else
+  {
+    flat_earth = false;
+    for(int i = 0; i < 30; i++)
+    {
+      std::cout << std::endl;
+    }
+    std::cout << "The Earth is in fact, round. Uh, clear that terminal of falseness." 
+              << std::endl;
   }
 }
 

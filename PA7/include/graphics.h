@@ -17,6 +17,7 @@ class Graphics
     bool Initialize(int width, int height, Config cfg);
     void Update(unsigned int dt,char input,glm::vec2 mouseLocation);
     void Render();
+    void HandleFlatEarth();
 
   private:
     std::string ErrorString(GLenum error);
@@ -33,6 +34,8 @@ class Graphics
     std::vector<Object*> followable_objects;
     int selected_index;
     int following_index;
+    
+    bool flat_earth;
 };
 
 #endif /* GRAPHICS_H */

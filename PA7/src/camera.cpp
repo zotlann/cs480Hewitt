@@ -72,9 +72,9 @@ void Camera::Input(char input, unsigned int dt)
       cameraLocation_y -= 10;
       break;
     case 3:
-      cameraLocation_x = 90;
-      cameraLocation_y = 0;
-      cameraLocation_z = 0;
+      //cameraLocation_x = 90;
+      //cameraLocation_y = 0;
+      //cameraLocation_z = 0;
       xLook = 45;
       yLook = 180;
       break;

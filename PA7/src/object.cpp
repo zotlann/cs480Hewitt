@@ -69,6 +69,9 @@ void Object::processInput(char input){
       config.orbit_speed += 0.5;
       break;
     case 'f':
+      //the flat earth begins
+      break;
+    case 'b':
       if(config.orbit_paused){
         config.orbit_paused = false;
       }
@@ -93,7 +96,7 @@ void Object::processInput(char input){
   }
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, bool flat_earth)
 {
   
   //If rotation/orbit are not paused, increment the angles.
@@ -127,8 +130,20 @@ void Object::Update(unsigned int dt)
   orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(orbit_scale * config.orbit_distance,0.0,0.0));
   orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,config.orbit_axis);
   location = orbit;
-  rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
-  scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
+  //rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
+  //for flat earth
+  if(flat_earth == true)
+  {
+    scale = glm::scale(glm::mat4(1.0f),
+            glm::vec3(config.scale*planet_scale, 1.0, config.scale*planet_scale));
+    rotation = glm::rotate(glm::mat4(1.0f),0.0f,config.rotation_axis);
+  }
+  else
+  {
+    scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
+    rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
+  }
+  //scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
   if(parent != NULL){
     model = parent->GetLocation() * orbit * rotation * scale;
     location = parent->GetLocation() * orbit;

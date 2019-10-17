@@ -59,7 +59,7 @@ NOTE: After starting, would recommend resetting the view with middle mouse as mo
 | <kbd>A</kbd> | . |
 | <kbd>S</kbd> | . |
 | <kbd>D</kbd> | . |
-| <kbd>F</kbd> | . |
+| <kbd>F</kbd> | Discover the truth (read extra credit below) |
 | <kbd>R</kbd> | . |
 | <kbd>&#8592;</kbd> | Move left |
 | <kbd>&#8593;</kbd> | Move forward |
@@ -83,4 +83,5 @@ Live adjustment of simulation speed - Done.
 Configuration file - Using the implemented timyxml2 library, we use .xml files for configurations.  
 Option to go from actual data to scaled view - By switching the config folder, you can do just that.  
 
-*Flat Earth though...*
+Is the Earth really round? Press <kbd>F</kbd> when Earth is selected by <kbd>Tab</kbd> (read terminal to check that) to toggle the flat earth and read a message from: wiki.tfes.org  
+NOTE: This piece of extra credit is intended as a joke.  
