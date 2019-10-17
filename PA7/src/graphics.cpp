@@ -146,17 +146,6 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   if(input == 'f' && selected_index == 3)
   {
     HandleFlatEarth();
-    /*
-    if(flat_earth == false)
-    {
-      flat_earth = true;
-    }
-    else
-    {
-      flat_earth = false;
-    }
-    std::cout << "The Earth is flat: " << std::boolalpha << flat_earth << std::endl;
-    */
   }
   // Update selected object
   for(unsigned int i = 0; i < objects.size(); i++)
@@ -219,7 +208,7 @@ void Graphics::HandleFlatEarth()
     "various unconventional beliefs, the Society also occasionally engages in other " <<
     "controversial debates, striving to provide a voice for all free thinkers and Zeteticists." << 
     std::endl <<
-    "Source: wiki.tfes.org" <<
+    "(Source: wiki.tfes.org)" <<
     std::endl <<
     "What evidence do you have?" << 
     std::endl <<
