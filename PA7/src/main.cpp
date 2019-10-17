@@ -28,6 +28,9 @@ int main(int argc, char **argv)
     engine = NULL;
     return 1;
   }
+  printf("Starting Solar System\n");
+  printf("Team:\nEstela, Benjamin\nHewitt, Jonathon\nInouye, Sidney\n");
+  printf("-----------------\n");
   engine->Run();
   delete engine;
   engine = NULL;

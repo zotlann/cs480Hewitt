@@ -1,32 +1,7 @@
 #include "object.h"
 
 Object::Object()
-{/* 
-  Vertices = {
-    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f}},
-    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}},
-    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}},
-    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}},
-    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 0.0f}},
-    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}},
-    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}},
-    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}}
-  };
-  Indices = {
-    2, 3, 4,
-    8, 7, 6,
-    1, 5, 6,
-    2, 6, 7,
-    7, 8, 4,
-    1, 4, 8,
-    1, 2, 4,
-    5, 8, 6,
-    2, 1, 6,
-    3, 2, 7,
-    3, 7, 4,
-    5, 1, 8
-  };
-*/
+{
   // The index works at a 0th index
   for(unsigned int i = 0; i < Indices.size(); i++)
   {
@@ -94,6 +69,9 @@ void Object::processInput(char input){
       config.orbit_speed += 0.5;
       break;
     case 'f':
+      //the flat earth begins
+      break;
+    case 'b':
       if(config.orbit_paused){
         config.orbit_paused = false;
       }
@@ -118,7 +96,7 @@ void Object::processInput(char input){
   }
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, bool flat_earth)
 {
   
   //If rotation/orbit are not paused, increment the angles.
@@ -152,8 +130,20 @@ void Object::Update(unsigned int dt)
   orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(orbit_scale * config.orbit_distance,0.0,0.0));
   orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,config.orbit_axis);
   location = orbit;
-  rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
-  scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
+  //rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
+  //for flat earth
+  if(flat_earth == true)
+  {
+    scale = glm::scale(glm::mat4(1.0f),
+            glm::vec3(config.scale*planet_scale, 1.0, config.scale*planet_scale));
+    rotation = glm::rotate(glm::mat4(1.0f),0.0f,config.rotation_axis);
+  }
+  else
+  {
+    scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
+    rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
+  }
+  //scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
   if(parent != NULL){
     model = parent->GetLocation() * orbit * rotation * scale;
     location = parent->GetLocation() * orbit;
@@ -259,7 +249,7 @@ void Object::parseObjectConfig(char* object_config_filename){
 
   //set the rotation_acis
   if((element = object->FirstChildElement("raxis"))){
-    float angle_radians = element->FloatText() * M_PI / 180;
+    float angle_radians = (element->FloatText() + 90) * M_PI / 180;
     config.rotation_axis = glm::vec3(cos(angle_radians),sin(angle_radians),0.0);
   }
 

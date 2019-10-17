@@ -51,6 +51,7 @@ bool Engine::Initialize(Config cfg)
 
 void Engine::Run()
 {
+  glm::vec2 mouseLocation = {0.0,0.0};
   char input = '\0';  
   m_running = true;
 
@@ -59,20 +60,31 @@ void Engine::Run()
     // Update the DT
     m_DT = getDT();
 
+    mouseLocation = MouseMovement();
+
     // Check the keyboard input
     while(SDL_PollEvent(&m_event) != 0)
     {
       input = Keyboard() | Mouse();
       if(input) break;
     }
+
     // Update and render the graphics
-    m_graphics->Update(m_DT,input);
+    m_graphics->Update(m_DT,input,mouseLocation);
     m_graphics->Render();
     input = '\0';
 
     // Swap to the Window
     m_window->Swap();
   }
+}
+
+glm::vec2 Engine::MouseMovement()
+{
+  int x = 0;
+  int y = 0;
+  SDL_GetRelativeMouseState(&x, &y);
+  return glm::vec2(x,y);
 }
 
 //gets the mouse event and returns a char represent the mouse action 
@@ -83,18 +95,21 @@ char Engine::Mouse()
     m_running = false;
     return '\0';
   }
-  else if (m_event.type == SDL_MOUSEBUTTONDOWN){
-    
+  else if (m_event.type == SDL_MOUSEBUTTONDOWN)
+  {
     switch(m_event.button.button){
       case SDL_BUTTON_LEFT:
-        return 'q';
-	break;
+        return 1;
+        break;
       case SDL_BUTTON_RIGHT:
-	return 'a';
-	break;
+        return 2;
+        break;
+      case SDL_BUTTON_MIDDLE:
+        return 3;
+        break;
       default:
-	return '\0';
-	break;
+        return '\0';
+        break;
     }
   }
   return '\0';
@@ -112,50 +127,78 @@ char Engine::Keyboard()
   {
     switch(m_event.key.keysym.sym){
       case SDLK_ESCAPE:
+        printf("Exiting Solar System\n");
         m_running = false;
-	break;
+        break;
       case SDLK_TAB:
-	return '\t';
-	break;
+        return '\t';
+        break;
       case SDLK_q:
-	return 'q';
-	break;
+        return 'q';
+        break;
       case SDLK_w:
-	return 'w';
-	break;
+        return 'w';
+        break;
       case SDLK_e:
         return 'e';
-	break;
+        break;
       case SDLK_r:
-	return 'r';
-	break;
+        return 'r';
+        break;
+      case SDLK_t:
+        return 't';
+        break;
+      case SDLK_y:
+        return 'y';
+        break;
       case SDLK_a:
         return 'a';
-	break;
+        break;
       case SDLK_s:
-	return 's';
-	break;
+        return 's';
+        break;
       case SDLK_d:
-	return 'd';
-	break;
+        return 'd';
+        break;
       case SDLK_f:
         return 'f';
-	break;
+        break;
       case SDLK_z:
-	return 'z';
-	break;
+        return 'z';
+        break;
       case SDLK_x:
-	return 'x';
-	break;
+        return 'x';
+        break;
       case SDLK_c:
-	return 'c';
-	break;
+        return 'c';
+        break;
       case SDLK_v:
-	return 'v';
-	break;
+        return 'v';
+        break;
+      case SDLK_b:
+        return 'b';
+        break;
+      case SDLK_n:
+        return 'n';
+        break;
+      case SDLK_m:
+        return 'm';
+        break;
+      case SDLK_UP:
+        return '^';
+        break;
+      case SDLK_DOWN:
+        return 'V'; // yes, that's a capital v
+        break;
+      case SDLK_LEFT:
+        return '<';
+        break;
+      case SDLK_RIGHT:
+        return '>';
+        break;
       default:
-	return '\0';
-	break;
+        return '\0';
+        break;
       }
   }
   return '\0';

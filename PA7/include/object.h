@@ -62,7 +62,7 @@ class Object
     Object();
     Object(char* object_config_filename);
     ~Object();
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, bool flat_earth);
     void processInput(char input);
     void Input(char input);
     void Render();
@@ -90,6 +90,7 @@ class Object
     void Deselect();
 
     float getScale();
+  
   private:
     glm::mat4 model;
     glm::mat4 location;
