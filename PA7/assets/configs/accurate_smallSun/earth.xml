@@ -7,7 +7,7 @@
 	<odistance>96</odistance>
 	<oaxis>0</oaxis>
 	<opaused>false</opaused>
-	<rspeed>0</rspeed>
+	<rspeed>0.04167</rspeed>
 	<rangle>0</rangle>
 	<raxis>23.44</raxis>
 	<rpaused>false</rpaused>

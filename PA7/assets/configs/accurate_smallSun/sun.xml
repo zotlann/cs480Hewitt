@@ -6,8 +6,9 @@
 	<oangle>0</oangle>
 	<odistance>0</odistance>
 	<opaused>false</opaused>
-	<rspeed>-1.5</rspeed>
-	<rangle>7.25</rangle>
+	<rspeed>.001641</rspeed>
+	<rangle>0</rangle>
+	<raxis>7.25</raxis>
 	<rpaused>false</rpaused>
 	<scale>10</scale>
 	<satelites>

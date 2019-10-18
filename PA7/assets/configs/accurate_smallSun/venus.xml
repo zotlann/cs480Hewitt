@@ -6,7 +6,7 @@
 	<oangle>0.6</oangle>
 	<odistance>67</odistance>
 	<opaused>false</opaused>
-	<rspeed>0</rspeed>
+	<rspeed>-.00001713</rspeed>
 	<rangle>0</rangle>
 	<raxis>2.64</raxis>
 	<rpaused>false</rpaused>
