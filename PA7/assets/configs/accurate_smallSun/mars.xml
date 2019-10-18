@@ -11,5 +11,9 @@
 	<rangle>0</rangle>
 	<raxis>25.19</raxis>
 	<rpaused>false</rpaused>
+	<satelites>
+		<s1>../assets/configs/accurate_smallSun/deimos.xml</s1>
+		<s2>../assets/configs/accurate_smallSun/phobos.xml</s2>
+	</satelites>
 	<scale>2.1061</scale>
 </planet>

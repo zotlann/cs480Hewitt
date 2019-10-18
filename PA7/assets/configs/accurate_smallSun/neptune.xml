@@ -13,6 +13,14 @@
 	<rpaused>false</rpaused>
 	<satelites>
 		<s1>../assets/configs/accurate_smallSun/nrings.xml</s1>
+		<s2>../assets/configs/accurate_smallSun/triton.xml</s2>
+		<s3>../assets/configs/accurate_smallSun/naiad.xml</s3>
+		<s4>../assets/configs/accurate_smallSun/proteus.xml</s4>
+		<s5>../assets/configs/accurate_smallSun/despina.xml</s5>
+		<s6>../assets/configs/accurate_smallSun/galatea.xml</s6>
+		<s7>../assets/configs/accurate_smallSun/larissa.xml</s7>
+		<s8>../assets/configs/accurate_smallSun/thalassa.xml</s8>
+		<s9>../assets/configs/accurate_smallSun/nereid.xml</s9>
 	</satelites>
 	<scale>15.299</scale>
 </planet>

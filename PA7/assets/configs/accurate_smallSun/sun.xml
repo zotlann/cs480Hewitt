@@ -1,7 +1,7 @@
 <planet>
 	<model>../assets/objects/Planet.obj</model>
 	<texture>../assets/textures/2k_sun.jpg</texture>
-	<name>sun</name>
+	<name>Sun</name>
 	<ospeed>0</ospeed>
 	<oangle>0</oangle>
 	<odistance>0</odistance>

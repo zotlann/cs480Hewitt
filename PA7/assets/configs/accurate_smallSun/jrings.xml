@@ -1,7 +1,7 @@
 <planet>
 	<model>../assets/objects/Rings_Jupiter.obj</model>
 	<texture>../assets/textures/uranus07_sk12.jpg</texture>
-	<name>Saturn-ring</name>
+	<name>Jupiter-ring</name>
 	<ospeed>0</ospeed>
 	<oangle>0</oangle>
 	<raxis>3.13</raxis>
