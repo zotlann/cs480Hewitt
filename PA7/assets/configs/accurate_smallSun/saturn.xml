@@ -14,5 +14,6 @@
 	<scale>36.184</scale>
 	<satelites>
 		<s1>../assets/configs/accurate_smallSun/sring.xml</s1>
+		<s2>../assets/configs/accurate_smallSun/titan.xml</s2>
 	</satelites>
 </planet>

@@ -1,6 +1,6 @@
 <planet>
 	<model>../assets/objects/Rings_Neptune.obj</model>
-	<texture>../assets/textures/uranus07_sk12.jpg</texture>
+	<texture>../assets/textures/2k_neptune_rings.png</texture>
 	<name>Neptune-ring</name>
 	<ospeed>0</ospeed>
 	<oangle>0</oangle>

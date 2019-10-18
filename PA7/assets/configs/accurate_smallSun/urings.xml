@@ -1,6 +1,6 @@
 <planet>
 	<model>../assets/objects/Rings_Jupiter.obj</model>
-	<texture>../assets/textures/uranus07_sk12.jpg</texture>
+	<texture>../assets/textures/2k_uranus_rings.png</texture>
 	<name>Uranus-ring</name>
 	<ospeed>0</ospeed>
 	<oangle>0</oangle>
