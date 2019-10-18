@@ -2,12 +2,13 @@
 	<model>../assets/objects/Planet.obj</model>
 	<texture>../assets/textures/2k_mars.jpg</texture>
 	<name>Mars</name>
-	<ospeed>0</ospeed>
+	<ospeed>0.24077</ospeed>
 	<oangle>1.2</oangle>
 	<odistance>142</odistance>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
 	<rangle>0</rangle>
+	<raxis>25.19</raxis>
 	<rpaused>false</rpaused>
 	<scale>2.1061</scale>
 </planet>

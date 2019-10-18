@@ -2,9 +2,9 @@
 	<model>../assets/objects/Planet.obj</model>
 	<texture>../assets/textures/2k_moon.jpg</texture>
 	<name>Moon</name>
-	<ospeed>0</ospeed>
+	<ospeed>5</ospeed>
 	<oangle>0</oangle>
-	<odistance>2</odistance>
+	<odistance>17</odistance>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
 	<rangle>0</rangle>

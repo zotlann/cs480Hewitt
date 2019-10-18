@@ -2,12 +2,12 @@
 	<model>../assets/objects/Planet.obj</model>
 	<texture>../assets/textures/2k_jupiter.jpg</texture>
 	<name>Jupiter</name>
-	<ospeed>0</ospeed>
+	<ospeed>0.1307</ospeed>
 	<oangle>1.5</oangle>
 	<odistance>483</odistance>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
-	<rangle>0</rangle>
+	<rangle>3.13</rangle>
 	<rpaused>false</rpaused>
 	<scale>43.441</scale>
 </planet>

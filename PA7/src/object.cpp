@@ -28,6 +28,8 @@ Object::Object(char* object_config_filename)
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+
+  time_scale = .01;
 }
 
 Object::~Object()
@@ -41,15 +43,15 @@ Object::~Object()
 void Object::processInput(char input){
  switch(input){
     case 'q':
-      time_scale -= 0.5;
+      time_scale -= 0.05;
       //config.rotation_direction *= -1;
       break;
     case 'w':
-      time_scale += 0.5;
+      time_scale += 0.05;
       //config.rotation_speed -= 0.5;
       break;
     case 'e':
-      config.rotation_speed += 0.5;
+      config.rotation_speed += 0.05;
       break;
     case 'r':
       if(config.rotation_paused){

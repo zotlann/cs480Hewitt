@@ -2,12 +2,13 @@
 	<model>../assets/objects/Planet.obj</model>
 	<texture>../assets/textures/2k_pluto_imagiined.jpg</texture>
 	<name>Pluto</name>
-	<ospeed>0</ospeed>
+	<ospeed>0.04749</ospeed>
 	<oangle>2.7</oangle>
-	<odistance>3670</odistance>
+	<odistance>3170</odistance>
 	<opaused>false</opaused>
 	<rspeed>0</rspeed>
 	<rangle>0</rangle>
+	<raxis>57.47</raxis>
 	<rpaused>false</rpaused>
-	<scale>0.73838</scale>
+	<scale>4</scale>
 </planet>
