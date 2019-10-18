@@ -43,12 +43,19 @@ Object::~Object()
 void Object::processInput(char input){
  switch(input){
     case 'q':
+<<<<<<< HEAD
       time_scale -= 0.05;
       //config.rotation_direction *= -1;
       break;
     case 'w':
       time_scale += 0.05;
       //config.rotation_speed -= 0.5;
+=======
+      time_scale -= 0.5;
+      break;
+    case 'w':
+      time_scale += 0.5;
+>>>>>>> 9096af877cb3b122a6b79878c727b85318fd9b2d
       break;
     case 'e':
       config.rotation_speed += 0.05;
@@ -69,9 +76,6 @@ void Object::processInput(char input){
       break;
     case 'd':
       config.orbit_speed += 0.5;
-      break;
-    case 'f':
-      //the flat earth begins
       break;
     case 'b':
       if(config.orbit_paused){
