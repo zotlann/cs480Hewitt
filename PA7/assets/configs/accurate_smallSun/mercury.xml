@@ -3,7 +3,7 @@
 	<texture>../assets/textures/2k_mercury.jpg</texture>
 	<name>Mercury</name>
 	<ospeed>.4787</ospeed>
-	<oangle>1.2</oangle>
+	<oangle>327.59</oangle>
 	<odistance>36</odistance>
 	<oaxis>7.01</oaxis>
 	<opaused>false</opaused>

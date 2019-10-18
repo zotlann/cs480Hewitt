@@ -3,7 +3,7 @@
 	<texture>../assets/textures/2k_mars.jpg</texture>
 	<name>Mars</name>
 	<ospeed>0.24077</ospeed>
-	<oangle>1.2</oangle>
+	<oangle>63.06</oangle>
 	<oaxis>1.85</oaxis>
 	<odistance>142</odistance>
 	<opaused>false</opaused>

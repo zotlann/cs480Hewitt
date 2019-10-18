@@ -3,7 +3,7 @@
 	<texture>../assets/textures/2k_saturn.jpg</texture>
 	<name>Saturn</name>
 	<ospeed>0.0969</ospeed>
-	<oangle>1.8</oangle>
+	<oangle>246.21</oangle>
 	<oaxis>2.49</oaxis>
 	<odistance>890</odistance>
 	<opaused>false</opaused>

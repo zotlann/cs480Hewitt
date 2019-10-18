@@ -3,7 +3,7 @@
 	<texture>../assets/textures/2k_pluto_imagiined.jpg</texture>
 	<name>Pluto</name>
 	<ospeed>0.04749</ospeed>
-	<oangle>2.7</oangle>
+	<oangle>5.35</oangle>
 	<oaxis>120</oaxis>
 	<odistance>3170</odistance>
 	<opaused>false</opaused>

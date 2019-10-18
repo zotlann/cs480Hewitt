@@ -3,7 +3,7 @@
 	<texture>../assets/textures/2k_neptune.jpg</texture>_
 	<name>Neptune</name>
 	<ospeed>0.0543</ospeed>
-	<oangle>2.1</oangle>
+	<oangle>358.54</oangle>
 	<odistance>2793</odistance>
 	<opaused>false</opaused>
 	<rspeed>0.06204</rspeed>

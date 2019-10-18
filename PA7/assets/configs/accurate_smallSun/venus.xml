@@ -3,7 +3,7 @@
 	<texture>../assets/textures/2k_venus_surface.jpg</texture>
 	<name>Venus</name>
 	<ospeed>.3502</ospeed>
-	<oangle>0.6</oangle>
+	<oangle>329.47</oangle>
 	<oaxis>3.39</oaxis>
 	<odistance>67</odistance>
 	<opaused>false</opaused>

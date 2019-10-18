@@ -3,9 +3,9 @@
 	<texture>../assets/textures/2k_earth_daymap.jpg</texture>
 	<name>Earth</name>
 	<ospeed>0.2978</ospeed>
-	<oangle>0.9</oangle>
+	<oangle>278.26</oangle>
 	<odistance>96</odistance>
-	<oaxis>0</oaxis>
+	<oaxis>1.6</oaxis>
 	<opaused>false</opaused>
 	<rspeed>0.04167</rspeed>
 	<rangle>0</rangle>

@@ -3,7 +3,7 @@
 	<texture>../assets/textures/2k_uranus.jpg</texture>
 	<name>Uranus</name>
 	<ospeed>0.0681</ospeed>
-	<oangle>2.4</oangle>
+	<oangle>306.21</oangle>
 	<odistance>1784</odistance>
 	<oaxis>0.77</oaxis>
 	<opaused>false</opaused>
