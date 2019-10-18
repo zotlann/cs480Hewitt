@@ -4,10 +4,12 @@
 	<name>Saturn-ring</name>
 	<ospeed>0</ospeed>
 	<oangle>0</oangle>
+	<raxis>26.73</raxis>
+	<oaxis>0</oaxis>
 	<odistance>0</odistance>
-	<opaused>true</opaused>
-	<rspeed>0</rspeed>
+	<opaused>false</opaused>
+	<rspeed>0.09384</rspeed>
 	<rangle>0</rangle>
-	<rpaused>true</rpaused>
+	<rpaused>false</rpaused>
 	<scale>20</scale>
 </planet>

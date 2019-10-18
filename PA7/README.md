@@ -14,7 +14,7 @@ To run this project on Linux, installation of these three programs are required 
 This project uses OpenGL 3.3. Some computers, such as virtual machines in the ECC, can not run this version. In in order to run OpenGL 2.7 follow the instructions at [Using OpenGL 2.7](https://github.com/HPC-Vis/computer-graphics/wiki/Using-OpenGL-2.7)
 
 ### Ubuntu/Linux
-Assimp and Magick++ are needed. Also fun fact, the makefile we use will be different than the one pushed for grading.
+Assimp and Magick++ are needed.
 ```bash
 sudo apt-get install libglew-dev libglm-dev libsdl2-dev libassimp-dev
 ```
@@ -32,15 +32,19 @@ make
 
 ## Usage Instructions
 ```bash
-./PA7 -v [vector_shader] -f [fragment_shader] -c [master_config_file]
+./PA7 -c [master_config_file]
 ```
 **EXAMPLE:**
 ```bash
-./PA7 -v ../assets/shaders/vshader -f ../assets/shaders/fshader -c ../assets/configs/[folder]/master.xml
+./PA7 -c ../assets/configs/[folder]/master.xml
 ```
-*OR*
+**Accurate with a small Sun: (recommended for graded)**
 ```bash
-./PA7 -c ../assets/configs/ben/master.xml
+./PA7 -c ../assets/configs/accurate_smallSun/master.xml
+```
+**Scaled: (can see smaller objects like Pluto easier)**
+```bash
+./PA7 -c ../assets/configs/scaled/master.xml
 ```
 NOTE: After starting, would recommend resetting the view with middle mouse as mouse movement to set the window into focus can throw off the camera.
 
@@ -50,38 +54,37 @@ NOTE: After starting, would recommend resetting the view with middle mouse as mo
 | Left Mouse | Move up |
 | Right Mouse | Move down |
 | Middle Mouse | Reset camera |
+| Move Mouse | Look around |
 
 ## Keyboard
 | Input | Output |
 | - |:-:|
-| <kbd>Q</kbd> | . |
-| <kbd>W</kbd> | . |
-| <kbd>A</kbd> | . |
-| <kbd>S</kbd> | . |
-| <kbd>D</kbd> | . |
-| <kbd>F</kbd> | Discover the truth (read extra credit below) |
-| <kbd>R</kbd> | . |
 | <kbd>&#8592;</kbd> | Move left |
 | <kbd>&#8593;</kbd> | Move forward |
 | <kbd>&#8594;</kbd> | Move right |
 | <kbd>&#8595;</kbd> | Move back |
 | <kbd>Tab</kbd> | Cycle through planets (terminal prints selected planet) |
-| <kbd>`</kbd> | . |
-| <kbd>1</kbd> | . |
-| <kbd>2</kbd> | . |
-| <kbd>3</kbd> | . |
-| <kbd>4</kbd> | . |
-| <kbd>5</kbd> | . |
-| <kbd>6</kbd> | . |
-| <kbd>7</kbd> | . |
-| <kbd>8</kbd> | . |
-| <kbd>9</kbd> | . |
-| <kbd>0</kbd> | . |
+| <kbd>Q</kbd> | Lower simulation speed of all planets |
+| <kbd>W</kbd> | Raise simulation speed of all planets |
+| <kbd>R</kbd> | Pause/unpause selected object’s rotation |
+| <kbd>A</kbd> | Flip selected object’s orbit direction |
+| <kbd>S</kbd> | Lower selected object’s orbit speed |
+| <kbd>D</kbd> | Raise selected object’s orbit speed |
+| <kbd>F</kbd> | When selected Earth, learn about the *truth* (read extra credit below) |
+| <kbd>Z</kbd> | Lower selected object’s orbit distance |
+| <kbd>X</kbd> | Raise selected object’s orbit distance |
+| <kbd>C</kbd> | Lower selected object’s scale |
+| <kbd>V</kbd> | Raise selected object’s scale |
+| <kbd>B</kbd> | Pause/unpause selected object’s orbit |
+
 
 ## Extra Credit
-Live adjustment of simulation speed - Done.  
-Configuration file - Using the implemented timyxml2 library, we use .xml files for configurations.  
-Option to go from actual data to scaled view - By switching the config folder, you can do just that.  
-
-Is the Earth really round? Press <kbd>F</kbd> when Earth is selected by <kbd>Tab</kbd> (read terminal to check that) to toggle the flat earth and read a message from: wiki.tfes.org  
+* Live adjustment of simulation speed occurs with <kbd>Q</kbd> and <kbd>E</kbd>  
+* Configuration files exists through TinyXML2 such that you do not have to recompile for config changes  
+* Option to go from actual data to scaled view does happen when changing master.xml configs  
+* Proper rings appear on Saturn, Neptune, Jupiter, and Uranus  
+* All planets are titled to their proper axis (ex. Earth being tilted 23.5°)
+* Planets also orbit in their proper axis too  
+* You can individual select each planet, satellite, as well as the Sun by pressing Tab and adjust some of attributes like speed (read above controls)  
+* Is the Earth really round? Press <kbd>F</kbd> when Earth is selected through <kbd>Tab</kbd> (read terminal to check that) to toggle the flat earth and read a message from: wiki.tfes.org  
 NOTE: This piece of extra credit is intended as a joke.  

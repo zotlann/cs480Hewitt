@@ -218,7 +218,7 @@ void Graphics::HandleFlatEarth()
   else
   {
     flat_earth = false;
-    for(int i = 0; i < 30; i++)
+    for(int i = 0; i < 60; i++)
     {
       std::cout << std::endl;
     }

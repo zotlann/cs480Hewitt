@@ -44,11 +44,9 @@ void Object::processInput(char input){
  switch(input){
     case 'q':
       time_scale -= 0.05;
-      //config.rotation_direction *= -1;
       break;
     case 'w':
       time_scale += 0.05;
-      //config.rotation_speed -= 0.5;
       break;
     case 'e':
       config.rotation_speed += 0.05;
