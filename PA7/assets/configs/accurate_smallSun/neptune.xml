@@ -9,6 +9,10 @@
 	<rspeed>0.06204</rspeed>
 	<rangle>0</rangle>
 	<raxis>28.32</raxis>
+	<oaxis>1.77</oaxis>
 	<rpaused>false</rpaused>
+	<satelites>
+		<s1>../assets/configs/accurate_smallSun/nrings.xml</s1>
+	</satelites>
 	<scale>15.299</scale>
 </planet>

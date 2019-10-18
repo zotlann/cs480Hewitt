@@ -4,6 +4,7 @@
 	<name>Pluto</name>
 	<ospeed>0.04749</ospeed>
 	<oangle>2.7</oangle>
+	<oaxis>120</oaxis>
 	<odistance>3170</odistance>
 	<opaused>false</opaused>
 	<rspeed>-0.006523</rspeed>

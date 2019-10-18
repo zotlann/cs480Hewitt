@@ -4,6 +4,7 @@
 	<name>Saturn</name>
 	<ospeed>0.0969</ospeed>
 	<oangle>1.8</oangle>
+	<oaxis>2.49</oaxis>
 	<odistance>890</odistance>
 	<opaused>false</opaused>
 	<rspeed>0.09384</rspeed>

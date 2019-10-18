@@ -2,12 +2,17 @@
 	<model>../assets/objects/Planet.obj</model>
 	<texture>../assets/textures/2k_jupiter.jpg</texture>
 	<name>Jupiter</name>
+	<oaxis>1.31</oaxis>
 	<ospeed>0.1307</ospeed>
 	<oangle>1.5</oangle>
 	<odistance>483</odistance>
 	<opaused>false</opaused>
 	<rspeed>0.100757</rspeed>
-	<rangle>3.13</rangle>
+	<rangle>0</rangle>
+	<raxis>3.13</raxis>
 	<rpaused>false</rpaused>
+	<satelites>
+		<s1>../assets/configs/accurate_smallSun/jrings.xml</s1>
+	</satelites>
 	<scale>43.441</scale>
 </planet>

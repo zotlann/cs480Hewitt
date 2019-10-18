@@ -5,10 +5,14 @@
 	<ospeed>0.0681</ospeed>
 	<oangle>2.4</oangle>
 	<odistance>1784</odistance>
+	<oaxis>0.77</oaxis>
 	<opaused>false</opaused>
 	<rspeed>-0.058005</rspeed>
 	<rangle>0</rangle>
 	<raxis>82.23</raxis>
 	<rpaused>false</rpaused>
+	<satelites>
+		<s1>../assets/configs/accurate_smallSun/urings.xml</s1>
+	</satelites>
 	<scale>15.759</scale>
 </planet>
