@@ -127,7 +127,7 @@ char Engine::Keyboard()
   {
     switch(m_event.key.keysym.sym){
       case SDLK_ESCAPE:
-        printf("Exiting Solar System\n");
+        printf("Exiting Program\n");
         m_running = false;
         break;
       case SDLK_TAB:
@@ -151,6 +151,18 @@ char Engine::Keyboard()
       case SDLK_y:
         return 'y';
         break;
+      case SDLK_u:
+        return 'u';
+        break;
+      case SDLK_i:
+        return 'i';
+        break;
+      case SDLK_o:
+        return 'o';
+        break;
+      case SDLK_p:
+        return 'p';
+        break;
       case SDLK_a:
         return 'a';
         break;
@@ -162,6 +174,21 @@ char Engine::Keyboard()
         break;
       case SDLK_f:
         return 'f';
+        break;
+      case SDLK_g:
+        return 'g';
+        break;
+      case SDLK_h:
+        return 'h';
+        break;
+      case SDLK_j:
+        return 'j';
+        break;
+      case SDLK_k:
+        return 'k';
+        break;
+      case SDLK_l:
+        return 'l';
         break;
       case SDLK_z:
         return 'z';
