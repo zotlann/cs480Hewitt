@@ -56,11 +56,13 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   std::vector<Object*> sat = m_cube->getSatelites();
 
-  for(unsigned int i = 0; i < sat.size(); i++){
+  for(unsigned int i = 0; i < sat.size(); i++)
+  {
     std::vector<Object*> sats = sat[i]->getSatelites();
     objects.push_back(sat[i]);
     followable_objects.push_back(sat[i]);
-    for(unsigned int j = 0; j < sats.size(); j++){
+    for(unsigned int j = 0; j < sats.size(); j++)
+    {
       objects.push_back(sats[j]);
     }
   }
@@ -130,12 +132,14 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
   // To scroll through planets
-  if(input == '\t'){
+  if(input == '\t')
+  {
     selected_index++;
     selected_index = selected_index % objects.size();
     std::cout << "Selected Object: " << objects[selected_index]->getName() << std::endl;
   }
-  if(std::isdigit(input)){
+  if(std::isdigit(input))
+  {
     following_index = input - '0';
   }
   // Update objects
@@ -145,7 +149,6 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   {
     objects[i]->Update(dt, false);
   }
-  
   // Update m_camera
   m_camera->Input(input, dt);
   m_camera->Update(dt, mouseLocation);
@@ -165,7 +168,8 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the objects
-  for(unsigned int i = 0; i < objects.size(); i++){
+  for(unsigned int i = 0; i < objects.size(); i++)
+  {
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
     objects[i]->Render();
   }

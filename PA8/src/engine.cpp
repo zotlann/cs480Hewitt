@@ -133,6 +133,36 @@ char Engine::Keyboard()
       case SDLK_TAB:
         return '\t';
         break;
+      case SDLK_1:
+        return '1';
+        break;
+      case SDLK_2:
+        return '2';
+        break;
+      case SDLK_3:
+        return '3';
+        break;
+      case SDLK_4:
+        return '4';
+        break;
+      case SDLK_5:
+        return '5';
+        break;
+      case SDLK_6:
+        return '6';
+        break;
+      case SDLK_7:
+        return '7';
+        break;
+      case SDLK_8:
+        return '8';
+        break;
+      case SDLK_9:
+        return '9';
+        break;
+      case SDLK_0:
+        return '0';
+        break;
       case SDLK_q:
         return 'q';
         break;

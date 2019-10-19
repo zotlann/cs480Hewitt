@@ -128,20 +128,8 @@ void Object::Update(unsigned int dt, bool flat_earth)
   orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(orbit_scale * config.orbit_distance,0.0,0.0));
   orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,config.orbit_axis);
   location = orbit;
-  //rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
-  //for flat earth
-  if(flat_earth == true)
-  {
-    scale = glm::scale(glm::mat4(1.0f),
-            glm::vec3(config.scale*planet_scale, 1.0, config.scale*planet_scale));
-    rotation = glm::rotate(glm::mat4(1.0f),0.0f,config.rotation_axis);
-  }
-  else
-  {
-    scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
-    rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
-  }
-  //scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
+  scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
+  rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
   if(parent != NULL){
     model = parent->GetLocation() * orbit * rotation * scale;
     location = parent->GetLocation() * orbit;
