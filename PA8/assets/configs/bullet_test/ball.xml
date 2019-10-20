@@ -1,0 +1,8 @@
+<object>
+	<model>../assets/objects/ball.obj</model>
+	<texture>../assets/textures/ball.jpg</texture>
+	<rigid-body>Dynamic</rigid-body>
+	<location-x>0</location-x>
+	<location-y>0</location-y>
+	<location-z>0</location-z>
+</object>
