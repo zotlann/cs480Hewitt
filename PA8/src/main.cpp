@@ -2,10 +2,6 @@
 
 #include "engine.h"
 
-float Object::orbit_scale;
-float Object::planet_scale;
-float Object::time_scale;
-
 bool parseCmdArgs(int argc, char **argv, Config* cfg);
 void loadConfig(char* config_filename, Config* cfg);
 
@@ -16,9 +12,6 @@ int main(int argc, char **argv)
   if(!parseCmdArgs(argc,argv,cfg)){
     return 0;
   }
-  Object::orbit_scale = cfg->orbit_scale*2;
-  Object::planet_scale = cfg->planet_scale;
-  Object::time_scale = cfg->time_scale; 
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine(cfg->window_name, cfg->w, cfg->h);
   if(!engine->Initialize(*cfg))
@@ -28,9 +21,6 @@ int main(int argc, char **argv)
     engine = NULL;
     return 1;
   }
-  printf("Starting PA8\n");
-  printf("Team:\nEstela, Benjamin\nHewitt, Jonathon\nInouye, Sidney\n");
-  printf("-----------------\n");
   engine->Run();
   delete engine;
   engine = NULL;
@@ -103,26 +93,28 @@ void loadConfig(char* config_filename, Config* cfg){
     cfg->h = element->Int64Text();
   }
 
-  //set the root object filename
-  if((element = config->FirstChildElement("root"))){
-    cfg->root_planet_filename = new char[256];
-    strcpy(cfg->root_planet_filename,element->GetText());
+  //set the ball filename
+  if((element = config->FirstChildElement("ball"))){
+    cfg->ball_config = new char[256];
+    strcpy(cfg->ball_config,element->GetText());
   }
 
-  //set the global orbit_scale
-  if((element = config->FirstChildElement("oscale"))){
-    cfg->orbit_scale  = element->FloatText();
+ //set the cube filename
+  if((element = config->FirstChildElement("cube"))){
+    cfg->cube_config = new char[256];
+    strcpy(cfg->cube_config,element->GetText());
   }
 
-  //set the global planet_scale
-  if((element = config->FirstChildElement("pscale"))){
-    cfg->planet_scale = element->FloatText();
+  //set the cylinder filename
+  if((element = config->FirstChildElement("cylinder"))){
+    cfg->cylinder_config = new char[256];
+    strcpy(cfg->cylinder_config,element->GetText());
   }
-
-  //set the global time_scale
-  if((element = config->FirstChildElement("tscale"))){
-    cfg->time_scale = element->FloatText();
+  
+  //set the table filename
+  if((element = config->FirstChildElement("table"))){
+    cfg->table_config = new char[256];
+    strcpy(cfg->table_config,element->GetText());
   }
-
 }
 

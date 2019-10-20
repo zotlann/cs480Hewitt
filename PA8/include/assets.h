@@ -7,9 +7,10 @@ struct Config{
   char* window_name;
   int w;
   int h;
-  char* root_planet_filename;
-  float orbit_scale;
-  float planet_scale;
-  float time_scale; 
+  char* ball_config;
+  char* cube_config;
+  char* cylinder_config;
+  char* table_config;
 };
+
 #endif

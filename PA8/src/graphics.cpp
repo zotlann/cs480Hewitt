@@ -45,33 +45,18 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   //Create the object
-  m_cube =  new Object(cfg.root_planet_filename);
+  m_ball =  new Object(cfg.ball_config);
+  m_cube = new Object(cfg.cube_config);
+  m_cylinder = new Object(cfg.cylinder_config);
+  m_table = new Object(cfg.table_config);
 
-  //set up the objects and followable_objects vectors
+  //set up the objects vector
   objects.clear();
+  objects.push_back(m_ball);
   objects.push_back(m_cube);
+  objects.push_back(m_cylinder);
+  objects.push_back(m_table);
 
-  followable_objects.clear();
-  followable_objects.push_back(m_cube);
-
-  std::vector<Object*> sat = m_cube->getSatelites();
-
-  for(unsigned int i = 0; i < sat.size(); i++)
-  {
-    std::vector<Object*> sats = sat[i]->getSatelites();
-    objects.push_back(sat[i]);
-    followable_objects.push_back(sat[i]);
-    for(unsigned int j = 0; j < sats.size(); j++)
-    {
-      objects.push_back(sats[j]);
-    }
-  }
-  followable_objects.push_back(NULL);
-
-  sat.clear();
-  selected_index = 0;
-  following_index = followable_objects.size() - 1;
-  
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -131,27 +116,12 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
-  // To scroll through planets
-  if(input == '\t')
-  {
-    selected_index++;
-    selected_index = selected_index % objects.size();
-    std::cout << "Selected Object: " << objects[selected_index]->getName() << std::endl;
+  //update the ball with user input
+  m_ball->ProcessInput(input);
+  //update all the objects
+  for(unsigned int i = 0; i < objects.size(); i++){
+    objects[i]->Update(dt);
   }
-  if(std::isdigit(input))
-  {
-    following_index = input - '0';
-  }
-  // Update objects
-  objects[selected_index]->processInput(input);
-  // Update selected object
-  for(unsigned int i = 0; i < objects.size(); i++)
-  {
-    objects[i]->Update(dt, false);
-  }
-  // Update m_camera
-  m_camera->Input(input, dt);
-  m_camera->Update(dt, mouseLocation);
 }
 
 void Graphics::Render()

@@ -28,11 +28,12 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    Object *m_cube;
+    Object* m_ball;
+    Object* m_cube;
+    Object* m_cylinder;
+    Object* m_table;
+
     std::vector<Object*> objects;
-    std::vector<Object*> followable_objects;
-    int selected_index;
-    int following_index;
 };
 
 #endif /* GRAPHICS_H */

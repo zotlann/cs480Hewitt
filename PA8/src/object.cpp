@@ -1,27 +1,13 @@
 #include "object.h"
 
-Object::Object()
-{
-  // The index works at a 0th index
-  for(unsigned int i = 0; i < Indices.size(); i++)
-  {
-    Indices[i] = Indices[i] - 1;
-  }
-  glGenBuffers(1, &VB);
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
-  glGenBuffers(1, &IB);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-  parent = NULL;
-  //btBroadphaseInterface *broadphase = new btDbvtBroadphase(); //For PA8
-}
-
 Object::Object(char* object_config_filename)
-{ 
-  parseObjectConfig(object_config_filename);
-  parent = NULL;
+{
+  //start with model matrix as identity matrix
+  model = glm::mat4(1.0f);
+  //parse the object's config file
+  ParseObjectConfig(object_config_filename);	
 
+  //generate the VB and IB buffers
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
@@ -29,8 +15,6 @@ Object::Object(char* object_config_filename)
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-
-  time_scale = .01;
 }
 
 Object::~Object()
@@ -41,102 +25,14 @@ Object::~Object()
 
 //takes a character representing keyboard input and performs the
 //proper mutations on the objects config
-void Object::processInput(char input){
+void Object::ProcessInput(char input)
+{
  switch(input){
-    case 'q':
-      time_scale -= 0.05;
-      break;
-    case 'w':
-      time_scale += 0.05;
-      break;
-    case 'e':
-      config.rotation_speed += 0.05;
-      break;
-    case 'r':
-      if(config.rotation_paused){
-        config.rotation_paused = false;
-      }
-      else{
-        config.rotation_paused = true;
-      }
-      break;
-    case 'a':
-      config.orbit_direction *= -1;
-      break;
-    case 's':
-      config.orbit_speed -= 0.5;
-      break;
-    case 'd':
-      config.orbit_speed += 0.5;
-      break;
-    case 'b':
-      if(config.orbit_paused){
-        config.orbit_paused = false;
-      }
-      else{
-        config.orbit_paused = true;
-      } 
-      break;
-    case 'z':
-      config.orbit_distance /= 1.1;
-      break;
-    case 'x':
-      config.orbit_distance *= 1.1;
-      break;
-    case 'c':
-      config.scale /= 1.1;
-      break;
-    case 'v':
-      config.scale *= 1.1;
-      break;
-    default:
-      break;
   }
 }
 
-void Object::Update(unsigned int dt, bool flat_earth)
+void Object::Update(unsigned int dt)
 {
-  
-  //If rotation/orbit are not paused, increment the angles.
-  if(!config.orbit_paused){
-    if(config.orbit_direction > 0){
-      config.orbit_angle += dt * time_scale * (M_PI + config.orbit_speed)/1000;
-    }
-    else{
-      config.orbit_angle -= dt * time_scale * (M_PI + config.orbit_speed)/1000;
-    }
-  }
-  if(!config.rotation_paused){
-    if(config.rotation_direction > 0){
-      config.rotation_angle += dt * time_scale * (M_PI + config.rotation_speed)/1000;
-    }
-    else{
-      config.rotation_angle -= dt * time_scale * (M_PI + config.orbit_speed)/1000;
-    }
-  }
-
-  //Calculate the final angles with all scalars.
-  float orbit_angle = config.orbit_angle;
-  float rotation_angle = config.rotation_angle;
-
-  glm::mat4 orbit;
-  glm::mat4 rotation;
-  glm::mat4 scale;
-  
-  //perform the rotations and translations
-  orbit = glm::rotate(glm::mat4(1.0f),orbit_angle,config.orbit_axis); 
-  orbit *= glm::translate(glm::mat4(1.0f),glm::vec3(orbit_scale * config.orbit_distance,0.0,0.0));
-  orbit *= glm::rotate(glm::mat4(1.0f),-orbit_angle,config.orbit_axis);
-  location = orbit;
-  scale = glm::scale(glm::mat4(1.0f),glm::vec3(config.scale*planet_scale));
-  rotation = glm::rotate(glm::mat4(1.0f),rotation_angle,config.rotation_axis);
-  if(parent != NULL){
-    model = parent->GetLocation() * orbit * rotation * scale;
-    location = parent->GetLocation() * orbit;
-  }
-  else{
-    model = orbit * rotation * scale;
-  }
 }
 
 glm::mat4 Object::GetModel()
@@ -146,7 +42,7 @@ glm::mat4 Object::GetModel()
 
 void Object::Render()
 {
-  glBindTexture(GL_TEXTURE_2D,m_texture);
+  glBindTexture(GL_TEXTURE_2D,texture);
 
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
@@ -165,124 +61,65 @@ void Object::Render()
 
 //Parses planet config files and creates an object with the proper config settings.
 //An example config file can be found in ../assets/entities/planet.conf
-void Object::parseObjectConfig(char* object_config_filename){
-  if(!object_config_filename){
-    return;
-  }
-
+void Object::ParseObjectConfig(char* object_config_filename)
+{
+  
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLError file_loaded = doc.LoadFile(object_config_filename);
   if(file_loaded != tinyxml2::XML_SUCCESS){
     std::string error;
     std::string filename(object_config_filename);
-    error  = "Could not find XML file: " + filename + "\n";
+    error  = "XMLError: " + std::to_string(file_loaded) + " in file: " + filename + "\n";
     throw std::logic_error(error);
   }
-  tinyxml2::XMLElement* object = doc.FirstChildElement("planet");
+  
+  tinyxml2::XMLElement* object = doc.FirstChildElement("object");
   tinyxml2::XMLElement* element = NULL;
 
   //set the model
   if((element = object->FirstChildElement("model"))){
     char* filename = new char[256];
     strcpy(filename,element->GetText());
-    parseObjFile(filename);
+    LoadModel(filename);
     delete filename;
-  }
-
-  //set the name
-  if((element = object->FirstChildElement("name"))){
-    char* name = new char[256];
-    strcpy(name,element->GetText());
-    config.name = name;
-    delete name;
-  }
-
-  //set the orbit_speed
-  if((element = object->FirstChildElement("ospeed"))){
-    config.orbit_speed = element->FloatText();
-  }
-
-  //set the orbit_angle
-  if((element = object->FirstChildElement("oangle"))){
-    config.orbit_angle = element->FloatText();
-  }
-
-  //set the orbit_distance
-  if((element = object->FirstChildElement("odistance"))){
-    config.orbit_distance = element->FloatText();
-  }
-  
-  //set the orbit_axis
-  if((element = object->FirstChildElement("oaxis"))){
-    float angle_radians = element->FloatText() * M_PI / 180;
-    config.orbit_axis = glm::vec3(0.0,cos(angle_radians),sin(angle_radians));
-  }
-
-  //set the orbit_paused flag
-  if((element = object->FirstChildElement("opaused"))){
-    config.orbit_paused = element->BoolText();
-  }
-
-  //set the rotation_speed
-  if((element = object->FirstChildElement("rspeed"))){
-    config.rotation_speed = element->FloatText();
-  }
-
-  //set the rotation_angle
-  if((element = object->FirstChildElement("rangle"))){
-    config.rotation_angle = element->FloatText();
-  }
-
-  //set the rotation_acis
-  if((element = object->FirstChildElement("raxis"))){
-    float angle_radians = (element->FloatText() + 90) * M_PI / 180;
-    config.rotation_axis = glm::vec3(cos(angle_radians),sin(angle_radians),0.0);
-  }
-
-  //set the rotation_paused flag
-  if((element = object->FirstChildElement("rpaused"))){
-    config.rotation_paused = element->BoolText();
-  }
-
-  //set the scale
-  if((element = object->FirstChildElement("scale"))){
-    config.scale = element->FloatText();
   }
 
   //set the texture filepath and load the texture
   if((element = object->FirstChildElement("texture"))){
-    strcpy(config.texture_filepath,element->GetText());
-    loadTexture(config.texture_filepath);
+    char* texture_filename = new char[256];
+    strcpy(texture_filename,element->GetText());
+    LoadTexture(texture_filename);
   }
 
-  //set satelites
-  if((element = object->FirstChildElement("satelites"))){
-    char* filename = new char[256];
-    if((element = element->FirstChildElement())){
-      strcpy(filename,element->GetText());
-      Object* satelite = new Object(filename);
-      satelite->setParent(this);
-      satelites.push_back(satelite);
-      while((element = element->NextSiblingElement())){
-	strcpy(filename,element->GetText());
-        Object* new_satelite = new Object(filename);
-	new_satelite->setParent(this);
-	satelites.push_back(new_satelite);
-      }
-    }
-    delete filename;
+  //set the scale
+  if((element = object->FirstChildElement("scale"))){
+    model *= glm::scale(glm::mat4(1.0f),glm::vec3(element->FloatText()));
   }
-
+  //set the initial location
+  float x,y,z;
+  x = y = z = 0;
+  if((element = object->FirstChildElement("location-x"))){
+    x = element->FloatText();
+  }
+  if((element = object->FirstChildElement("location-y"))){
+    y = element->FloatText();
+  }
+  if((element = object->FirstChildElement("location-z"))){
+    z = element->FloatText();
+  }
+  model *= glm::translate(glm::mat4(1.0f),glm::vec3(x,y,z)); 
 }
 
-void Object::parseObjFile(char* obj_filename){
+void Object::LoadModel(char* obj_filename)
+{
+  //set up importer object
   Assimp::Importer importer;
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
   if(!my_scene){
-    throw std::logic_error("Could not open .obj file");
+    throw std::logic_error("Could not open .obj file: " + std::string(obj_filename));
   } 
-  //assuming there is only one mesh, which should be the case for .obj files, the first mesh is
-  //the one we're interested in
+
+  //iterate through the meshes and load vertices and indices for each 
   for(unsigned int j = 0; j < my_scene->mNumMeshes; j++){ 
   aiMesh* mesh = my_scene->mMeshes[j];
   //Process Vertices
@@ -312,13 +149,16 @@ void Object::parseObjFile(char* obj_filename){
   }
 }
 
-void Object::loadTexture(char* texture_filepath){
+void Object::LoadTexture(char* texture_filepath)
+{
   Magick::Image* image;
   Magick::Blob blob;
   GLuint texture;
 
+  //initialize imagemagick
   Magick::InitializeMagick(NULL);
 
+  //load the image data into a blob and bind textures
   image = new Magick::Image(texture_filepath);
   image->write(&blob,"RGBA");
   glGenTextures(1,&texture);
@@ -331,47 +171,12 @@ void Object::loadTexture(char* texture_filepath){
   glBindTexture(GL_TEXTURE_2D,0);
 }
 
-GLuint Object::getTexture(){
-	return m_texture;
+GLuint Object::getTexture()
+{
+	return texture;
 }
 
-void Object::setTexture(GLuint text){
-	m_texture = text;
-}
-
-std::vector<Object*> Object::getSatelites(){
-  return satelites;
-}
-
-void Object::setSatelites(std::vector<Object*> s){
-  satelites = s;
-}
-
-Object* Object::getParent(){
-  return parent;
-}
-
-void Object::setParent(Object* p){
-  parent = p;
-}
-
-glm::mat4 Object::GetLocation(){
-  return location;
-}
-
-bool Object::isSelected(){
-  return selected;
-}
-void Object::Select(){
-  selected = true;
-}
-void Object::Deselect(){
-  selected = false;
-}
-
-std::string Object::getName(){
-  return config.name;
-}
-float Object::getScale(){
-  return config.scale;
+void Object::setTexture(GLuint text)
+{
+	texture = text;
 }
