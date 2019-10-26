@@ -8,6 +8,7 @@ using namespace std;
 #include "camera.h"
 #include "shader.h"
 #include "object.h"
+#include "physics.h"
 
 class Graphics
 {
@@ -32,6 +33,8 @@ class Graphics
     Object* m_cube;
     Object* m_cylinder;
     Object* m_table;
+
+    PhysicsWorld world;
 
     std::vector<Object*> objects;
 };
