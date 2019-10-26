@@ -4,8 +4,31 @@ Object::Object(char* object_config_filename)
 {
   //start with model matrix as identity matrix
   model = glm::mat4(1.0f);
+
   //parse the object's config file
-  ParseObjectConfig(object_config_filename);	
+  ParseObjectConfig(object_config_filename);
+
+  //load the objects collision shape
+  LoadShape(cfg.shape);
+
+  //sets up rigidBody information
+  //TODO
+  //put this into a LoadBody Function
+  inertia = btVector3(0,0,0);
+  btTransform transform;
+  transform.setIdentity();
+  transform.setOrigin(btVector3(location.x,location.y,location.z));
+  shape->calculateLocalInertia(cfg.mass,inertia);
+  btMotionState* motion = new btDefaultMotionState(transform);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(200,motion,shape,inertia);
+  rigid_body_information.m_restitution = cfg.restitution;
+  rigid_body_information.m_friction = 0;
+  body = new btRigidBody(rigid_body_information);
+  std::cout << std::boolalpha << cfg.is_dynamic << std::endl;
+  if(cfg.is_dynamic){
+    bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
+    body->setCollisionFlags(collision_flags);
+  }
 
   //generate the VB and IB buffers
   glGenBuffers(1, &VB);
@@ -33,6 +56,13 @@ void Object::ProcessInput(char input)
 
 void Object::Update(unsigned int dt)
 {
+  btTransform transform;
+  body->getMotionState()->getWorldTransform(transform);
+
+  btScalar m[16];
+  transform.getOpenGLMatrix(m);
+  model = glm::make_mat4(m);
+  model *= glm::scale(glm::vec3(cfg.scale,cfg.scale,cfg.scale));
 }
 
 glm::mat4 Object::GetModel()
@@ -93,8 +123,29 @@ void Object::ParseObjectConfig(char* object_config_filename)
 
   //set the scale
   if((element = object->FirstChildElement("scale"))){
-    model *= glm::scale(glm::mat4(1.0f),glm::vec3(element->FloatText()));
+    float scale = element->FloatText();
+    cfg.scale = scale;
   }
+
+  //set the object shape
+  if((element = object->FirstChildElement("shape"))){
+    char* shape = new char[256];
+    strcpy(shape,element->GetText());
+    cfg.shape = shape;
+  }
+  
+  //set the is_dynamic flag
+  if((element = object->FirstChildElement("dynamic"))){
+    bool dynamic = element->BoolText();
+    cfg.is_dynamic = dynamic;
+  }
+  
+  //set the mass
+  if((element = object->FirstChildElement("mass"))){
+    float m = element->FloatText();
+    cfg.mass = m;
+  }
+
   //set the initial location
   float x,y,z;
   x = y = z = 0;
@@ -107,7 +158,8 @@ void Object::ParseObjectConfig(char* object_config_filename)
   if((element = object->FirstChildElement("location-z"))){
     z = element->FloatText();
   }
-  model *= glm::translate(glm::mat4(1.0f),glm::vec3(x,y,z)); 
+  location = glm::vec3(x,y,z);
+  model *= glm::translate(glm::mat4(1.0f),location); 
 }
 
 void Object::LoadModel(char* obj_filename)
@@ -162,7 +214,7 @@ void Object::LoadTexture(char* texture_filepath)
   image = new Magick::Image(texture_filepath);
   image->write(&blob,"RGBA");
   glGenTextures(1,&texture);
-  setTexture(texture);
+  SetTexture(texture);
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D,texture);
   glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->columns(),image->rows(),-0.5,GL_RGBA,GL_UNSIGNED_BYTE,blob.data());
@@ -176,7 +228,51 @@ GLuint Object::getTexture()
 	return texture;
 }
 
-void Object::setTexture(GLuint text)
+void Object::SetTexture(GLuint text)
 {
 	texture = text;
+}
+
+void Object::LoadShape(char* shape_str){
+  if((strcmp(shape_str,"mesh"))){
+    btTriangleMesh* triangle_mesh = new btTriangleMesh();
+    for(unsigned int i = 0; i < Indices.size() - 2; i+=3){
+      btVector3 v1(Vertices[i].vertex.x,Vertices[i].vertex.y,Vertices[i].vertex.z);
+      btVector3 v2(Vertices[i+1].vertex.x,Vertices[i+1].vertex.y,Vertices[i+1].vertex.z);
+      btVector3 v3(Vertices[i+2].vertex.x,Vertices[i+2].vertex.y,Vertices[i+2].vertex.z);
+      triangle_mesh->addTriangle(v1,v2,v3);
+    }
+    if(cfg.is_dynamic){
+      shape = new btBvhTriangleMeshShape(triangle_mesh,true);
+    }
+    else{
+      shape = new btConvexTriangleMeshShape(triangle_mesh,true);
+    }
+    shape->setLocalScaling(btVector3(cfg.scale,cfg.scale,cfg.scale));
+  }
+  else if((strcmp(shape_str,"sphere"))){
+    btScalar radius = cfg.scale;
+    shape = new btSphereShape(radius*radius);
+  }
+  else if((strcmp(shape_str,"box"))){
+    btVector3 vec = {cfg.width*cfg.scale,cfg.height*cfg.scale,cfg.length*cfg.scale};
+    shape = new btBoxShape(vec);
+  }
+  else if((strcmp(shape_str,"cylinder"))){
+    btVector3 vec = {cfg.radius*cfg.scale,cfg.width*cfg.scale,cfg.radius*cfg.scale};
+    shape = new btCylinderShape(vec);
+  }
+  else if((strcmp(shape_str, "plane"))){
+    btVector3 vec = {cfg.width,cfg.height,cfg.length};
+    btScalar plane_const = 0;
+    shape = new btStaticPlaneShape(vec,plane_const);
+  }
+}
+
+float Object::Scale(){
+  return cfg.scale;
+}
+
+btRigidBody* Object::GetRigidBody(){
+  return body;
 }
