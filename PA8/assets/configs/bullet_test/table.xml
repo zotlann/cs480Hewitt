@@ -1,9 +1,11 @@
 <object>
 	<model>../assets/objects/tray.obj</model>
 	<texture>../assets/textures/table.jpg</texture>
-	<rigid-body>Dynamic</rigid-body>
+	<dynamic>false</dynamic>
+	<shape>mesh</shape>
 	<location-x>0</location-x>
 	<location-y>0</location-y>
 	<location-z>0</location-z>
 	<scale>20</scale>
+	<mass>0</mass>
 </object>

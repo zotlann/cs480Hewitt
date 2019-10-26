@@ -1,8 +1,12 @@
 <object>
 	<model>../assets/objects/ball.obj</model>
 	<texture>../assets/textures/ball.jpg</texture>
-	<rigid-body>Dynamic</rigid-body>
-	<location-x>0</location-x>
-	<location-y>0</location-y>
-	<location-z>0</location-z>
+	<dynamic>true</dynamic>
+	<shape>mesh</shape>
+	<radius>1</radius>
+	<location-x>4</location-x>
+	<location-y>4</location-y>
+	<location-z>4</location-z>
+	<scale>1</scale>
+	<mass>1</mass>
 </object>
