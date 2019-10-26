@@ -14,6 +14,20 @@
 #include "graphics_headers.h"
 #include "assets.h"
 
+struct ObjectConfig{
+	float restitution;
+	float friction;
+	float mass;
+	float scale;
+	float radius;
+	float width;
+	float length;
+	float height;
+	glm::vec3 inital_rotation;
+	bool is_dynamic;
+	char* shape;
+};
+
 class Object
 {
   public:
@@ -28,18 +42,32 @@ class Object
     void LoadTexture(char* texture_filepath);
 
     GLuint getTexture();
-    void setTexture(GLuint text);
+    void SetTexture(GLuint text);
 
     glm::mat4 GetModel();
-  
+
+    btRigidBody* GetRigidBody();
+
+    void LoadShape(char* shape); 
+
+    float Scale(); 
   private:
     glm::mat4 model;
+    glm::vec3 location;
+
+    btVector3 inertia;
     
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
     GLuint texture;
+
+    ObjectConfig cfg;
+
+    btCollisionShape* shape;
+    btRigidBody* body;
+
 };
 
 #endif /* OBJECT_H */
