@@ -44,19 +44,29 @@ bool Graphics::Initialize(int width, int height, Config cfg)
     return false;
   }
 
-  //Create the object
+  //Create the physics world
+  PhysicsWorld world;
+
+  //Create the objects
   m_ball =  new Object(cfg.ball_config);
   m_cube = new Object(cfg.cube_config);
   m_cylinder = new Object(cfg.cylinder_config);
-  m_table = new Object(cfg.table_config);
+  //m_table = new Object(cfg.table_config);
 
   //set up the objects vector
   objects.clear();
   objects.push_back(m_ball);
   objects.push_back(m_cube);
   objects.push_back(m_cylinder);
-  objects.push_back(m_table);
+  //objects.push_back(m_table);
 
+  //add the objects to the physics world
+  for(unsigned int i = 0; i < objects.size(); i++){
+    world.AddObject(objects[i]);
+  }
+
+  btRigidBody* bd = m_ball->GetRigidBody();
+  bd->applyCentralImpulse(btVector3(-1,0,0));
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -116,6 +126,8 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
+  //set the timestep
+  world.StepSimulation(dt);
   //update the ball with user input
   m_ball->ProcessInput(input);
   //update all the objects
