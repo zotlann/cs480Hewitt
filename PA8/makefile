@@ -15,7 +15,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x `Magick++-config --cppflags --cxxflags --ldflags --libs`
 
 # .o Compilation
-O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o
+O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o physics.o
 
 # Point to includes of local directories
 INDLUDES=-I../include -I/usr/include/bullet
@@ -46,6 +46,9 @@ window.o: ../src/window.cpp
 
 tinyxml2.o: ../src/tinyxml2.cpp
 	$(CC) $(CXXFLAGS) -c ../src/tinyxml2.cpp -o tinyxml2.o $(INDLUDES)
+
+physics.o: ../src/physics.cpp
+	$(CC) $(CXXFLAGS) -c ../src/physics.cpp -o physics.o $(INDLUDES)
 
 clean:
 	-@if rm *.o PA8 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
