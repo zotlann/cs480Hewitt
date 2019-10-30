@@ -62,6 +62,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   //add the objects to the physics world
   for(unsigned int i = 0; i < objects.size(); i++){
+    std::cout << "Am I static? " << objects[i]->GetRigidBody()->isStaticObject() << std::endl;
     world.AddObject(objects[i]);
   }
 
@@ -127,7 +128,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
   //set the timestep
-  world.StepSimulation(dt);
+  world.StepSimulation(dt); 
   //update the ball with user input
   m_ball->ProcessInput(input);
   //update all the objects

@@ -33,3 +33,8 @@ void PhysicsWorld::AddObject(Object* object){
 void PhysicsWorld::StepSimulation(unsigned int dt){
   dynamics_world->stepSimulation(dt/1000,10);
 }
+
+btDiscreteDynamicsWorld* PhysicsWorld::GetWorld()
+{
+  return dynamics_world;
+}

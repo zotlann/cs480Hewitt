@@ -7,5 +7,5 @@
 	<location-y>0</location-y>
 	<location-z>0</location-z>
 	<scale>1</scale>
-	<mass>1</mass>
+	<mass>10</mass>
 </object>

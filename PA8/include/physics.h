@@ -13,6 +13,8 @@ class  PhysicsWorld{
 		void AddObject(Object*);
 		void StepSimulation(unsigned int);
 
+		btDiscreteDynamicsWorld* GetWorld();
+
 	private:
 		btDiscreteDynamicsWorld* dynamics_world;
 		btBroadphaseInterface* broadphase;

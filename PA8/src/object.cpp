@@ -15,16 +15,16 @@ Object::Object(char* object_config_filename)
   //TODO
   //put this into a LoadBody Function
   shapeMotionState = NULL;
-  btTransform transform;
-  transform.setIdentity();
-  transform.setOrigin(btVector3(location.x,location.y,location.z));
-  shape->calculateLocalInertia(cfg.mass,inertia);
-  shapeMotionState = new btDefaultMotionState(transform);
-  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(cfg.mass,shapeMotionState,shape,inertia);
+  shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(1,1,1,1), 
+                                              btVector3(location.x,location.y,location.z)));
+  inertia = btVector3(1,1,1);
+  btScalar mass = btScalar(cfg.mass);
+  shape->calculateLocalInertia(mass,inertia);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,inertia);
   rigid_body_information.m_restitution = cfg.restitution;
   rigid_body_information.m_friction = 0;
   body = new btRigidBody(rigid_body_information);
-  std::cout << std::boolalpha << cfg.is_dynamic << std::endl;
+  std::cout << "Am I dynamic? " << std::boolalpha << cfg.is_dynamic << std::endl;
   /*
   if(cfg.is_dynamic){
     bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
@@ -62,11 +62,13 @@ void Object::Update(unsigned int dt)
 
   btScalar m[16];
   transform.getOpenGLMatrix(m);
+  /*
   for( int i = 0; i < 16; i++)
   {
     std::cout << m[i] << " ";
   }
   std::cout << std::endl;
+  */
   model = glm::make_mat4(m);
   model *= glm::scale(glm::vec3(cfg.scale,cfg.scale,cfg.scale));
 }
