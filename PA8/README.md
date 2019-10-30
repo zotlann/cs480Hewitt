@@ -6,7 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-Bullet.
+This project, PA8, uses the Bullet Physics Library to have collision detection and proper movement in our objects. While collision should work on our objects (also with triangle meshes!), nothing moves as of the early morning of October 30th.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -36,24 +36,14 @@ make
 ```
 **EXAMPLE:**
 ```bash
-./PA8 -c ../assets/configs/[folder]/master.xml
+./PA8 -c ../assets/configs/bullet_test/master.xml
 ```
-
-NOTE: After starting, would recommend resetting the view with middle mouse as mouse movement to set the window into focus can throw off the camera.
-
-## Mouse
-| Input | Output |
-| - |:-:|
-| Left Mouse | Move up |
-| Right Mouse | Move down |
-| Middle Mouse | Reset camera |
-| Move Mouse | Look around |
 
 ## Keyboard
 | Input | Output |
 | - |:-:|
-| <kbd>&#8592;</kbd> | Move left |
-| <kbd>&#8593;</kbd> | Move forward |
-| <kbd>&#8594;</kbd> | Move right |
-| <kbd>&#8595;</kbd> | Move back |
-| <kbd>Tab</kbd> | Cycle through objects (terminal prints selected object) |
+| <kbd>&#8592;</kbd> | N/A |
+| <kbd>&#8593;</kbd> | N/A |
+| <kbd>&#8594;</kbd> | N/A |
+| <kbd>&#8595;</kbd> | N/A |
+| <kbd>Tab</kbd> | N/A |
