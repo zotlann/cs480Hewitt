@@ -20,16 +20,17 @@ Object::Object(char* object_config_filename)
   transform.setOrigin(btVector3(location.x,location.y,location.z));
   shape->calculateLocalInertia(cfg.mass,inertia);
   shapeMotionState = new btDefaultMotionState(transform);
-  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(200,shapeMotionState,shape,inertia);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(cfg.mass,shapeMotionState,shape,inertia);
   rigid_body_information.m_restitution = cfg.restitution;
   rigid_body_information.m_friction = 0;
   body = new btRigidBody(rigid_body_information);
   std::cout << std::boolalpha << cfg.is_dynamic << std::endl;
+  /*
   if(cfg.is_dynamic){
     bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
     body->setCollisionFlags(collision_flags);
   }
-
+  */
   //generate the VB and IB buffers
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
