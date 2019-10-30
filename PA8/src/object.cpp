@@ -17,13 +17,15 @@ Object::Object(char* object_config_filename)
   shapeMotionState = NULL;
   shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(1,1,1,1), 
                                               btVector3(location.x,location.y,location.z)));
-  inertia = btVector3(1,1,1);
+  inertia = btVector3(0,0,0);
   btScalar mass = btScalar(cfg.mass);
   shape->calculateLocalInertia(mass,inertia);
   btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,inertia);
-  rigid_body_information.m_restitution = cfg.restitution;
-  rigid_body_information.m_friction = 0;
+  //rigid_body_information.m_restitution = cfg.restitution;
+  //rigid_body_information.m_friction = 0;
   body = new btRigidBody(rigid_body_information);
+  body->activate(true);
+  body->setActivationState(DISABLE_DEACTIVATION);
   std::cout << "Am I dynamic? " << std::boolalpha << cfg.is_dynamic << std::endl;
   /*
   if(cfg.is_dynamic){
@@ -58,19 +60,21 @@ void Object::ProcessInput(char input)
 void Object::Update(unsigned int dt)
 {
   btTransform transform;
-  body->getMotionState()->getWorldTransform(transform);
+  body->setFriction(0);
+  body->applyGravity();
+  transform = body->getWorldTransform();
+
 
   btScalar m[16];
   transform.getOpenGLMatrix(m);
-  /*
+  
   for( int i = 0; i < 16; i++)
   {
     std::cout << m[i] << " ";
   }
   std::cout << std::endl;
-  */
-  model = glm::make_mat4(m);
-  model *= glm::scale(glm::vec3(cfg.scale,cfg.scale,cfg.scale));
+
+  //model *= glm::scale(glm::vec3(cfg.scale,cfg.scale,cfg.scale));
 }
 
 glm::mat4 Object::GetModel()

@@ -17,8 +17,6 @@ PhysicsWorld::PhysicsWorld(){
   //set up the world
   dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config );
 
-  //set the gravity
-  dynamics_world->setGravity(btVector3(0,-9.8,0));
 }
 
 PhysicsWorld::~PhysicsWorld(){
@@ -31,10 +29,16 @@ void PhysicsWorld::AddObject(Object* object){
 }
 
 void PhysicsWorld::StepSimulation(unsigned int dt){
-  dynamics_world->stepSimulation(dt/1000,10);
+  dynamics_world->stepSimulation(dt,10);
+  std::cout << dynamics_world->getGravity().getY() << std::endl;
 }
 
 btDiscreteDynamicsWorld* PhysicsWorld::GetWorld()
 {
   return dynamics_world;
+}
+
+void PhysicsWorld::setGravity()
+{
+  dynamics_world->setGravity(btVector3(0,-100,0));
 }

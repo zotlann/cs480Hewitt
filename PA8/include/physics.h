@@ -5,6 +5,7 @@
 #include <btBulletCollisionCommon.h>
 #include <vector>
 #include "object.h"
+
 class  PhysicsWorld{
 	public:
 		PhysicsWorld();
@@ -14,6 +15,8 @@ class  PhysicsWorld{
 		void StepSimulation(unsigned int);
 
 		btDiscreteDynamicsWorld* GetWorld();
+		
+		void setGravity();
 
 	private:
 		btDiscreteDynamicsWorld* dynamics_world;
