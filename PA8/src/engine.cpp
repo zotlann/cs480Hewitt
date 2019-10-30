@@ -42,6 +42,7 @@ bool Engine::Initialize(Config cfg)
     return false;
   }
 
+
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
 

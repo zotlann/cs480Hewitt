@@ -2,7 +2,7 @@
 	<model>../assets/objects/cube.obj</model>
 	<texture>../assets/textures/cube.jpg</texture>
 	<dynamic>false</dynamic>
-	<shape>mesh</shape>
+	<shape>box</shape>
 	<location-x>10</location-x>
 	<location-y>0</location-y>
 	<location-z>0</location-z>

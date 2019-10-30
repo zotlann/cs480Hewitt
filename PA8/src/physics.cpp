@@ -2,16 +2,16 @@
 
 PhysicsWorld::PhysicsWorld(){
   //set up broadphase
-  btBroadphaseInterface* broadphase = new btDbvtBroadphase();
+  broadphase = new btDbvtBroadphase();
 
   //set up collision configuration
-  btDefaultCollisionConfiguration* collision_config = new btDefaultCollisionConfiguration();
+  collision_config = new btDefaultCollisionConfiguration();
 
   //set up dispatcher
-  btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collision_config);
+  dispatcher = new btCollisionDispatcher(collision_config);
 
   //set up solver
-  btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+  solver = new btSequentialImpulseConstraintSolver;
 
 
   //set up the world

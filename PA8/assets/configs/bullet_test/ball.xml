@@ -2,7 +2,7 @@
 	<model>../assets/objects/ball.obj</model>
 	<texture>../assets/textures/ball.jpg</texture>
 	<dynamic>true</dynamic>
-	<shape>mesh</shape>
+	<shape>box</shape>
 	<radius>1</radius>
 	<location-x>4</location-x>
 	<location-y>4</location-y>

@@ -15,6 +15,10 @@ class  PhysicsWorld{
 
 	private:
 		btDiscreteDynamicsWorld* dynamics_world;
+		btBroadphaseInterface* broadphase;
+		btDefaultCollisionConfiguration* collision_config;
+		btCollisionDispatcher* dispatcher;
+		btSequentialImpulseConstraintSolver* solver;
 };
 
 #endif

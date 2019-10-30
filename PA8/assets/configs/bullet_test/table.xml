@@ -2,7 +2,7 @@
 	<model>../assets/objects/tray.obj</model>
 	<texture>../assets/textures/table.jpg</texture>
 	<dynamic>false</dynamic>
-	<shape>mesh</shape>
+	<shape>box</shape>
 	<location-x>0</location-x>
 	<location-y>0</location-y>
 	<location-z>0</location-z>

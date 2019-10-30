@@ -67,7 +67,7 @@ class Object
 
     btCollisionShape* shape;
     btRigidBody* body;
-
+    btDefaultMotionState* shapeMotionState;
 };
 
 #endif /* OBJECT_H */
