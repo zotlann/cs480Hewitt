@@ -1,6 +1,72 @@
 #include "object.h"
 
-Object::Object(char* object_config_filename)
+Object::Object(btDiscreteDynamicsWorld* dynamics_world)
+{
+  Vertices = {
+    {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f}},
+    {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f}},
+    {{-1.0f, -1.0f, 1.0f}, {0.0f, 1.0f}},
+    {{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f}},
+    {{1.0f, 1.0f, -1.0f}, {1.0f, 1.0f}},
+    {{1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+    {{-1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+    {{-1.0f, 1.0f, -1.0f}, {1.0f, 1.0f}}
+  };
+
+  Indices = {
+    2, 3, 4,
+    8, 7, 6,
+    1, 5, 6,
+    2, 6, 7,
+    7, 8, 4,
+    1, 4, 8,
+    1, 2, 4,
+    5, 8, 6,
+    2, 1, 6,
+    3, 2, 7,
+    3, 7, 4,
+    5, 1, 8
+  };
+
+    // The index works at a 0th index
+  for(unsigned int i = 0; i < Indices.size(); i++)
+  {
+    Indices[i] = Indices[i] - 1;
+  }
+
+  btVector3 vec = {1,1,1};
+  shape = new btBoxShape(vec);
+
+  glGenBuffers(1, &VB);
+  glBindBuffer(GL_ARRAY_BUFFER, VB);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+
+  glGenBuffers(1, &IB);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+
+  btTransform startTransform;
+  startTransform.setIdentity();
+  btScalar mass = btScalar(10000);
+  bool isDynamic = (mass != 0.0f);
+
+  btVector3 localInertia(0,0,0);
+  if( isDynamic )
+    shape->calculateLocalInertia(mass, localInertia);
+
+  startTransform.setOrigin(btVector3(0, 4, 4));
+  shapeMotionState = new btDefaultMotionState(startTransform);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,localInertia);
+  //rigid_body_information.m_restitution = cfg.restitution;
+  //rigid_body_information.m_friction = 0;
+  body = new btRigidBody(rigid_body_information);
+  //body->activate(true);
+  //body->setActivationState(DISABLE_DEACTIVATION);
+  std::cout << "Am I dynamic? " << std::boolalpha << isDynamic << std::endl;
+  dynamics_world->addRigidBody(body);
+}
+
+Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_world)
 {
   //start with model matrix as identity matrix
   model = glm::mat4(1.0f);
@@ -14,18 +80,23 @@ Object::Object(char* object_config_filename)
   //sets up rigidBody information
   //TODO
   //put this into a LoadBody Function
-  shapeMotionState = NULL;
-  shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(1,1,1,1), 
-                                              btVector3(location.x,location.y,location.z)));
-  inertia = btVector3(0,0,0);
+  btTransform startTransform;
+  startTransform.setIdentity();
   btScalar mass = btScalar(cfg.mass);
-  shape->calculateLocalInertia(mass,inertia);
-  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,inertia);
+  bool isDynamic = (mass != 0.0f);
+
+  btVector3 localInertia(0,0,0);
+  if( isDynamic )
+    shape->calculateLocalInertia(mass, localInertia);
+
+  startTransform.setOrigin(btVector3(location.x, location.y, location.z));
+  shapeMotionState = new btDefaultMotionState(startTransform);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,localInertia);
   //rigid_body_information.m_restitution = cfg.restitution;
   //rigid_body_information.m_friction = 0;
   body = new btRigidBody(rigid_body_information);
-  body->activate(true);
-  body->setActivationState(DISABLE_DEACTIVATION);
+  //body->activate(true);
+  //body->setActivationState(DISABLE_DEACTIVATION);
   std::cout << "Am I dynamic? " << std::boolalpha << cfg.is_dynamic << std::endl;
   /*
   if(cfg.is_dynamic){
@@ -33,6 +104,9 @@ Object::Object(char* object_config_filename)
     body->setCollisionFlags(collision_flags);
   }
   */
+
+  dynamics_world->addRigidBody(body);
+
   //generate the VB and IB buffers
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -47,6 +121,9 @@ Object::~Object()
 {
   Vertices.clear();
   Indices.clear();
+  delete body;
+  delete shape;
+  delete shapeMotionState;
 }
 
 //takes a character representing keyboard input and performs the
@@ -57,24 +134,53 @@ void Object::ProcessInput(char input)
   }
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world, int i)
 {
-  btTransform transform;
-  body->setFriction(0);
+  //body->activate(true);
+  std::cout << ">:(" << std::endl;
+  dynamics_world->stepSimulation(dt/1000.f, 10);
+  std::cout << ">:(" << std::endl;
+  
   body->applyGravity();
-  transform = body->getWorldTransform();
 
+  btTransform transform;
+  body->getMotionState()->getWorldTransform(transform);
+
+  /*
+  btCollisionObject* obj = dynamics_world->getCollisionObjectArray()[i];
+  btRigidBody* ballBody = btRigidBody::upcast(obj);
+  btTransform transform;
+  std::cout << ">:(" << std::endl;
+
+  if(ballBody && ballBody->getMotionState())
+  {
+    ballBody->getMotionState()->getWorldTransform(transform);
+  }
+  else
+  {
+    transform = obj->getWorldTransform();
+  }
+  */
+  std::cout << "Activation state: " << body->getActivationState() << std::endl;
+  std::cout << "Gravity: " << body->getGravity().getY() << std::endl;
+  std::cout << "Total force: " << body->getTotalForce().getY() << std::endl;
+  std::cout << "Mass position: " << body->getCenterOfMassPosition().getY() << std::endl;
+  std::cout << "Transform position: " << transform.getOrigin().getY() << std::endl;
+  std::cout << "Velocity: " << body->getLinearVelocity().getY() << std::endl;
+  std::cout << "Static?: " << std::boolalpha << body->isStaticObject() << std::endl;
+  std::cout << "In world?: " << std::boolalpha << body->isInWorld() << std::endl;
+  std::cout << "Shape type: " << body->getCollisionShape()->getShapeType() << std::endl;
 
   btScalar m[16];
   transform.getOpenGLMatrix(m);
-  
-  for( int i = 0; i < 16; i++)
+
+  for( int j = 0; j < 16; j++)
   {
-    std::cout << m[i] << " ";
+    std::cout << m[j] << " ";
   }
   std::cout << std::endl;
 
-  //model *= glm::scale(glm::vec3(cfg.scale,cfg.scale,cfg.scale));
+  model = glm::make_mat4(m);
 }
 
 glm::mat4 Object::GetModel()
@@ -246,7 +352,7 @@ void Object::SetTexture(GLuint text)
 }
 
 void Object::LoadShape(char* shape_str){
-  if((strcmp(shape_str,"mesh"))){
+  if((strcmp(shape_str,"mesh")) == 0){
     btTriangleMesh* triangle_mesh = new btTriangleMesh();
     for(unsigned int i = 0; i < Indices.size() - 2; i+=3){
       btVector3 v1(Vertices[i].vertex.x,Vertices[i].vertex.y,Vertices[i].vertex.z);
@@ -254,7 +360,7 @@ void Object::LoadShape(char* shape_str){
       btVector3 v3(Vertices[i+2].vertex.x,Vertices[i+2].vertex.y,Vertices[i+2].vertex.z);
       triangle_mesh->addTriangle(v1,v2,v3);
     }
-    if(cfg.is_dynamic){
+    if(!cfg.is_dynamic){
       shape = new btBvhTriangleMeshShape(triangle_mesh,true);
     }
     else{
@@ -262,19 +368,22 @@ void Object::LoadShape(char* shape_str){
     }
     shape->setLocalScaling(btVector3(cfg.scale,cfg.scale,cfg.scale));
   }
-  else if((strcmp(shape_str,"sphere"))){
+  else if((strcmp(shape_str,"sphere")) == 0){
     btScalar radius = cfg.scale;
-    shape = new btSphereShape(radius*radius);
+    shape = new btSphereShape(1);
+    std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
   }
-  else if((strcmp(shape_str,"box"))){
-    btVector3 vec = {cfg.width*cfg.scale,cfg.height*cfg.scale,cfg.length*cfg.scale};
+  else if((strcmp(shape_str,"box")) == 0){
+    btVector3 vec = {1,1,1};
     shape = new btBoxShape(vec);
+    std::cout << "Box type: " << shape->getShapeType() << std::endl;
   }
-  else if((strcmp(shape_str,"cylinder"))){
-    btVector3 vec = {cfg.radius*cfg.scale,cfg.width*cfg.scale,cfg.radius*cfg.scale};
+  else if((strcmp(shape_str,"cylinder")) == 0){
+    btVector3 vec = {1,1,1};
     shape = new btCylinderShape(vec);
+    std::cout << "Cylinder type: " << shape->getShapeType() << std::endl;
   }
-  else if((strcmp(shape_str, "plane"))){
+  else if((strcmp(shape_str, "plane")) == 0){
     btVector3 vec = {cfg.width,cfg.height,cfg.length};
     btScalar plane_const = 0;
     shape = new btStaticPlaneShape(vec,plane_const);

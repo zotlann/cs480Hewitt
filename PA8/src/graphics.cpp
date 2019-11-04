@@ -7,7 +7,11 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-
+  delete dynamics_world;
+  delete broadphase;
+  delete collision_config;
+  delete dispatcher;
+  delete solver;  
 }
 
 bool Graphics::Initialize(int width, int height, Config cfg)
@@ -45,27 +49,39 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   //Create the physics world
-  PhysicsWorld world;
+  //set up broadphase
+  broadphase = new btDbvtBroadphase();
+
+  //set up collision configuration
+  collision_config = new btDefaultCollisionConfiguration();
+
+  //set up dispatcher
+  dispatcher = new btCollisionDispatcher(collision_config);
+
+  //set up solver
+  solver = new btSequentialImpulseConstraintSolver;
+
+
+  //set up the world
+  dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config );
+
+  //set gravity
+  dynamics_world->setGravity(btVector3(0,-10,0));
 
   //Create the objects
-  m_ball =  new Object(cfg.ball_config);
-  m_cube = new Object(cfg.cube_config);
-  m_cylinder = new Object(cfg.cylinder_config);
+  m_test = new Object(dynamics_world);
+  m_ball =  new Object(cfg.ball_config, dynamics_world);
+  m_cube = new Object(cfg.cube_config, dynamics_world);
+  m_cylinder = new Object(cfg.cylinder_config, dynamics_world);
   //m_table = new Object(cfg.table_config);
 
   //set up the objects vector
   objects.clear();
+  objects.push_back(m_test);
   objects.push_back(m_ball);
   objects.push_back(m_cube);
   objects.push_back(m_cylinder);
   //objects.push_back(m_table);
-
-  //add the objects to the physics world
-  for(unsigned int i = 0; i < objects.size(); i++){
-    world.AddObject(objects[i]);
-  }
-
-  world.setGravity();
 
   // Set up the shaders
   m_shader = new Shader();
@@ -127,21 +143,19 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
   //set the timestep
-  world.StepSimulation(dt);
   //update the ball with user input
-  m_ball->ProcessInput(input);
+  //m_ball->ProcessInput(input);
   //update all the objects
   for(unsigned int i = 0; i < objects.size(); i++){
-    objects[i]->Update(dt);
+    objects[i]->Update(dt, dynamics_world, i);
   }
 }
 
 void Graphics::Render()
 {
   //clear the screen and sets the black background
-  glClearColor(0.0, 0.0, 0.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
+  glClearColor(0.0, 0.0, 1.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
   // Start the correct program
   m_shader->Enable();
 
@@ -155,6 +169,7 @@ void Graphics::Render()
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
     objects[i]->Render();
   }
+
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )

@@ -8,7 +8,8 @@ using namespace std;
 #include "camera.h"
 #include "shader.h"
 #include "object.h"
-#include "physics.h"
+#include <btBulletDynamicsCommon.h>
+#include <btBulletCollisionCommon.h>
 
 class Graphics
 {
@@ -29,12 +30,17 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
+    Object* m_test;
     Object* m_ball;
     Object* m_cube;
     Object* m_cylinder;
     Object* m_table;
-
-    PhysicsWorld world;
+    
+    btDiscreteDynamicsWorld* dynamics_world;
+		btBroadphaseInterface* broadphase;
+		btDefaultCollisionConfiguration* collision_config;
+		btCollisionDispatcher* dispatcher;
+		btSequentialImpulseConstraintSolver* solver;
 
     std::vector<Object*> objects;
 };

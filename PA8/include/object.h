@@ -10,6 +10,7 @@
 #include <tinyxml2.h>
 #include <Magick++.h>
 #include <btBulletDynamicsCommon.h>
+#include <btBulletCollisionCommon.h>
 
 #include "graphics_headers.h"
 #include "assets.h"
@@ -31,9 +32,10 @@ struct ObjectConfig{
 class Object
 {
   public:
-    Object(char* object_config_filename);
+    Object(char* object_config_filename, btDiscreteDynamicsWorld* dynamics_world);
+    Object(btDiscreteDynamicsWorld* dynamics_world);
     ~Object();
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world, int i);
     void ProcessInput(char input);
     void Render();
 
@@ -55,8 +57,6 @@ class Object
     glm::mat4 model;
     glm::vec3 location;
 
-    btVector3 inertia;
-    
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     GLuint VB;
