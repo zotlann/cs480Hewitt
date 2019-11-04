@@ -137,50 +137,18 @@ void Object::ProcessInput(char input)
 void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world, int i)
 {
   //body->activate(true);
-  std::cout << ">:(" << std::endl;
-  dynamics_world->stepSimulation(dt/1000.f, 10);
-  std::cout << ">:(" << std::endl;
+  dynamics_world->stepSimulation(dt/10000.f, 10);
   
   body->applyGravity();
 
   btTransform transform;
   body->getMotionState()->getWorldTransform(transform);
 
-  /*
-  btCollisionObject* obj = dynamics_world->getCollisionObjectArray()[i];
-  btRigidBody* ballBody = btRigidBody::upcast(obj);
-  btTransform transform;
-  std::cout << ">:(" << std::endl;
-
-  if(ballBody && ballBody->getMotionState())
-  {
-    ballBody->getMotionState()->getWorldTransform(transform);
-  }
-  else
-  {
-    transform = obj->getWorldTransform();
-  }
-  */
-  std::cout << "Activation state: " << body->getActivationState() << std::endl;
-  std::cout << "Gravity: " << body->getGravity().getY() << std::endl;
-  std::cout << "Total force: " << body->getTotalForce().getY() << std::endl;
-  std::cout << "Mass position: " << body->getCenterOfMassPosition().getY() << std::endl;
-  std::cout << "Transform position: " << transform.getOrigin().getY() << std::endl;
-  std::cout << "Velocity: " << body->getLinearVelocity().getY() << std::endl;
-  std::cout << "Static?: " << std::boolalpha << body->isStaticObject() << std::endl;
-  std::cout << "In world?: " << std::boolalpha << body->isInWorld() << std::endl;
-  std::cout << "Shape type: " << body->getCollisionShape()->getShapeType() << std::endl;
-
   btScalar m[16];
   transform.getOpenGLMatrix(m);
 
-  for( int j = 0; j < 16; j++)
-  {
-    std::cout << m[j] << " ";
-  }
-  std::cout << std::endl;
-
   model = glm::make_mat4(m);
+  model *= glm::scale(glm::vec3(cfg.scale, cfg.scale, cfg.scale));
 }
 
 glm::mat4 Object::GetModel()

@@ -73,7 +73,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   m_ball =  new Object(cfg.ball_config, dynamics_world);
   m_cube = new Object(cfg.cube_config, dynamics_world);
   m_cylinder = new Object(cfg.cylinder_config, dynamics_world);
-  //m_table = new Object(cfg.table_config);
+  m_table = new Object(cfg.table_config, dynamics_world);
 
   //set up the objects vector
   objects.clear();
@@ -81,7 +81,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   objects.push_back(m_ball);
   objects.push_back(m_cube);
   objects.push_back(m_cylinder);
-  //objects.push_back(m_table);
+  objects.push_back(m_table);
 
   // Set up the shaders
   m_shader = new Shader();
