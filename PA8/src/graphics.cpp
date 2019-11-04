@@ -61,7 +61,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   //set up solver
   solver = new btSequentialImpulseConstraintSolver;
 
-
   //set up the world
   dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config );
 
@@ -69,7 +68,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   dynamics_world->setGravity(btVector3(0,-10,0));
 
   //Create the objects
-  m_test = new Object(dynamics_world);
   m_ball =  new Object(cfg.ball_config, dynamics_world);
   m_cube = new Object(cfg.cube_config, dynamics_world);
   m_cylinder = new Object(cfg.cylinder_config, dynamics_world);
@@ -77,7 +75,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   //set up the objects vector
   objects.clear();
-  objects.push_back(m_test);
   objects.push_back(m_ball);
   objects.push_back(m_cube);
   objects.push_back(m_cylinder);
@@ -144,10 +141,10 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
   //set the timestep
   //update the ball with user input
-  //m_ball->ProcessInput(input);
+  m_ball->ProcessInput(input);
   //update all the objects
   for(unsigned int i = 0; i < objects.size(); i++){
-    objects[i]->Update(dt, dynamics_world, i);
+    objects[i]->Update(dt, dynamics_world);
   }
 }
 

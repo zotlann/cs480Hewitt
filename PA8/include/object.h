@@ -26,6 +26,7 @@ struct ObjectConfig{
 	float height;
 	glm::vec3 inital_rotation;
 	bool is_dynamic;
+  bool is_kinematic;
 	char* shape;
 };
 
@@ -35,7 +36,7 @@ class Object
     Object(char* object_config_filename, btDiscreteDynamicsWorld* dynamics_world);
     Object(btDiscreteDynamicsWorld* dynamics_world);
     ~Object();
-    void Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world, int i);
+    void Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world);
     void ProcessInput(char input);
     void Render();
 

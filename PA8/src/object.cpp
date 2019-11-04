@@ -93,17 +93,24 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
   shapeMotionState = new btDefaultMotionState(startTransform);
   btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,localInertia);
   //rigid_body_information.m_restitution = cfg.restitution;
-  //rigid_body_information.m_friction = 0;
+  rigid_body_information.m_friction = 0.5;
   body = new btRigidBody(rigid_body_information);
-  //body->activate(true);
-  //body->setActivationState(DISABLE_DEACTIVATION);
   std::cout << "Am I dynamic? " << std::boolalpha << cfg.is_dynamic << std::endl;
-  /*
-  if(cfg.is_dynamic){
+  
+  if(cfg.is_dynamic)
+  {
+    //bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
+    //body->setCollisionFlags(collision_flags);
+    body->setActivationState(DISABLE_DEACTIVATION);
+  }
+  if(cfg.is_kinematic)
+  {
+    //body is a btRigidBody pointer referencing the object being converted
     bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
     body->setCollisionFlags(collision_flags);
   }
-  */
+  
+  
 
   dynamics_world->addRigidBody(body);
 
@@ -130,13 +137,31 @@ Object::~Object()
 //proper mutations on the objects config
 void Object::ProcessInput(char input)
 {
- switch(input){
+  switch(input)
+  {
+    case 'w':
+      //body->setActivationState(ACTIVE_TAG);
+      body->applyCentralForce(btVector3(0,0,1000));
+      //body->setActivationState(DISABLE_DEACTIVATION);
+      std::cout << "w" << std::endl;
+      break;
+    case 'a':
+      std::cout << "a" << std::endl;
+      break;
+    case 's':
+      std::cout << "s" << std::endl;
+      break;
+    case 'd':
+      std::cout << "d" << std::endl;
+      break;
+    default:
+      break;
   }
 }
 
-void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world, int i)
+void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world)
 {
-  //body->activate(true);
+  //body->activate(ACTIVE_TAG);
   dynamics_world->stepSimulation(dt/10000.f, 10);
   
   body->applyGravity();
@@ -149,6 +174,7 @@ void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world, in
 
   model = glm::make_mat4(m);
   model *= glm::scale(glm::vec3(cfg.scale, cfg.scale, cfg.scale));
+  //body->activate(DISABLE_DEACTIVATION);
 }
 
 glm::mat4 Object::GetModel()
@@ -178,8 +204,7 @@ void Object::Render()
 //Parses planet config files and creates an object with the proper config settings.
 //An example config file can be found in ../assets/entities/planet.conf
 void Object::ParseObjectConfig(char* object_config_filename)
-{
-  
+{  
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLError file_loaded = doc.LoadFile(object_config_filename);
   if(file_loaded != tinyxml2::XML_SUCCESS){
@@ -226,9 +251,15 @@ void Object::ParseObjectConfig(char* object_config_filename)
     cfg.is_dynamic = dynamic;
   }
   
+  //set the is_dynamic flag
+  if((element = object->FirstChildElement("kinematic"))){
+    bool kinematic = element->BoolText();
+    cfg.is_kinematic = kinematic;
+  }
+
   //set the mass
   if((element = object->FirstChildElement("mass"))){
-    float m = element->FloatText();
+    bool m = element->FloatText();
     cfg.mass = m;
   }
 
@@ -244,6 +275,32 @@ void Object::ParseObjectConfig(char* object_config_filename)
   if((element = object->FirstChildElement("location-z"))){
     z = element->FloatText();
   }
+
+  //length, width, height
+  if((element = object->FirstChildElement("width"))){
+    float m = element->FloatText();
+    cfg.width = m;
+  }
+  if((element = object->FirstChildElement("length"))){
+    float m = element->FloatText();
+    cfg.length = m;
+  }
+  if((element = object->FirstChildElement("height"))){
+    float m = element->FloatText();
+    cfg.height = m;
+  }
+
+  //restitution
+  if((element = object->FirstChildElement("restitution"))){
+    float m = element->FloatText();
+    cfg.restitution = m;
+  }
+  //friction
+  if((element = object->FirstChildElement("friction"))){
+    float m = element->FloatText();
+    cfg.friction = m;
+  }
+
   location = glm::vec3(x,y,z);
   model *= glm::translate(glm::mat4(1.0f),location); 
 }
@@ -338,16 +395,16 @@ void Object::LoadShape(char* shape_str){
   }
   else if((strcmp(shape_str,"sphere")) == 0){
     btScalar radius = cfg.scale;
-    shape = new btSphereShape(1);
+    shape = new btSphereShape(radius*radius);
     std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
   }
   else if((strcmp(shape_str,"box")) == 0){
-    btVector3 vec = {1,1,1};
+    btVector3 vec = {cfg.width*cfg.scale, cfg.height*cfg.scale, cfg.length*cfg.scale};
     shape = new btBoxShape(vec);
     std::cout << "Box type: " << shape->getShapeType() << std::endl;
   }
   else if((strcmp(shape_str,"cylinder")) == 0){
-    btVector3 vec = {1,1,1};
+    btVector3 vec = {cfg.width*cfg.scale, cfg.height*cfg.scale, cfg.length*cfg.scale};
     shape = new btCylinderShape(vec);
     std::cout << "Cylinder type: " << shape->getShapeType() << std::endl;
   }

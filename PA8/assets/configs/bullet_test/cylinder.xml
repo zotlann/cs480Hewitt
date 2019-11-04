@@ -2,10 +2,11 @@
 	<model>../assets/objects/cylinder.obj</model>
 	<texture>../assets/textures/cylinder.jpg</texture>
 	<dynamic>true</dynamic>
+	<kinematic>false</kinematic>
 	<shape>cylinder</shape>
 	<location-x>-10</location-x>
-	<location-y>0</location-y>
+	<location-y>1</location-y>
 	<location-z>0</location-z>
-	<scale>1</scale>
-	<mass>10</mass>
+	<scale>.5</scale>
+	<mass>0</mass>
 </object>
