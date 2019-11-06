@@ -111,13 +111,17 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
   if(cfg.is_kinematic)
   {
     //body is a btRigidBody pointer referencing the object being converted
-    bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
-    body->setCollisionFlags(collision_flags);
+    body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+    body->setActivationState(DISABLE_DEACTIVATION);
   }
-  
-  
 
-dynamics_world->addRigidBody(body, 0b01111111, 0b11111111);
+  if(!cfg.is_dynamic && !cfg.is_kinematic)
+  {
+    //for static objects
+    body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+  }
+
+  dynamics_world->addRigidBody(body, 0b01111111, 0b11111111);
 
   //generate the VB and IB buffers
   glGenBuffers(1, &VB);
@@ -142,11 +146,39 @@ Object::~Object()
 //proper mutations on the objects config
 void Object::ProcessInput(char input)
 {
+  btTransform newTrans;
+  double movement = 0.075;
   switch(input)
   {
-    case 'r':
-      body->applyCentralForce(btVector3(0,0,1000));
-      std::cout << "s" << std::endl;
+    case 'u':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,movement,0);
+      body->getMotionState()->setWorldTransform(newTrans);
+      break;
+    case 'i':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,0,movement);
+      body->getMotionState()->setWorldTransform(newTrans);
+      break;
+    case 'o':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,-movement,0);
+      body->getMotionState()->setWorldTransform(newTrans);
+      break;
+    case 'j':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(movement,0,0);
+      body->getMotionState()->setWorldTransform(newTrans);
+      break;
+    case 'k':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,0,-movement);
+      body->getMotionState()->setWorldTransform(newTrans);
+      break;
+    case 'l':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(-movement,0,0);
+      body->getMotionState()->setWorldTransform(newTrans);
       break;
     default:
       break;
@@ -253,7 +285,7 @@ void Object::ParseObjectConfig(char* object_config_filename)
 
   //set the mass
   if((element = object->FirstChildElement("mass"))){
-    bool m = element->FloatText();
+    float m = element->FloatText();
     cfg.mass = m;
   }
 
