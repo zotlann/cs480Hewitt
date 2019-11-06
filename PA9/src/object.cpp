@@ -307,6 +307,8 @@ void Object::ParseObjectConfig(char* object_config_filename)
 
 void Object::LoadModel(char* obj_filename)
 {
+  triangle_mesh = new btTriangleMesh();
+
   //set up importer object
   Assimp::Importer importer;
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
@@ -329,7 +331,8 @@ void Object::LoadModel(char* obj_filename)
   //Process Faces
     for(unsigned int i = 0; i < mesh->mNumFaces; i++){
       aiFace face = mesh->mFaces[i];
-    
+      btVector3 triArray[3];
+
     //if we were not given triangles throw an error and abort
       if(face.mNumIndices != 3){
         std::string error;
@@ -337,9 +340,16 @@ void Object::LoadModel(char* obj_filename)
         error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh->mNumFaces) + " indices.\n";
         throw std::logic_error(error);
       }
-      Indices.push_back(face.mIndices[0]);
-      Indices.push_back(face.mIndices[1]);
-      Indices.push_back(face.mIndices[2]);
+
+      for( unsigned int j = 0; j < face.mNumIndices; j++ )
+      {
+        std::cout << "am i gonna work?" << std::endl;
+        aiVector3D position = mesh->mVertices[face.mIndices[j]];
+        triArray[j] = btVector3(position.x, position.y, position.z);
+        triangle_mesh->addTriangle(triArray[0], triArray[1], triArray[3]);
+        Indices.push_back(face.mIndices[j]);
+        std::cout << "ye boi" << std::endl;
+      }
     }
   }
 }
@@ -378,13 +388,6 @@ void Object::SetTexture(GLuint text)
 
 void Object::LoadShape(char* shape_str){
   if((strcmp(shape_str,"mesh")) == 0){
-    btTriangleMesh* triangle_mesh = new btTriangleMesh();
-    for(unsigned int i = 0; i < Indices.size() - 2; i+=3){
-      btVector3 v1(Vertices[i].vertex.x,Vertices[i].vertex.y,Vertices[i].vertex.z);
-      btVector3 v2(Vertices[i+1].vertex.x,Vertices[i+1].vertex.y,Vertices[i+1].vertex.z);
-      btVector3 v3(Vertices[i+2].vertex.x,Vertices[i+2].vertex.y,Vertices[i+2].vertex.z);
-      triangle_mesh->addTriangle(v1,v2,v3);
-    }
     if(!cfg.is_dynamic){
       shape = new btBvhTriangleMeshShape(triangle_mesh,true);
     }
