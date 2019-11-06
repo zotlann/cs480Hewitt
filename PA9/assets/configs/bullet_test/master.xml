@@ -6,7 +6,7 @@
 	<vshader3>../assets/shaders/passthrough/vshader</vshader3>
 	<fshader3>../assets/shaders/passthrough/fshader</fshader3>
 	<ambient-r>1.0</ambient-r>
-	<ambient-g>0.0</ambient-g>
+	<ambient-g>1.0</ambient-g>
 	<ambient-b>1.0</ambient-b>
 	<ambient-intensity>1.0</ambient-intensity>
 	<windowname>bullet-test</windowname>

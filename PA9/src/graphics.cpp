@@ -21,6 +21,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   ambient_light_color.g = cfg.ag;
   ambient_light_color.b = cfg.ab;
   ambient_light_intensity = cfg.ambient_intensity;
+  std::cout << "TEST: " << ambient_light_intensity;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;

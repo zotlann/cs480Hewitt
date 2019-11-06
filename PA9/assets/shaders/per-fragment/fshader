@@ -30,10 +30,11 @@ void main()
   vec3 E = normalize(eye);
   vec3 H = normalize(L+E);
 
-  vec4 ambient = AmbientProduct * vec4(AmbientLightColor,1.0) * AmbientLightIntensity;
-  float Kd = max(dot(N,L),0);
+  vec4 ambient = AmbientProduct;
+  ambient *= vec4(AmbientLightColor,1.0) * AmbientLightIntensity;
+  float Kd = max(dot(L,N),0);
   vec4 diffuse = Kd*DiffuseProduct*AmbientLightIntensity;
-  float Ks = pow(max(dot(E,H),0),shininess);
+  float Ks = pow(max(dot(N,H),0),shininess);
   vec4 specular = Ks*SpecularProduct*AmbientLightIntensity;
 
   L = normalize(spotlightPosition - world_position);

@@ -38,9 +38,9 @@ void main(void){
   vec4 ambient = AmbientProduct;
   ambient *= vec4(AmbientLightColor,1.0) * AmbientLightIntensity;
   float Kd = max(dot(L,N),0.0);
-  vec4 diffuse = Kd*DiffuseProduct;
+  vec4 diffuse = Kd*DiffuseProduct * AmbientLightIntensity;
   float Ks = pow(max(dot(N,H),0.0),shininess);
-  vec4 specular = Ks* SpecularProduct;
+  vec4 specular = Ks* SpecularProduct * AmbientLightIntensity;
 
   L = normalize((modelViewMatrix * vec4(spotlightPosition,1.0))).xyz;
   H = normalize(L+E);
@@ -49,7 +49,7 @@ void main(void){
   Ks = pow(max(dot(E,H),0),shininess);
 
   float theta = dot(normalize(pos-spotlightPosition),spotlightDirection);
-  if(theta < spotlightCutoff){
+  if(theta > spotlightCutoff){
     diffuse += vec4(spotlightColor,1.0) * spotlightIntensity * Kd;
     specular += vec4(spotlightColor,1.0) * spotlightIntensity * Ks;
   }
