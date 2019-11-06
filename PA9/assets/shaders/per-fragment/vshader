@@ -1,0 +1,26 @@
+#version 330
+
+layout (location = 0) in vec3 v_position;
+layout (location = 1) in vec2 v_texture_coordinates;
+layout (location = 2) in vec3 v_normal;
+
+out vec3 fN;
+out vec3 fE;
+out vec3 fL;
+out vec2 texture_coordinates;
+
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
+uniform vec3 lightPosition;
+uniform mat4 projectionMatrix;
+
+void main()
+{
+    fN = v_normal;
+    fE = v_position.xyz;
+    fL = lightPosition;
+
+    gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * vec4(v_position, 1.0);
+
+    texture_coordinates = v_texture_coordinates;
+}
