@@ -97,7 +97,7 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
   startTransform.setOrigin(btVector3(location.x, location.y, location.z));
   shapeMotionState = new btDefaultMotionState(startTransform);
   btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,localInertia);
-  //rigid_body_information.m_restitution = cfg.restitution;
+  rigid_body_information.m_restitution = cfg.restitution;
   rigid_body_information.m_friction = 0.5;
   body = new btRigidBody(rigid_body_information);
   std::cout << "Am I dynamic? " << std::boolalpha << cfg.is_dynamic << std::endl;
@@ -117,7 +117,7 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
   
   
 
-  dynamics_world->addRigidBody(body);
+dynamics_world->addRigidBody(body, 0b01111111, 0b11111111);
 
   //generate the VB and IB buffers
   glGenBuffers(1, &VB);
@@ -348,12 +348,10 @@ void Object::LoadModel(char* obj_filename)
 
       for( unsigned int j = 0; j < face.mNumIndices; j++ )
       {
-        std::cout << "am i gonna work?" << std::endl;
         aiVector3D position = mesh->mVertices[face.mIndices[j]];
         triArray[j] = btVector3(position.x, position.y, position.z);
-        triangle_mesh->addTriangle(triArray[0], triArray[1], triArray[3]);
+        triangle_mesh->addTriangle(triArray[0], triArray[1], triArray[2]);
         Indices.push_back(face.mIndices[j]);
-        std::cout << "ye boi" << std::endl;
       }
     }
   }
