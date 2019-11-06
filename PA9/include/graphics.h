@@ -24,7 +24,7 @@ class Graphics
     std::string ErrorString(GLenum error);
 
     Camera *m_camera;
-    Shader *m_shader;
+    std::vector<Shader*> m_shaders;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
@@ -35,6 +35,8 @@ class Graphics
     GLint m_ambient;
     GLint m_diffuse;
     GLint m_specular;
+
+    unsigned int shader_index;
 
 
     Object* m_test;

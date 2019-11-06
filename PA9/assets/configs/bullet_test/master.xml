@@ -1,6 +1,8 @@
 <config>
-	<vshader>../assets/shaders/per-vertex/vshader</vshader>
-	<fshader>../assets/shaders/per-vertex/fshader</fshader>
+	<vshader1>../assets/shaders/per-vertex/vshader</vshader1>
+	<fshader1>../assets/shaders/per-vertex/fshader</fshader1>
+	<vshader2>../assets/shaders/passthrough/vshader</vshader2>
+	<fshader2>../assets/shaders/passthrough/fshader</fshader2>
 	<windowname>bullet-test</windowname>
 	<w>1024</w>
 	<h>768</h>

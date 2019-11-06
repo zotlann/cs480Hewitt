@@ -2,8 +2,10 @@
 #define ASSETS_H
 
 struct Config{
-  char* vshader_filename;
-  char* fshader_filename;
+  char* vshader1_filename;
+  char* fshader1_filename;
+  char* vshader2_filename;
+  char* fshader2_filename;
   char* window_name;
   int w;
   int h;

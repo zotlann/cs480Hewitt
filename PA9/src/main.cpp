@@ -66,15 +66,26 @@ void loadConfig(char* config_filename, Config* cfg){
   tinyxml2::XMLElement* element = NULL;
 
   //set the vertex shader filename
-  if((element = config->FirstChildElement("vshader"))){
-    cfg->vshader_filename = new char[256];
-    strcpy(cfg->vshader_filename,element->GetText());
+  if((element = config->FirstChildElement("vshader1"))){
+    cfg->vshader1_filename = new char[256];
+    strcpy(cfg->vshader1_filename,element->GetText());
   }
   
   //set the fragment shader filename
-  if((element = config->FirstChildElement("fshader"))){
-    cfg->fshader_filename = new char[256];
-    strcpy(cfg->fshader_filename,element->GetText());
+  if((element = config->FirstChildElement("fshader1"))){
+    cfg->fshader1_filename = new char[256];
+    strcpy(cfg->fshader1_filename,element->GetText());
+  }
+ //set the vertex shader filename
+  if((element = config->FirstChildElement("vshader2"))){
+    cfg->vshader2_filename = new char[256];
+    strcpy(cfg->vshader2_filename,element->GetText());
+  }
+  
+  //set the fragment shader filename
+  if((element = config->FirstChildElement("fshader2"))){
+    cfg->fshader2_filename = new char[256];
+    strcpy(cfg->fshader2_filename,element->GetText());
   }
 
   //set the window name

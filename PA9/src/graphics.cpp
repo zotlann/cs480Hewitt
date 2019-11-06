@@ -80,35 +80,70 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   objects.push_back(m_cylinder);
   objects.push_back(m_table);
 
-  // Set up the shaders
-  m_shader = new Shader();
-  if(!m_shader->Initialize())
+  // Set up the shaders'
+  Shader* s1 = new Shader();
+  Shader* s2 = new Shader();
+
+  if(!s1->Initialize())
   {
     printf("Shader Failed to Initialize\n");
     return false;
   }
   // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER,cfg.vshader_filename))
+  if(!s1->AddShader(GL_VERTEX_SHADER,cfg.vshader1_filename))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER,cfg.fshader_filename))
+  if(!s1->AddShader(GL_FRAGMENT_SHADER,cfg.fshader1_filename))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
   }
   // Connect the program
-  if(!m_shader->Finalize())
+  if(!s1->Finalize())
   {
     printf("Program to Finalize\n");
     return false;
   }
 
+  //push the program to the shaders vertex
+  m_shaders.push_back(s1);
+  
+  if(!s2->Initialize())
+  {
+    printf("Shader Failed to Initialize\n");
+    return false;
+  }
+  // Add the vertex shader
+  if(!s2->AddShader(GL_VERTEX_SHADER,cfg.vshader2_filename))
+  {
+    printf("Vertex Shader failed to Initialize\n");
+    return false;
+  }
+
+  // Add the fragment shader
+  if(!s2->AddShader(GL_FRAGMENT_SHADER,cfg.fshader2_filename))
+  {
+    printf("Fragment Shader failed to Initialize\n");
+    return false;
+  }
+  // Connect the program
+  if(!s2->Finalize())
+  {
+    printf("Program to Finalize\n");
+    return false;
+  }
+
+  m_shaders.push_back(s2);
+  
+  shader_index = 0;
+
+
   // Locate the projection matrix in the shader
-  m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
+  m_projectionMatrix = m_shaders[shader_index]->GetUniformLocation("projectionMatrix");
   if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
   {
     printf("m_projectionMatrix not found\n");
@@ -116,7 +151,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   // Locate the view matrix in the shader
-  m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
+  m_viewMatrix = m_shaders[shader_index]->GetUniformLocation("viewMatrix");
   if (m_viewMatrix == INVALID_UNIFORM_LOCATION) 
   {
     printf("m_viewMatrix not found\n");
@@ -124,12 +159,12 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   // Locate the model matrix in the shader
-  m_modelViewMatrix = m_shader->GetUniformLocation("modelMatrix");
-  m_lightPosition = m_shader->GetUniformLocation("lightPosition");
-  m_shininess = m_shader->GetUniformLocation("shininess");
-  m_ambient = m_shader->GetUniformLocation("AmbientProduct");
-  m_diffuse = m_shader->GetUniformLocation("DiffuseProduct");
-  m_specular = m_shader->GetUniformLocation("SpecularProduct");
+  m_modelViewMatrix = m_shaders[shader_index]->GetUniformLocation("modelViewMatrix");
+  m_lightPosition = m_shaders[shader_index]->GetUniformLocation("lightPosition");
+  m_shininess = m_shaders[shader_index]->GetUniformLocation("shininess");
+  m_ambient = m_shaders[shader_index]->GetUniformLocation("AmbientProduct");
+  m_diffuse = m_shaders[shader_index]->GetUniformLocation("DiffuseProduct");
+  m_specular = m_shaders[shader_index]->GetUniformLocation("SpecularProduct");
 
   if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
   {
@@ -138,7 +173,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   //Locate lighting uniforms in the shader
-  m_modelMatrix = m_shader->GetUniformLocation("modelViewMatrix");
+  m_modelMatrix = m_shaders[shader_index]->GetUniformLocation("modelViewMatrix");
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
@@ -148,6 +183,11 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
+  if(input == '\t'){
+    shader_index++;
+    shader_index %= m_shaders.size();
+    std::cout << shader_index << std::endl;
+  }
   //set the timestep
   //update the ball with user input
   m_ball->ProcessInput(input);
@@ -163,7 +203,7 @@ void Graphics::Render()
   glClearColor(0.0, 0.0, 1.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // Start the correct program
-  m_shader->Enable();
+  m_shaders[shader_index]->Enable();
 
   // Send in the projection and view to the shader
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
@@ -172,13 +212,15 @@ void Graphics::Render()
   // Render the objects
   for(unsigned int i = 0; i < objects.size(); i++)
   {
+    glm::mat4 modelView = m_camera->GetView() * objects[i]->GetModel();
+    //glm::mat4 modelView = objects[i]->GetModel() * m_camera->GetView();
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
-    glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel() * m_camera->GetView()));
+    glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(modelView));
     glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(1.0,1.0,1.0)));
-    glUniform1f(m_shininess, 100.0f);
+    glUniform1f(m_shininess, 1.0f);
     glUniform4fv(m_ambient, 1, glm::value_ptr(glm::vec4(1.0f,20.0f,1.0f,1.0f)));
     glUniform4fv(m_diffuse, 1, glm::value_ptr(glm::vec4(1.0f)));
-    glUniform4fv(m_specular, 1, glm::value_ptr(glm::vec4(100.0f)));
+    glUniform4fv(m_specular, 1, glm::value_ptr(glm::vec4(1.0f)));
 
     objects[i]->Render();
   }
