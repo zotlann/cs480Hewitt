@@ -6,7 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-Lighting.
+Lighting is implemented in PA9. There is passthrough (how it's been running so far), per-vertex, and per-fragment lighting in the program for you to see all 3 types of them. This builds off of PA8 as a spotlight follows the controllable cube.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -42,8 +42,13 @@ make
 ## Keyboard
 | Input | Output |
 | - |:-:|
-| <kbd>&#8592;</kbd> | N/A |
-| <kbd>&#8593;</kbd> | N/A |
-| <kbd>&#8594;</kbd> | N/A |
-| <kbd>&#8595;</kbd> | N/A |
-| <kbd>Tab</kbd> | N/A |
+| <kbd>q</kbd> | Increase spotlight cutoff |
+| <kbd>e</kbd> | Decrease spotlight cutoff |
+| <kbd>z</kbd> | Increase spotlight intensity |
+| <kbd>x</kbd> | Decrease spotlight intensity |
+| <kbd>j</kbd> | Move cube left |
+| <kbd>k</kbd> | Move cube right |
+| <kbd>l</kbd> | Move cube backwards |
+| <kbd>u</kbd> | Move cube up |
+| <kbd>p</kbd> | Move cube down |
+| <kbd>Tab</kbd> | Swap through shader programs  |

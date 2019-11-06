@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 # Linux
 ifeq ($(UNAME_S), Linux)
 	CC=g++
-	LIBS=-lSDL2 -lGLEW -lGL -lassimp `Magick++-config --cppflags --cxxflags --ldflags --libs` -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath
+	LIBS=-lSDL2 -lGLEW -lGL -lassimp -lMagick++-6.Q16 #`Magick++-config --cppflags --cxxflags --ldflags --libs` -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath
 # Mac
 else
 	CC=clang++
@@ -18,7 +18,7 @@ CXXFLAGS=-g -Wall -std=c++0x `Magick++-config --cppflags --cxxflags --ldflags --
 O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o physics.o
 
 # Point to includes of local directories
-INCLUDES=-I../include -I/usr/include/bullet
+INCLUDES=-I../include -I/usr/include/x86_64-linux-gnu/ImageMagick-6/ -I/usr/include/ImageMagick-6/ -I/usr/include/bullet
 
 all: $(O_FILES)
 	$(CC) $(CXXFLAGS) -o PA9 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)

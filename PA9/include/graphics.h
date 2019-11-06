@@ -18,8 +18,9 @@ class Graphics
     Graphics();
     ~Graphics();
     bool Initialize(int width, int height, Config cfg);
-    void Update(unsigned int dt,char input,glm::vec2 mouseLocation);
+    void Update(unsigned int dt, char input, glm::vec2 mouseLocation);
     void Render();
+    void Input(char input);
 
   private:
     std::string ErrorString(GLenum error);

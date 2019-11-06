@@ -227,6 +227,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
+<<<<<<< HEAD
   if(input == '\t'){
     shader_index++;
     shader_index %= m_shaders.size();
@@ -245,15 +246,20 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     spotlight.position += glm::vec3(0.0,-1.0,0.0);
   }
 
+=======
+  Input(input);
+>>>>>>> 05e6fce071dcca4d120fb6435ae9798b9b029e80
   //set the timestep
   //update the ball with user input
-  m_ball->ProcessInput(input);
+  m_cube->ProcessInput(input);
   //update all the objects
   for(unsigned int i = 0; i < objects.size(); i++){
     objects[i]->Update(dt, dynamics_world);
   }
   //update spotlight direction
-  spotlight.direction = m_ball->GetLocation();
+  spotlight.direction = m_cube->GetLocation();
+  spotlight.position.x = m_cube->GetLocation().x;
+  spotlight.position.z = m_cube->GetLocation().z;
 }
 
 void Graphics::Render()
@@ -295,6 +301,35 @@ void Graphics::Render()
   if ( error != GL_NO_ERROR )
   {
     string val = ErrorString( error );
+  }
+}
+
+void Graphics::Input(char input)
+{
+  if(input == '\t'){
+    shader_index++;
+    shader_index %= m_shaders.size();
+    std::cout << shader_index << std::endl;
+  }
+  if(input == 'q'){
+    spotlight.cutoff *= 2;
+  }
+  if(input == 'e'){
+    spotlight.cutoff /= 2;
+  }
+  /*
+  if(input == 'w'){
+    spotlight.position += glm::vec3(0.0,1.0,0.0);
+  }
+  if(input == 's'){
+    spotlight.position += glm::vec3(0.0,-1.0,0.0);
+  }
+  */
+  if(input == 'z'){
+    spotlight.intensity += 0.25f;
+  }
+  if(input == 'x'){
+    spotlight.intensity -= 0.25f;
   }
 }
 
