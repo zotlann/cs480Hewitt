@@ -1,4 +1,4 @@
-# PA8: Bullet
+# PA9: Lighting
 
 ## Team:
 - [Benjamin Estela](https://github.com/nebunr)
@@ -6,7 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-This project, PA8, uses the Bullet Physics Library to have collision detection and proper movement in our objects. While collision should work on our objects (also with triangle meshes!), nothing moves as of the early morning of October 30th.
+Lighting.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -20,7 +20,7 @@ sudo apt-get install libglew-dev libglm-dev libsdl2-dev libassimp-dev libbullet-
 ```
 
 ## Build Instructions
-NOTE: Building with cmake will cause the executable to be called ./Tutorial.  Cmake is not officially supported, but it will build. Change the commands as necessary if built using cmake.
+NOTE: Building with cmake will cause the executable to be called ./Tutorial. Cmake is not officially supported, but it will build. Change the commands as necessary if built using cmake.
 
 Use make with the following commands:
 ```bash
@@ -32,11 +32,11 @@ make
 
 ## Usage Instructions
 ```bash
-./PA8 -c [master_config_file]
+./PA9 -c [master_config_file]
 ```
 **EXAMPLE:**
 ```bash
-./PA8 -c ../assets/configs/bullet_test/master.xml
+./PA9 -c ../assets/configs/bullet_test/master.xml
 ```
 
 ## Keyboard
