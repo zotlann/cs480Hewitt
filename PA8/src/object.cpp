@@ -84,35 +84,37 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
   startTransform.setIdentity();
   btScalar mass = btScalar(cfg.mass);
   bool isDynamic = (mass != 0.0f);
-
   btVector3 localInertia(0,0,0);
   if( isDynamic )
+  {
     shape->calculateLocalInertia(mass, localInertia);
-
+  }
+  
   startTransform.setOrigin(btVector3(location.x, location.y, location.z));
   shapeMotionState = new btDefaultMotionState(startTransform);
   btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,localInertia);
-  //rigid_body_information.m_restitution = cfg.restitution;
-  rigid_body_information.m_friction = 0.5;
+  rigid_body_information.m_restitution = cfg.restitution;
+  rigid_body_information.m_friction = cfg.friction;
   body = new btRigidBody(rigid_body_information);
   std::cout << "Am I dynamic? " << std::boolalpha << cfg.is_dynamic << std::endl;
   
   if(cfg.is_dynamic)
   {
-    //bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
-    //body->setCollisionFlags(collision_flags);
-    body->setActivationState(DISABLE_DEACTIVATION);
+    //body->setActivationState(DISABLE_DEACTIVATION);
   }
   if(cfg.is_kinematic)
   {
     //body is a btRigidBody pointer referencing the object being converted
-    bool collision_flags = body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
-    body->setCollisionFlags(collision_flags);
+    body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+    body->setActivationState(DISABLE_DEACTIVATION);
   }
-  
-  
+  if(!cfg.is_dynamic && !cfg.is_kinematic)
+  {
+    //for static objects
+    body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+  }
 
-  dynamics_world->addRigidBody(body);
+  dynamics_world->addRigidBody(body, 0b01111111, 0b11111111);
 
   //generate the VB and IB buffers
   glGenBuffers(1, &VB);
@@ -137,22 +139,39 @@ Object::~Object()
 //proper mutations on the objects config
 void Object::ProcessInput(char input)
 {
+  btTransform newTrans;
+  double movement = 0.075;
   switch(input)
   {
+    case 'q':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,movement,0);
+      body->getMotionState()->setWorldTransform(newTrans);
+      break;
     case 'w':
-      //body->setActivationState(ACTIVE_TAG);
-      body->applyCentralForce(btVector3(0,0,1000));
-      //body->setActivationState(DISABLE_DEACTIVATION);
-      std::cout << "w" << std::endl;
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,0,movement);
+      body->getMotionState()->setWorldTransform(newTrans);
+      break;
+    case 'e':
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,-movement,0);
+      body->getMotionState()->setWorldTransform(newTrans);
       break;
     case 'a':
-      std::cout << "a" << std::endl;
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(movement,0,0);
+      body->getMotionState()->setWorldTransform(newTrans);
       break;
     case 's':
-      std::cout << "s" << std::endl;
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(0,0,-movement);
+      body->getMotionState()->setWorldTransform(newTrans);
       break;
     case 'd':
-      std::cout << "d" << std::endl;
+      body->getMotionState()->getWorldTransform(newTrans);
+      newTrans.getOrigin() += btVector3(-movement,0,0);
+      body->getMotionState()->setWorldTransform(newTrans);
       break;
     default:
       break;
@@ -161,7 +180,7 @@ void Object::ProcessInput(char input)
 
 void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world)
 {
-  //body->activate(ACTIVE_TAG);
+  //need to clamp velocity
   dynamics_world->stepSimulation(dt/10000.f, 10);
   
   body->applyGravity();
@@ -174,7 +193,6 @@ void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world)
 
   model = glm::make_mat4(m);
   model *= glm::scale(glm::vec3(cfg.scale, cfg.scale, cfg.scale));
-  //body->activate(DISABLE_DEACTIVATION);
 }
 
 glm::mat4 Object::GetModel()
@@ -276,7 +294,7 @@ void Object::ParseObjectConfig(char* object_config_filename)
     z = element->FloatText();
   }
 
-  //length, width, height
+  //set the length, width, height
   if((element = object->FirstChildElement("width"))){
     float m = element->FloatText();
     cfg.width = m;
@@ -290,12 +308,13 @@ void Object::ParseObjectConfig(char* object_config_filename)
     cfg.height = m;
   }
 
-  //restitution
+  //set the restitution
   if((element = object->FirstChildElement("restitution"))){
     float m = element->FloatText();
     cfg.restitution = m;
   }
-  //friction
+
+  //set the friction
   if((element = object->FirstChildElement("friction"))){
     float m = element->FloatText();
     cfg.friction = m;
@@ -307,6 +326,7 @@ void Object::ParseObjectConfig(char* object_config_filename)
 
 void Object::LoadModel(char* obj_filename)
 {
+  triangle_mesh = new btTriangleMesh();
   //set up importer object
   Assimp::Importer importer;
   const aiScene* my_scene = importer.ReadFile(obj_filename, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
@@ -329,17 +349,25 @@ void Object::LoadModel(char* obj_filename)
   //Process Faces
     for(unsigned int i = 0; i < mesh->mNumFaces; i++){
       aiFace face = mesh->mFaces[i];
+      btVector3 triArray[3];
     
-    //if we were not given triangles throw an error and abort
+      //if we were not given triangles throw an error and abort
       if(face.mNumIndices != 3){
         std::string error;
         std::string file_name(obj_filename);
         error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh->mNumFaces) + " indices.\n";
         throw std::logic_error(error);
       }
-      Indices.push_back(face.mIndices[0]);
-      Indices.push_back(face.mIndices[1]);
-      Indices.push_back(face.mIndices[2]);
+      //Indices.push_back(face.mIndices[0]);
+      //Indices.push_back(face.mIndices[1]);
+      //Indices.push_back(face.mIndices[2]);
+      for( unsigned int j = 0; j < face.mNumIndices; j++ )
+      {
+        aiVector3D position = mesh->mVertices[face.mIndices[j]];
+        triArray[j] = btVector3(position.x, position.y, position.z);
+        triangle_mesh->addTriangle(triArray[0], triArray[1], triArray[2]);
+        Indices.push_back(face.mIndices[j]);
+      }
     }
   }
 }
@@ -378,13 +406,15 @@ void Object::SetTexture(GLuint text)
 
 void Object::LoadShape(char* shape_str){
   if((strcmp(shape_str,"mesh")) == 0){
-    btTriangleMesh* triangle_mesh = new btTriangleMesh();
+    //btTriangleMesh* triangle_mesh = new btTriangleMesh();
+    /*
     for(unsigned int i = 0; i < Indices.size() - 2; i+=3){
       btVector3 v1(Vertices[i].vertex.x,Vertices[i].vertex.y,Vertices[i].vertex.z);
       btVector3 v2(Vertices[i+1].vertex.x,Vertices[i+1].vertex.y,Vertices[i+1].vertex.z);
       btVector3 v3(Vertices[i+2].vertex.x,Vertices[i+2].vertex.y,Vertices[i+2].vertex.z);
       triangle_mesh->addTriangle(v1,v2,v3);
     }
+    */
     if(!cfg.is_dynamic){
       shape = new btBvhTriangleMeshShape(triangle_mesh,true);
     }

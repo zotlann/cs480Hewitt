@@ -4,12 +4,12 @@
 	<dynamic>false</dynamic>
 	<kinematic>true</kinematic>
 	<shape>box</shape>
-	<location-x>5</location-x>
-	<location-y>0</location-y>
+	<location-x>4</location-x>
+	<location-y>1</location-y>
 	<location-z>0</location-z>
-	<width>1</width>
-	<length>1</length>
-	<height>1</height>
+	<width>.5</width>
+	<length>.5</length>
+	<height>.5</height>
 	<scale>1</scale>
 	<mass>0</mass>
 </object>

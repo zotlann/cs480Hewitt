@@ -6,7 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-This project, PA8, uses the Bullet Physics Library to have collision detection and proper movement in our objects. While collision should work on our objects (also with triangle meshes!), nothing moves as of the early morning of October 30th.
+In this project, we use the Bullet Physics Library to have collision detection and proper movement in our objects. For the objects, the cylinder is static, the ball is dynamic, and the cube is kinematic.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -42,8 +42,12 @@ make
 ## Keyboard
 | Input | Output |
 | - |:-:|
-| <kbd>&#8592;</kbd> | N/A |
-| <kbd>&#8593;</kbd> | N/A |
-| <kbd>&#8594;</kbd> | N/A |
-| <kbd>&#8595;</kbd> | N/A |
-| <kbd>Tab</kbd> | N/A |
+| <kbd>w</kbd> | Move cube forward |
+| <kbd>a</kbd> | Move cube left |
+| <kbd>s</kbd> | Move cube right |
+| <kbd>d</kbd> | Move cube backwards |
+| <kbd>q</kbd> | Move cube up |
+| <kbd>e</kbd> | Move cube down |
+
+## Extra Credit
+Triangle meshes are loaded on the cylinder and tray. Messing with the .xml for each object, you can change their shape with `<shape>mesh</shape>` and they will use triangle meshes.
