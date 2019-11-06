@@ -48,13 +48,10 @@ make
 | <kbd>e</kbd> | Decrease spotlight cutoff |
 | <kbd>z</kbd> | Increase spotlight intensity |
 | <kbd>x</kbd> | Decrease spotlight intensity |
-<<<<<<< HEAD
 | <kbd>z</kbd> | Increase ambient intensity |
 | <kbd>x</kbd> | Decrease ambient intensity |
-=======
 | <kbd>w</kbd> | Move spotlight up |
 | <kbd>s</kbd> | Move spotlight down |
->>>>>>> 05ea219a4f66e161227be577a6ae55016fd0ed2a
 | <kbd>j</kbd> | Move cube left |
 | <kbd>k</kbd> | Move cube right |
 | <kbd>l</kbd> | Move cube backwards |
