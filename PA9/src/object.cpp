@@ -144,20 +144,9 @@ void Object::ProcessInput(char input)
 {
   switch(input)
   {
-    case 'w':
-      //body->setActivationState(ACTIVE_TAG);
+    case 'r':
       body->applyCentralForce(btVector3(0,0,1000));
-      //body->setActivationState(DISABLE_DEACTIVATION);
-      std::cout << "w" << std::endl;
-      break;
-    case 'a':
-      std::cout << "a" << std::endl;
-      break;
-    case 's':
       std::cout << "s" << std::endl;
-      break;
-    case 'd':
-      std::cout << "d" << std::endl;
       break;
     default:
       break;
