@@ -173,7 +173,7 @@ void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world)
   transform.getOpenGLMatrix(m);
 
   model = glm::make_mat4(m);
-  model *= glm::scale(glm::vec3(.1));
+  model *= glm::scale(glm::vec3(cfg.scale, cfg.scale, cfg.scale));
   //body->activate(DISABLE_DEACTIVATION);
 }
 

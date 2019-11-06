@@ -160,7 +160,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 void Graphics::Render()
 {
   //clear the screen and sets the black background
-  glClearColor(0.0, 0.0, 1.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
+  glClearColor(0.0, 0.0, 0.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // Start the correct program
   m_shader->Enable();
@@ -173,10 +173,10 @@ void Graphics::Render()
   for(unsigned int i = 0; i < objects.size(); i++)
   {
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
-    glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel() * m_camera->GetView()));
+    glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView() * objects[i]->GetModel()));
     glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(1.0,1.0,1.0)));
-    glUniform1f(m_shininess, 100.0f);
-    glUniform4fv(m_ambient, 1, glm::value_ptr(glm::vec4(1.0f,20.0f,1.0f,1.0f)));
+    glUniform1f(m_shininess, 1000.0f);
+    glUniform4fv(m_ambient, 1, glm::value_ptr(glm::vec4(1.0f,1.0f,1.0f,1.0f)));
     glUniform4fv(m_diffuse, 1, glm::value_ptr(glm::vec4(1.0f)));
     glUniform4fv(m_specular, 1, glm::value_ptr(glm::vec4(100.0f)));
 
