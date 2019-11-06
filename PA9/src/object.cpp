@@ -70,7 +70,12 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
 {
   //start with model matrix as identity matrix
   model = glm::mat4(1.0f);
-
+  //set specular,ambient,diffuse to identity for testing
+  cfg.ambient = glm::vec4(1.0f);
+  cfg.diffuse = glm::vec4(1.0f);
+  cfg.specular = glm::vec4(1.0f);
+  cfg.shininess = 1.0f;
+ 
   //parse the object's config file
   ParseObjectConfig(object_config_filename);
 
@@ -173,7 +178,7 @@ void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamics_world)
   transform.getOpenGLMatrix(m);
 
   model = glm::make_mat4(m);
-  model *= glm::scale(glm::vec3(cfg.scale, cfg.scale, cfg.scale));
+  model *= glm::scale(glm::vec3(cfg.scale*2, cfg.scale*2, cfg.scale*2));
   //body->activate(DISABLE_DEACTIVATION);
 }
 
@@ -421,4 +426,20 @@ float Object::Scale(){
 
 btRigidBody* Object::GetRigidBody(){
   return body;
+}
+
+glm::vec4 Object::GetAmbient(){
+  return cfg.ambient;
+}
+glm::vec4 Object::GetDiffuse(){
+  return cfg.diffuse;
+}
+glm::vec4 Object::GetSpecular(){
+  return cfg.specular;
+}
+float Object::GetShininess(){
+  return cfg.shininess;
+}
+glm::vec3 Object::GetLocation(){
+  return location;
 }

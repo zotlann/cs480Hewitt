@@ -24,7 +24,11 @@ struct ObjectConfig{
 	float width;
 	float length;
 	float height;
-	glm::vec3 inital_rotation;
+	glm::vec4 inital_rotation;
+	glm::vec4 ambient;
+	glm::vec4 diffuse;
+	glm::vec4 specular;
+	float shininess;
 	bool is_dynamic;
   bool is_kinematic;
 	char* shape;
@@ -53,7 +57,13 @@ class Object
 
     void LoadShape(char* shape); 
 
-    float Scale(); 
+    float Scale();
+
+    float GetShininess();
+    glm::vec4 GetDiffuse();
+    glm::vec4 GetAmbient();
+    glm::vec4 GetSpecular(); 
+    glm::vec3 GetLocation(); 
   private:
     glm::mat4 model;
     glm::vec3 location;
