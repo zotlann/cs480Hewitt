@@ -8,6 +8,8 @@
 ## Project Description
 Lighting is implemented in PA9. There is passthrough (how it's been running so far), per-vertex, and per-fragment (normals aren't working) lighting in the program for you to see all 3 types of them. This builds off of PA8 as a spotlight (it's a point light, ehhh) follows the controllable cube.
 
+Right now, if you hit <kbd>s</kbd> enough, the spotlight will move away and you'll be able to see the ambient lighting.
+
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
 
@@ -46,6 +48,8 @@ make
 | <kbd>e</kbd> | Decrease spotlight cutoff |
 | <kbd>z</kbd> | Increase spotlight intensity |
 | <kbd>x</kbd> | Decrease spotlight intensity |
+| <kbd>w</kbd> | Move spotlight up |
+| <kbd>s</kbd> | Move spotlight down |
 | <kbd>j</kbd> | Move cube left |
 | <kbd>k</kbd> | Move cube right |
 | <kbd>l</kbd> | Move cube backwards |
