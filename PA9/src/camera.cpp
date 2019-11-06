@@ -24,7 +24,7 @@ bool Camera::Initialize(int w, int h)
   //  if you will be having a moving camera the view matrix will need to more dynamic
   //  ...Like you should update it before you render more dynamic 
   //  for this project having them static will be fine
-  view = glm::lookAt( glm::vec3(0, 50, 8), //Eye Position. Default (0,50,8)
+  view = glm::lookAt( glm::vec3(0, 50, 16), //Eye Position. Default (0,5,10)
                       glm::vec3(0.0, 0.0, 0.0), //Focus point
                       glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
 
@@ -37,6 +37,7 @@ bool Camera::Initialize(int w, int h)
 
 void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
 {
+  /*
   xLook += mouseLocation.x;
   yLook += mouseLocation.y; //normal/non-inverted vertical look
 
@@ -49,14 +50,16 @@ void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
   front.x += cameraLocation_x;
   front.y += cameraLocation_y;
   front.z += cameraLocation_z;
-
-  view = glm::lookAt( glm::vec3(cameraLocation_x, cameraLocation_y, cameraLocation_z),
-                      front,
+  
+  view = glm::lookAt( glm::vec3(0, 50, 8),
+                      glm::vec3(0.0,0.0,0.0),
                       glm::vec3(0.0, 1.0, 0.0));
+  */
 }
 
 void Camera::Input(char input, unsigned int dt)
 {
+  /*
   int movement = 5;// * (dt * 0.001);
   glm::vec3 fwd(view[0][2], view[1][2], view[2][2]);
   fwd.y *= -1;
@@ -95,6 +98,7 @@ void Camera::Input(char input, unsigned int dt)
     default:
       break;
   }
+  */
 }
 
 glm::mat4 Camera::GetProjection()

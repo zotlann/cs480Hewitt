@@ -158,6 +158,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
     return false;
   }
 
+  m_modelMatrix = m_shaders[shader_index]->GetUniformLocation("modelMatrix");
   // Locate the model matrix in the shader
   m_modelViewMatrix = m_shaders[shader_index]->GetUniformLocation("modelViewMatrix");
   m_lightPosition = m_shaders[shader_index]->GetUniformLocation("lightPosition");
@@ -173,7 +174,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   //Locate lighting uniforms in the shader
-  m_modelMatrix = m_shaders[shader_index]->GetUniformLocation("modelViewMatrix");
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
@@ -200,7 +200,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 void Graphics::Render()
 {
   //clear the screen and sets the black background
-  glClearColor(0.0, 0.0, 1.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
+  glClearColor(0.0, 0.0, 0.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // Start the correct program
   m_shaders[shader_index]->Enable();
@@ -213,7 +213,6 @@ void Graphics::Render()
   for(unsigned int i = 0; i < objects.size(); i++)
   {
     glm::mat4 modelView = m_camera->GetView() * objects[i]->GetModel();
-    //glm::mat4 modelView = objects[i]->GetModel() * m_camera->GetView();
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
     glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(modelView));
     glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(1.0,1.0,1.0)));
