@@ -72,10 +72,6 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
 {
   //start with model matrix as identity matrix
   model = glm::mat4(1.0f);
-  //set specular,ambient,diffuse to identity for testing
-  cfg.ambient = glm::vec4(1.0f);
-  cfg.diffuse = glm::vec4(1.0f);
-  cfg.specular = glm::vec4(1.0f);
  
   //parse the object's config file
   ParseObjectConfig(object_config_filename);
@@ -260,6 +256,46 @@ void Object::ParseObjectConfig(char* object_config_filename)
     LoadModel(filename);
     delete filename;
   }
+
+  float ar, ag, ab, dr, dg, db, sr, sg, sb;
+  ar = ag = ab = dr = dg =db = sr = sg = sb = 1.0;
+  //set the ambient product
+  if((element = object->FirstChildElement("ambient-r"))){
+    ar = element->FloatText();
+  }
+  if((element = object->FirstChildElement("ambient-g"))){
+    ag = element->FloatText();
+  }
+  if((element = object->FirstChildElement("ambient-b"))){
+    ab = element->FloatText();
+  }
+  cfg.ambient = glm::vec4(ar,ag,ab,1.0f);
+
+  //set the diffuse product
+  if((element = object->FirstChildElement("diffuse-r"))){
+    dr = element->FloatText();
+  }
+  if((element = object->FirstChildElement("diffuse-g"))){
+    dg = element->FloatText();
+  }
+  if((element = object->FirstChildElement("diffuse-b"))){
+    db = element->FloatText();
+  }
+  cfg.diffuse = glm::vec4(dr,dg,db,1.0f);
+
+
+  //set the specular product
+  if((element = object->FirstChildElement("specular-r"))){
+    sr = element->FloatText();
+  }
+  if((element = object->FirstChildElement("specular-g"))){
+    sg = element->FloatText();
+  }
+  if((element = object->FirstChildElement("specular-b"))){
+    sb = element->FloatText();
+  }
+  cfg.ambient = glm::vec4(sr,sg,sb,1.0f);
+
 
   //set the texture filepath and load the texture
   if((element = object->FirstChildElement("texture"))){

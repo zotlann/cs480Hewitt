@@ -16,6 +16,11 @@ Graphics::~Graphics()
 
 bool Graphics::Initialize(int width, int height, Config cfg)
 {
+  //set up ambient lighting
+  ambient_light_color.r = cfg.ar;
+  ambient_light_color.g = cfg.ag;
+  ambient_light_color.b = cfg.ab;
+  ambient_light_intensity = cfg.ambient_intensity;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -85,10 +90,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   spotlight.cutoff = M_PI;
   spotlight.position = glm::vec3(0.0,0.0,0.0);
   spotlight.color = glm::vec3(1.0,1.0,1.0);
-
-  //set up the ambient light;
-  ambient_light_color = glm::vec3(1.0f,1.0,1.0);
-  ambient_light_intensity = 0.0f;
 
   // Set up the shaders'
   Shader* s1 = new Shader();

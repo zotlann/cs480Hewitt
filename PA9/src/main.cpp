@@ -139,5 +139,20 @@ void loadConfig(char* config_filename, Config* cfg){
     cfg->table_config = new char[256];
     strcpy(cfg->table_config,element->GetText());
   }
+  //set up ambient lighting
+  if((element = config->FirstChildElement("ambient-r"))){
+    cfg->ar = element->FloatText();
+  }
+  if((element = config->FirstChildElement("ambient-g"))){
+    cfg->ag = element->FloatText();
+  }
+  if((element = config->FirstChildElement("ambient-b"))){
+    cfg->ab = element->FloatText();
+  }
+  if((element = config->FirstChildElement("ambient-intensity"))){
+    cfg->ambient_intensity = element->FloatText();
+    std::cout << "BIG TEST: " << cfg->ambient_intensity;
+  }
+
 }
 

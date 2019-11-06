@@ -15,6 +15,10 @@ struct Config{
   char* cube_config;
   char* cylinder_config;
   char* table_config;
+  float ar;
+  float ag;
+  float ab;
+  float ambient_intensity;
 };
 
 #endif
