@@ -80,6 +80,16 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   objects.push_back(m_cylinder);
   objects.push_back(m_table);
 
+  //set up the spotlight;
+  spotlight.intensity = 1.0f;
+  spotlight.cutoff = M_PI;
+  spotlight.position = glm::vec3(0,5.0,10.0);
+  spotlight.color = glm::vec3(1.0,1.0,1.0);
+
+  //set up the ambient light;
+  ambient_light_color = glm::vec3(1.0f,1.0,1.0);
+  ambient_light_intensity = 0.0f;
+
   // Set up the shaders'
   Shader* s1 = new Shader();
   Shader* s2 = new Shader();
@@ -161,12 +171,18 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   m_modelMatrix = m_shaders[shader_index]->GetUniformLocation("modelMatrix");
   // Locate the model matrix in the shader
   m_modelViewMatrix = m_shaders[shader_index]->GetUniformLocation("modelViewMatrix");
-  m_lightPosition = m_shaders[shader_index]->GetUniformLocation("lightPosition");
+  m_lightPosition = m_shaders[shader_index]->GetUniformLocation("AmbientLightPosition");
   m_shininess = m_shaders[shader_index]->GetUniformLocation("shininess");
   m_ambient = m_shaders[shader_index]->GetUniformLocation("AmbientProduct");
   m_diffuse = m_shaders[shader_index]->GetUniformLocation("DiffuseProduct");
   m_specular = m_shaders[shader_index]->GetUniformLocation("SpecularProduct");
-
+  m_ambient_color = m_shaders[shader_index]->GetUniformLocation("AmbientLightColor");
+  m_ambient_intensity = m_shaders[shader_index]->GetUniformLocation("AmbientLightIntensity");
+  m_spotlight_position = m_shaders[shader_index]->GetUniformLocation("spotlightPosition");
+  m_spotlight_direction = m_shaders[shader_index]->GetUniformLocation("spotlightDirection");
+  m_spotlight_cutoff = m_shaders[shader_index]->GetUniformLocation("spotlightCutoff");
+  m_spotlight_color = m_shaders[shader_index]->GetUniformLocation("spotlightColor");
+  m_spotlight_intensity = m_shaders[shader_index]->GetUniformLocation("spotlightIntensity");
   if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
   {
     printf("m_modelMatrix not found\n");
@@ -188,6 +204,15 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     shader_index %= m_shaders.size();
     std::cout << shader_index << std::endl;
   }
+  if(input == 'q'){
+    spotlight.cutoff *= 2;
+  }
+  if(input == 'e'){
+    spotlight.cutoff /= 2;
+  }
+  if(input == 'w'){
+    spotlight.position += glm::vec3(0.0,1.0,0.0);
+  }
   //set the timestep
   //update the ball with user input
   m_ball->ProcessInput(input);
@@ -195,6 +220,8 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   for(unsigned int i = 0; i < objects.size(); i++){
     objects[i]->Update(dt, dynamics_world);
   }
+  //update spotlight direction
+  spotlight.direction = m_ball->GetLocation();
 }
 
 void Graphics::Render()
@@ -216,10 +243,17 @@ void Graphics::Render()
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
     glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(modelView));
     glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(1.0,1.0,1.0)));
-    glUniform1f(m_shininess, 1.0f);
-    glUniform4fv(m_ambient, 1, glm::value_ptr(glm::vec4(1.0f,20.0f,1.0f,1.0f)));
-    glUniform4fv(m_diffuse, 1, glm::value_ptr(glm::vec4(1.0f)));
-    glUniform4fv(m_specular, 1, glm::value_ptr(glm::vec4(1.0f)));
+    glUniform1f(m_shininess, objects[i]->GetShininess());
+    glUniform4fv(m_ambient, 1, glm::value_ptr(objects[i]->GetAmbient()));
+    glUniform4fv(m_diffuse, 1, glm::value_ptr(objects[i]->GetDiffuse()));
+    glUniform4fv(m_specular, 1, glm::value_ptr(objects[i]->GetSpecular()));
+    glUniform3fv(m_ambient_color, 1, glm::value_ptr(ambient_light_color));
+    glUniform1f(m_ambient_intensity, ambient_light_intensity);
+    glUniform3fv(m_spotlight_position, 1, glm::value_ptr(spotlight.position));
+    glUniform3fv(m_spotlight_direction, 1, glm::value_ptr(spotlight.direction));
+    glUniform3fv(m_spotlight_color, 1, glm::value_ptr(spotlight.color));
+    glUniform1f(m_spotlight_cutoff, glm::cos(spotlight.cutoff));
+    glUniform1f(m_spotlight_intensity, spotlight.intensity);
 
     objects[i]->Render();
   }
