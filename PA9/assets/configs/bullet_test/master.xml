@@ -3,6 +3,8 @@
 	<fshader1>../assets/shaders/per-vertex/fshader</fshader1>
 	<vshader2>../assets/shaders/passthrough/vshader</vshader2>
 	<fshader2>../assets/shaders/passthrough/fshader</fshader2>
+	<vshader3>../assets/shaders/per-fragment/vshader</vshader3>
+	<fshader3>../assets/shaders/per-fragment/fshader</fshader3>
 	<windowname>bullet-test</windowname>
 	<w>1024</w>
 	<h>768</h>

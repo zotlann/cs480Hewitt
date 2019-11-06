@@ -88,6 +88,18 @@ void loadConfig(char* config_filename, Config* cfg){
     strcpy(cfg->fshader2_filename,element->GetText());
   }
 
+ //set the vertex shader filename
+  if((element = config->FirstChildElement("vshader3"))){
+    cfg->vshader3_filename = new char[256];
+    strcpy(cfg->vshader3_filename,element->GetText());
+  }
+  
+  //set the fragment shader filename
+  if((element = config->FirstChildElement("fshader3"))){
+    cfg->fshader3_filename = new char[256];
+    strcpy(cfg->fshader3_filename,element->GetText());
+  }
+
   //set the window name
   if((element = config->FirstChildElement("windowname"))){
    cfg->window_name = new char[256];

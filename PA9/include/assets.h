@@ -6,6 +6,8 @@ struct Config{
   char* fshader1_filename;
   char* vshader2_filename;
   char* fshader2_filename;
+  char* vshader3_filename;
+  char* fshader3_filename;
   char* window_name;
   int w;
   int h;
