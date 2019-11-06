@@ -1,5 +1,5 @@
 <object>
-	<model>../assets/objects/tray.obj</model>
+	<model>../assets/objects/new-tray.obj</model>
 	<texture>../assets/textures/table.jpg</texture>
 	<dynamic>false</dynamic>
 	<kinematic>false</kinematic>

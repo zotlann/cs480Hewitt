@@ -11,10 +11,6 @@
 	<restiution>0</restiution>
 	<friction>0.02</friction>
 	<scale>1</scale>
-<<<<<<< HEAD
-	<mass>10</mass>
 	<shininess>5</shininess>
-=======
 	<mass>20</mass>
->>>>>>> 05e6fce071dcca4d120fb6435ae9798b9b029e80
 </object>

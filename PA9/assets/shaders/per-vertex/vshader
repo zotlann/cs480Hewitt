@@ -47,12 +47,11 @@ void main(void){
   
   Kd = max(dot(N,L),0);
   Ks = pow(max(dot(E,H),0),shininess);
-  float diff = 1;
 
-  float theta = dot(normalize(spotlightPosition),spotlightDirection);
-  if(theta > spotlightCutoff){
-    diffuse += vec4(spotlightColor,1.0) * spotlightIntensity * Kd * diff;
-    specular += vec4(spotlightColor,1.0) * spotlightIntensity * Ks * diff;
+  float theta = dot(normalize(pos-spotlightPosition),spotlightDirection);
+  if(theta < spotlightCutoff){
+    diffuse += vec4(spotlightColor,1.0) * spotlightIntensity * Kd;
+    specular += vec4(spotlightColor,1.0) * spotlightIntensity * Ks;
   }
   color = specular + diffuse + ambient;
   color.a = 1.0;

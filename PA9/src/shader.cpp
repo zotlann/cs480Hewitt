@@ -44,7 +44,7 @@ bool Shader::AddShader(GLenum ShaderType,char* filename)
       return false;
     }
     else{
-      printf("Fragment shader file is invalid.\n");
+      printf("Fragment shader file is invalid. %s\n",filename);
       return false;
     }
   }

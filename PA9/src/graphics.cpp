@@ -81,14 +81,14 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   objects.push_back(m_table);
 
   //set up the spotlight;
-  spotlight.intensity = 1.0f;
-  spotlight.cutoff = M_PI/4;
-  spotlight.position = glm::vec3(0,5.0,10.0);
-  spotlight.color = glm::vec3(0.5,0.0,0.5);
+  spotlight.intensity = 0.0f;
+  spotlight.cutoff = M_PI;
+  spotlight.position = glm::vec3(0.0,0.0,0.0);
+  spotlight.color = glm::vec3(1.0,1.0,1.0);
 
   //set up the ambient light;
   ambient_light_color = glm::vec3(1.0f,1.0,1.0);
-  ambient_light_intensity = 0.5f;
+  ambient_light_intensity = 0.0f;
 
   // Set up the shaders'
   Shader* s1 = new Shader();
@@ -179,7 +179,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   
   shader_index = 0;
 
-
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shaders[shader_index]->GetUniformLocation("projectionMatrix");
   if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
@@ -211,6 +210,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   m_spotlight_cutoff = m_shaders[shader_index]->GetUniformLocation("spotlightCutoff");
   m_spotlight_color = m_shaders[shader_index]->GetUniformLocation("spotlightColor");
   m_spotlight_intensity = m_shaders[shader_index]->GetUniformLocation("spotlightIntensity");
+  shader_index = 0;
   if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
   {
     printf("m_modelMatrix not found\n");
@@ -238,12 +238,29 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   }
   //update spotlight direction
   spotlight.direction = m_cube->GetLocation();
-  spotlight.position.x = m_cube->GetLocation().x;
-  spotlight.position.z = m_cube->GetLocation().z;
 }
 
 void Graphics::Render()
 {
+  
+  // Locate the projection matrix in the shader
+  m_projectionMatrix = m_shaders[shader_index]->GetUniformLocation("projectionMatrix");
+  m_viewMatrix = m_shaders[shader_index]->GetUniformLocation("viewMatrix");
+  m_modelMatrix = m_shaders[shader_index]->GetUniformLocation("modelMatrix");
+  // Locate the model matrix in the shader
+  m_modelViewMatrix = m_shaders[shader_index]->GetUniformLocation("modelViewMatrix");
+  m_lightPosition = m_shaders[shader_index]->GetUniformLocation("AmbientLightPosition");
+  m_shininess = m_shaders[shader_index]->GetUniformLocation("shininess");
+  m_ambient = m_shaders[shader_index]->GetUniformLocation("AmbientProduct");
+  m_diffuse = m_shaders[shader_index]->GetUniformLocation("DiffuseProduct");
+  m_specular = m_shaders[shader_index]->GetUniformLocation("SpecularProduct");
+  m_ambient_color = m_shaders[shader_index]->GetUniformLocation("AmbientLightColor");
+  m_ambient_intensity = m_shaders[shader_index]->GetUniformLocation("AmbientLightIntensity");
+  m_spotlight_position = m_shaders[shader_index]->GetUniformLocation("spotlightPosition");
+  m_spotlight_direction = m_shaders[shader_index]->GetUniformLocation("spotlightDirection");
+  m_spotlight_cutoff = m_shaders[shader_index]->GetUniformLocation("spotlightCutoff");
+  m_spotlight_color = m_shaders[shader_index]->GetUniformLocation("spotlightColor");
+  m_spotlight_intensity = m_shaders[shader_index]->GetUniformLocation("spotlightIntensity");
   //clear the screen and sets the black background
   glClearColor(0.0, 0.0, 0.0, 1.0); //Default: (0.0, 0.0, 0.2, 1.0)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -297,25 +314,32 @@ void Graphics::Input(char input)
   if(input == 'e'){
     spotlight.cutoff /= 2;
   }
-  /*
+  
   if(input == 'w'){
     spotlight.position += glm::vec3(0.0,1.0,0.0);
   }
   if(input == 's'){
     spotlight.position += glm::vec3(0.0,-1.0,0.0);
   }
-  */
+  if(input == 'a'){
+    spotlight.position += glm::vec3(1.0,0.0,0.0); 
+  }
+  if(input == 'd'){
+    spotlight.position += glm::vec3(-1.0,0.0,0.0);
+  }
   if(input == 'z'){
-    spotlight.intensity += 0.25f;
+    spotlight.intensity += 0.025f;
   }
   if(input == 'x'){
-    spotlight.intensity -= 0.25f;
+    spotlight.intensity -= 0.025f;
   }
   if(input == 'c'){
-    ambient_light_intensity += 0.025f;
+   // ambient_light_intensity += 0.025f;
+   spotlight.position += glm::vec3(0,0,1.0);
   }
   if(input == 'v'){
-    ambient_light_intensity -= 0.025f;
+    spotlight.position += glm::vec3(0,0,-1.0);
+    //ambient_light_intensity -= 0.025f;
   }
 
 }
