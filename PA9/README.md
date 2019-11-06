@@ -52,9 +52,10 @@ make
 | <kbd>x</kbd> | Decrease ambient intensity |
 | <kbd>w</kbd> | Move spotlight up |
 | <kbd>s</kbd> | Move spotlight down |
+| <kbd>i</kbd> | Move cube forwards |
 | <kbd>j</kbd> | Move cube left |
-| <kbd>k</kbd> | Move cube right |
-| <kbd>l</kbd> | Move cube backwards |
+| <kbd>k</kbd> | Move cube backwards |
+| <kbd>l</kbd> | Move cube right |
 | <kbd>u</kbd> | Move cube up |
-| <kbd>p</kbd> | Move cube down |
+| <kbd>o</kbd> | Move cube down |
 | <kbd>Tab</kbd> | Swap through shader programs  |
