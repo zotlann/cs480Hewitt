@@ -227,28 +227,8 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
-<<<<<<< HEAD
-  if(input == '\t'){
-    shader_index++;
-    shader_index %= m_shaders.size();
-    std::cout << shader_index << std::endl;
-  }
-  if(input == 'q'){
-    spotlight.cutoff *= 2;
-  }
-  if(input == 'e'){
-    spotlight.cutoff /= 2;
-  }
-  if(input == 'w'){
-    spotlight.position += glm::vec3(0.0,1.0,0.0);
-  }
-  if(input == 's'){
-    spotlight.position += glm::vec3(0.0,-1.0,0.0);
-  }
-
-=======
   Input(input);
->>>>>>> 05e6fce071dcca4d120fb6435ae9798b9b029e80
+
   //set the timestep
   //update the ball with user input
   m_cube->ProcessInput(input);
@@ -331,6 +311,13 @@ void Graphics::Input(char input)
   if(input == 'x'){
     spotlight.intensity -= 0.25f;
   }
+  if(input == 'c'){
+    ambient_light_intensity += 0.025f;
+  }
+  if(input == 'v'){
+    ambient_light_intensity -= 0.025f;
+  }
+
 }
 
 std::string Graphics::ErrorString(GLenum error)
