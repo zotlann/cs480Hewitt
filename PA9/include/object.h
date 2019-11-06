@@ -70,8 +70,10 @@ class Object
 
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
+    std::vector<glm::vec3> normals;
     GLuint VB;
     GLuint IB;
+    GLuint normalBuffer;
     GLuint texture;
 
     ObjectConfig cfg;

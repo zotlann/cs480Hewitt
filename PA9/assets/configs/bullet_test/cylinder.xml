@@ -9,4 +9,5 @@
 	<location-z>0</location-z>
 	<scale>.5</scale>
 	<mass>0</mass>
+	<shininess>0.5</shininess>
 </object>

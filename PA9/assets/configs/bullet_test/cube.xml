@@ -12,4 +12,5 @@
 	<height>1</height>
 	<scale>1</scale>
 	<mass>0</mass>
+	<shininess>2</shininess>
 </object>

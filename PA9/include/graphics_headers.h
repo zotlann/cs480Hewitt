@@ -28,6 +28,7 @@ struct Vertex
 {
   glm::vec3 vertex;
   glm::vec2 texture_coordinates;
+  glm::vec3 normal_coordinates;
 
   Vertex(glm::vec3 v, glm::vec2 t): vertex(v), texture_coordinates(t) {}
 };

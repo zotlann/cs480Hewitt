@@ -2,6 +2,7 @@
 
 Object::Object(btDiscreteDynamicsWorld* dynamics_world)
 {
+  /*
   Vertices = {
     {{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f}},
     {{1.0f, -1.0f, 1.0f}, {1.0f, 0.0f}},
@@ -64,6 +65,7 @@ Object::Object(btDiscreteDynamicsWorld* dynamics_world)
   //body->setActivationState(DISABLE_DEACTIVATION);
   std::cout << "Am I dynamic? " << std::boolalpha << isDynamic << std::endl;
   dynamics_world->addRigidBody(body);
+  */
 }
 
 Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_world)
@@ -74,7 +76,6 @@ Object::Object(char* object_config_filename, btDiscreteDynamicsWorld *dynamics_w
   cfg.ambient = glm::vec4(1.0f);
   cfg.diffuse = glm::vec4(1.0f);
   cfg.specular = glm::vec4(1.0f);
-  cfg.shininess = 1.0f;
  
   //parse the object's config file
   ParseObjectConfig(object_config_filename);
@@ -127,6 +128,11 @@ dynamics_world->addRigidBody(body, 0b01111111, 0b11111111);
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+
+  //normal
+  glGenBuffers(1, &normalBuffer);
+  glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+  glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 }
 
 Object::~Object()
@@ -182,10 +188,13 @@ void Object::Render()
 
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
 
+  glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture_coordinates));
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture_coordinates));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal_coordinates));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
@@ -193,6 +202,7 @@ void Object::Render()
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
 }
 
 //Parses planet config files and creates an object with the proper config settings.
@@ -253,8 +263,15 @@ void Object::ParseObjectConfig(char* object_config_filename)
 
   //set the mass
   if((element = object->FirstChildElement("mass"))){
-    bool m = element->FloatText();
+    float m = element->FloatText();
     cfg.mass = m;
+  }
+
+
+  //set the shininess
+  if((element = object->FirstChildElement("shininess"))){
+    float m = element->FloatText();
+    cfg.shininess = m;
   }
 
   //set the initial location

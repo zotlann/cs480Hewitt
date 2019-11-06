@@ -82,13 +82,13 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   //set up the spotlight;
   spotlight.intensity = 1.0f;
-  spotlight.cutoff = M_PI;
+  spotlight.cutoff = M_PI/4;
   spotlight.position = glm::vec3(0,5.0,10.0);
-  spotlight.color = glm::vec3(1.0,1.0,1.0);
+  spotlight.color = glm::vec3(0.5,0.0,0.5);
 
   //set up the ambient light;
   ambient_light_color = glm::vec3(1.0f,1.0,1.0);
-  ambient_light_intensity = 0.0f;
+  ambient_light_intensity = 0.5f;
 
   // Set up the shaders'
   Shader* s1 = new Shader();
@@ -241,6 +241,10 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   if(input == 'w'){
     spotlight.position += glm::vec3(0.0,1.0,0.0);
   }
+  if(input == 's'){
+    spotlight.position += glm::vec3(0.0,-1.0,0.0);
+  }
+
   //set the timestep
   //update the ball with user input
   m_ball->ProcessInput(input);
