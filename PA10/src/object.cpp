@@ -192,7 +192,7 @@ void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamicsWorld)
 {
   if(strcmp(cfg.shape, "mesh") == 0 )
   {
-    shape->setLocalScaling(btVector3(cfg.scale, cfg.scale, cfg.scale));
+    shape->setLocalScaling(btVector3(cfg.scale*2, cfg.scale*2, cfg.scale*2));
     dynamicsWorld->updateSingleAabb(body);
   }
 
@@ -486,7 +486,7 @@ void Object::LoadShape(char* shape_str){
     shape = new btStaticPlaneShape(btVector3(0,1,0),0);
   }
   else if((strcmp(shape_str,"sphere")) == 0){
-    btScalar radius = cfg.scale;
+    btScalar radius = cfg.scale*2;
     shape = new btSphereShape(radius);
     std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
   }
