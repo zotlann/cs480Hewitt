@@ -22,7 +22,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   ambient_light_color.b = cfg.ab;
   ambient_light_intensity = cfg.ambient_intensity;
   specular_intensity = cfg.specular_intensity;
-  std::cout << "TEST: " << ambient_light_intensity;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -83,8 +82,12 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   objects = m_table->GetObjects();
 
   //add all rigit bodies to physics world
+<<<<<<< HEAD
   for(unsigned int i = 0; i < objects.size(); i++){
     std::cout << "RIGID BODY G: " << objects[i]->GetRigidBody() << std::endl;
+=======
+  for(int i = 0; i < objects.size(); i++){
+>>>>>>> 836a391e11bb4b4b6e03e8e9e684ba24d95e1dc1
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
   }
 
@@ -228,11 +231,25 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  //Setup file io for pinball scoreboard
+  ifstream scoreboard ("../assets/scoreboard.txt");
+  if(scoreboard.is_open())
+  {
+    std::cout << std::endl << scoreboard.rdbuf() << std::endl;
+    scoreboard.close();
+  }
+  else
+  {
+    std::cout << "Could not open ../assets/scoreboard.txt" << std::endl;
+  }
+  
+
   return true;
 }
 
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
+  //handles plunger, flippers, and shader changes 
   Input(input);
 
   dynamics_world->stepSimulation(dt/1000.0f,10);
@@ -322,42 +339,21 @@ void Graphics::Input(char input)
   if(input == '\t'){
     shader_index++;
     shader_index %= m_shaders.size();
-    std::cout << shader_index << std::endl;
-  }
-  if(input == 'q'){
-    spotlight.cutoff *= 2;
-  }
-  if(input == 'e'){
-    spotlight.cutoff /= 2;
-  }
-  
-  if(input == 'w'){
-    spotlight.position += glm::vec3(0.0,1.0,0.0);
-  }
-  if(input == 's'){
-    spotlight.position += glm::vec3(0.0,-1.0,0.0);
-  }
-  if(input == 'a'){
-    spotlight.position += glm::vec3(1.0,0.0,0.0); 
-  }
-  if(input == 'd'){
-    spotlight.position += glm::vec3(-1.0,0.0,0.0);
   }
   if(input == 'z'){
-    spotlight.intensity += 0.025f;
+    //left flipper
   }
   if(input == 'x'){
-    spotlight.intensity -= 0.025f;
+    //right flipper
   }
   if(input == 'c'){
-   // ambient_light_intensity += 0.025f;
-   spotlight.position += glm::vec3(0,0,1.0);
+    if(true){ //check if ball is in plunger area
+      //plunger
+    }
   }
   if(input == 'v'){
-    spotlight.position += glm::vec3(0,0,-1.0);
-    //ambient_light_intensity -= 0.025f;
-  }
 
+  }
 }
 
 std::string Graphics::ErrorString(GLenum error)

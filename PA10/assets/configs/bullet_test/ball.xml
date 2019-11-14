@@ -6,9 +6,13 @@
 	<shape>sphere</shape>
 	<radius>1</radius>
 	<location-x>0</location-x>
+<<<<<<< HEAD
 	<location-y>-24</location-y>
+=======
+	<location-y>2</location-y>
+>>>>>>> 836a391e11bb4b4b6e03e8e9e684ba24d95e1dc1
 	<location-z>0</location-z>
-	<restiution>0</restiution>
+	<restiution>0.5</restiution>
 	<friction>0.02</friction>
 	<diffuse-r>1</diffuse-r>
 	<diffuse-g>1</diffuse-g>

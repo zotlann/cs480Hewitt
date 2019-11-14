@@ -1,4 +1,4 @@
-# PA9: Lighting
+# PA10: Pinball
 
 ## Team:
 - [Benjamin Estela](https://github.com/nebunr)
@@ -6,9 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-Lighting is implemented in PA9. There is passthrough (how it's been running so far), per-vertex, and per-fragment (normals aren't working) lighting in the program for you to see all 3 types of them. This builds off of PA8 as a spotlight (it's a point light, ehhh) follows the controllable cube.
-
-Right now, if you hit <kbd>s</kbd> enough, the spotlight will move away and you'll be able to see the ambient lighting.
+Pinball.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -34,28 +32,17 @@ make
 
 ## Usage Instructions
 ```bash
-./PA9 -c [master_config_file]
+./PA10 -c [master_config_file]
 ```
 **EXAMPLE:**
 ```bash
-./PA9 -c ../assets/configs/bullet_test/master.xml
+./PA10 -c ../assets/configs/bullet_test/master.xml
 ```
 
 ## Keyboard
 | Input | Output |
 | - |:-:|
-| <kbd>q</kbd> | Increase spotlight cutoff |
-| <kbd>e</kbd> | Decrease spotlight cutoff |
-| <kbd>z</kbd> | Increase spotlight intensity |
-| <kbd>x</kbd> | Decrease spotlight intensity |
-| <kbd>z</kbd> | Increase ambient intensity |
-| <kbd>x</kbd> | Decrease ambient intensity |
-| <kbd>w</kbd> | Move spotlight up |
-| <kbd>s</kbd> | Move spotlight down |
-| <kbd>i</kbd> | Move cube forwards |
-| <kbd>j</kbd> | Move cube left |
-| <kbd>k</kbd> | Move cube backwards |
-| <kbd>l</kbd> | Move cube right |
-| <kbd>u</kbd> | Move cube up |
-| <kbd>o</kbd> | Move cube down |
+| <kbd>z</kbd> | Left Flipper |
+| <kbd>x</kbd> | Right Flipper |
+| <kbd>c</kbd> | Plunger |
 | <kbd>Tab</kbd> | Swap through shader programs  |

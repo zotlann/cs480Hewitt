@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 # Linux
 ifeq ($(UNAME_S), Linux)
 	CC=g++
-	LIBS=-lSDL2 -lGLEW -lGL -lassimp -lMagick++-6.Q16 #`Magick++-config --cppflags --cxxflags --ldflags --libs` -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath
+	LIBS=-lSDL2 -lGLEW -lGL -lassimp `Magick++-config --cppflags --cxxflags --ldflags --libs` -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath
 # Mac
 else
 	CC=clang++
@@ -15,13 +15,13 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x `Magick++-config --cppflags --cxxflags --ldflags --libs`
 
 # .o Compilation
-O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o physics.o
+O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o physics.o table.o flipper.o
 
 # Point to includes of local directories
-INCLUDES=-I../include -I/usr/include/x86_64-linux-gnu/ImageMagick-6/ -I/usr/include/ImageMagick-6/ -I/usr/include/bullet
+INCLUDES=-I../include -I/usr/include/bullet
 
 all: $(O_FILES)
-	$(CC) $(CXXFLAGS) -o PA9 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
+	$(CC) $(CXXFLAGS) -o PA10 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
 
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INCLUDES)
@@ -50,5 +50,11 @@ tinyxml2.o: ../src/tinyxml2.cpp
 physics.o: ../src/physics.cpp
 	$(CC) $(CXXFLAGS) -c ../src/physics.cpp -o physics.o $(INCLUDES)
 
+table.o: ../src/table.cpp
+	$(CC) $(CXXFLAGS) -c ../src/table.cpp -o table.o $(INCLUDES)
+
+flipper.o: ../src/flipper.cpp
+	$(CC) $(CXXFLAGS) -c ../src/flipper.cpp -o flipper.o $(INCLUDES)
+
 clean:
-	-@if rm *.o PA9 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
+	-@if rm *.o PA10 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi

@@ -31,9 +31,9 @@ Table::Table(char* table_filename){
       objects.push_back(flipper->GetFlipper());
       while((element = element->NextSiblingElement())){
         strcpy(filename,element->GetText());
-	Flipper* new_flipper = new Flipper(filename);
-	left_flippers.push_back(new_flipper);
-	objects.push_back(new_flipper->GetFlipper());
+        Flipper* new_flipper = new Flipper(filename);
+        left_flippers.push_back(new_flipper);
+        objects.push_back(new_flipper->GetFlipper());
       }
     }
     delete filename;
@@ -49,9 +49,9 @@ Table::Table(char* table_filename){
       objects.push_back(flipper->GetFlipper());
       while((element = element->NextSiblingElement())){
         strcpy(filename,element->GetText());
-	Flipper* new_flipper = new Flipper(filename);
-	right_flippers.push_back(new_flipper);
-	objects.push_back(new_flipper->GetFlipper());
+        Flipper* new_flipper = new Flipper(filename);
+        right_flippers.push_back(new_flipper);
+        objects.push_back(new_flipper->GetFlipper());
       }
     }
     delete filename;
@@ -67,9 +67,9 @@ Table::Table(char* table_filename){
       objects.push_back(bumper);
       while((element = element->NextSiblingElement())){
         strcpy(filename,element->GetText());
-	Object* new_bumper = new Object(filename);
-	bumpers.push_back(new_bumper);
-	objects.push_back(new_bumper);
+        Object* new_bumper = new Object(filename);
+        bumpers.push_back(new_bumper);
+        objects.push_back(new_bumper);
       }
    }
    delete filename;
