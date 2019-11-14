@@ -221,7 +221,7 @@ void Object::Render()
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,texture_coordinates));
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal_coordinates));
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
@@ -400,10 +400,12 @@ void Object::LoadModel(char* obj_filename)
   //Process Vertices
     for(unsigned int i = 0; i < mesh->mNumVertices; i++){
       aiVector3D ai_vec = mesh->mVertices[i];
-      aiVector3D ai_texture = mesh->mTextureCoords[0][i]; 
+      aiVector3D ai_texture = mesh->mTextureCoords[0][i];
+      aiVector3D ai_normal = mesh->mNormals[i]; 
       glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
       glm::vec2 texture_coordinates = {ai_texture.x,ai_texture.y};
-      Vertices.push_back({vertex,texture_coordinates});
+      glm::vec3 normal = {ai_normal.x,ai_normal.y,ai_normal.z};
+      Vertices.push_back({vertex,texture_coordinates,normal});
     }
   
   //Process Faces

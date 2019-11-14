@@ -28,9 +28,9 @@ struct Vertex
 {
   glm::vec3 vertex;
   glm::vec2 texture_coordinates;
-  glm::vec3 normal_coordinates;
+  glm::vec3 normal;
 
-  Vertex(glm::vec3 v, glm::vec2 t): vertex(v), texture_coordinates(t) {}
+  Vertex(glm::vec3 v, glm::vec2 t,glm::vec3 n): vertex(v), texture_coordinates(t), normal(n) {}
 };
 
 #endif /* GRAPHICS_HEADERS_H */
