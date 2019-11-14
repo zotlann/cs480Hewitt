@@ -71,20 +71,15 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config );
 
   //set gravity
-  dynamics_world->setGravity(btVector3(0,-10,0));
+  dynamics_world->setGravity(btVector3(0,-1000,0));
 
   //Create the objects
-  m_ball =  new Object(cfg.ball_config);
-  m_cube = new Object(cfg.cube_config);
-  m_cylinder = new Object(cfg.cylinder_config);
-  m_table = new Object(cfg.table_config);
+  m_table = new Table(cfg.table_config);
+  m_ball = m_table->GetBall();
 
   //set up the objects vector
   objects.clear();
-  objects.push_back(m_ball);
-  objects.push_back(m_cube);
-  objects.push_back(m_cylinder);
-  objects.push_back(m_table);
+  objects = m_table->GetObjects();
 
   //add all rigit bodies to physics world
   for(int i = 0; i < objects.size(); i++){
@@ -241,13 +236,13 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 
   //set the timestep
   //update the ball with user input
-  m_cube->ProcessInput(input);
+  //m_cube->ProcessInput(input);
   //update all the objects
   for(unsigned int i = 0; i < objects.size(); i++){
     objects[i]->Update(dt);
   }
   //update spotlight direction
-  spotlight.direction = m_cube->GetLocation();
+  spotlight.direction = m_ball->GetLocation();
 }
 
 void Graphics::Render()

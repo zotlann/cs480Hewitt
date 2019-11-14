@@ -11,6 +11,7 @@ using namespace std;
 #include "object.h"
 #include <btBulletDynamicsCommon.h>
 #include <btBulletCollisionCommon.h>
+#include "table.h"
 
 class Graphics
 {
@@ -49,12 +50,9 @@ class Graphics
     glm::vec3 ambient_light_color;
     float ambient_light_intensity;
     unsigned int shader_index;
-
-    Object* m_test;
+  
     Object* m_ball;
-    Object* m_cube;
-    Object* m_cylinder;
-    Object* m_table;
+    Table* m_table;
     
     btDiscreteDynamicsWorld* dynamics_world;
     btBroadphaseInterface* broadphase;

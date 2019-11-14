@@ -116,6 +116,7 @@ void loadConfig(char* config_filename, Config* cfg){
     cfg->h = element->Int64Text();
   }
 
+  /*
   //set the ball filename
   if((element = config->FirstChildElement("ball"))){
     cfg->ball_config = new char[256];
@@ -136,6 +137,12 @@ void loadConfig(char* config_filename, Config* cfg){
   
   //set the table filename
   if((element = config->FirstChildElement("table"))){
+    cfg->table_config = new char[256];
+    strcpy(cfg->table_config,element->GetText());
+  }
+  */
+  //set the table-config filename
+  if((element = config->FirstChildElement("table-config"))){
     cfg->table_config = new char[256];
     strcpy(cfg->table_config,element->GetText());
   }
