@@ -22,7 +22,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   ambient_light_color.b = cfg.ab;
   ambient_light_intensity = cfg.ambient_intensity;
   specular_intensity = cfg.specular_intensity;
-  std::cout << "TEST: " << ambient_light_intensity;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -84,7 +83,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   //add all rigit bodies to physics world
   for(int i = 0; i < objects.size(); i++){
-    std::cout << "RIGID BODY G: " << objects[i]->GetRigidBody() << std::endl;
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
   }
 
@@ -336,7 +334,6 @@ void Graphics::Input(char input)
   if(input == '\t'){
     shader_index++;
     shader_index %= m_shaders.size();
-    std::cout << shader_index << std::endl;
   }
   if(input == 'z'){
     //left flipper

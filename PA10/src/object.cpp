@@ -53,7 +53,6 @@ Object::Object(char* object_config_filename)
     body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
   }
 
-  std::cout << "RIGID BODY " << body << std::endl;
 
   //generate the VB and IB buffers
   glGenBuffers(1, &VB);
@@ -398,17 +397,17 @@ void Object::LoadShape(char* shape_str){
   else if((strcmp(shape_str,"sphere")) == 0){
     btScalar radius = cfg.scale*2;
     shape = new btSphereShape(radius);
-    std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
+    //std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
   }
   else if((strcmp(shape_str,"box")) == 0){
     btVector3 vec = {cfg.width*cfg.scale, cfg.height*cfg.scale, cfg.length*cfg.scale};
     shape = new btBoxShape(vec);
-    std::cout << "Box type: " << shape->getShapeType() << std::endl;
+    //std::cout << "Box type: " << shape->getShapeType() << std::endl;
   }
   else if((strcmp(shape_str,"cylinder")) == 0){
     btVector3 vec = {cfg.width*cfg.scale, cfg.height*cfg.scale, cfg.length*cfg.scale};
     shape = new btCylinderShape(vec);
-    std::cout << "Cylinder type: " << shape->getShapeType() << std::endl;
+    //std::cout << "Cylinder type: " << shape->getShapeType() << std::endl;
   }
   else if((strcmp(shape_str, "plane")) == 0){
     btVector3 vec = {cfg.width,cfg.height,cfg.length};
