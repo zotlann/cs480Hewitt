@@ -83,16 +83,16 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   objects = m_table->GetObjects();
 
   //add all rigit bodies to physics world
-  for(int i = 0; i < objects.size(); i++){
+  for(unsigned int i = 0; i < objects.size(); i++){
     std::cout << "RIGID BODY G: " << objects[i]->GetRigidBody() << std::endl;
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
   }
 
   //set up the spotlight;
-  spotlight.intensity = 0.0f;
+  spotlight.intensity = cfg.spotlightIntensity;
   spotlight.cutoff = M_PI;
-  spotlight.position = glm::vec3(0.0,0.0,0.0);
-  spotlight.color = glm::vec3(1.0,1.0,1.0);
+  spotlight.position = cfg.spotlightLocation;
+  spotlight.color = cfg.spotlightColor;
 
   // Set up the shaders'
   Shader* s1 = new Shader();

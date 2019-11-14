@@ -7,7 +7,6 @@ layout (location = 2) in vec3 v_normal;
 out vec2 texture_coordinates;
 out vec3 world_position;
 out vec3 normal;
-out vec3 spotlightDirection;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;

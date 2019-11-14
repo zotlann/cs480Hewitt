@@ -53,7 +53,9 @@ bool parseCmdArgs(int argc, char **argv, Config* cfg){
 }
 
 void loadConfig(char* config_filename, Config* cfg){
-  
+  float x, y, z;
+  x = y = z = 0;
+
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLError file_loaded = doc.LoadFile(config_filename);
   if(file_loaded != tinyxml2::XML_SUCCESS){
@@ -114,6 +116,45 @@ void loadConfig(char* config_filename, Config* cfg){
   //set the window height
   if((element = config->FirstChildElement("h"))){
     cfg->h = element->Int64Text();
+  }
+
+  if((element = config->FirstChildElement("spotlight-location-x")))
+  {
+    x = element->FloatText();
+  }
+
+  if((element = config->FirstChildElement("spotlight-location-y")))
+  {
+    y = element->FloatText();
+  }  
+
+  if((element = config->FirstChildElement("spotlight-location-z")))
+  {
+    z = element->FloatText();
+  }
+
+  cfg->spotlightLocation = glm::vec3( x, y, z );
+
+  if((element = config->FirstChildElement("spotlight-r")))
+  {
+    x = element->FloatText();
+  }
+
+  if((element = config->FirstChildElement("spotlight-g")))
+  {
+    y = element->FloatText();
+  }  
+
+  if((element = config->FirstChildElement("spotlight-b")))
+  {
+    z = element->FloatText();
+  }
+
+  cfg->spotlightColor = glm::vec3( x, y, z );  
+
+  if((element = config->FirstChildElement("spotlight-intensity")))
+  {
+    cfg->spotlightIntensity = element->FloatText();
   }
 
   /*

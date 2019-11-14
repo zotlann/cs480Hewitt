@@ -40,11 +40,6 @@ void main(void){
   float Ks = pow(max(dot(E,H),0.0),shininess);
   vec4 specular = Ks* vec4(AmbientLightColor, 1.0) * SpecularIntensity;
 
-  float theta = dot(normalize(pos-spotlightPosition),spotlightDirection);
-  if(theta > spotlightCutoff){
-    diffuse += vec4(spotlightColor,1.0) * spotlightIntensity * Kd;
-    specular += vec4(spotlightColor,1.0) * spotlightIntensity * Ks;
-  }
   color = specular + diffuse + ambient;
   color.a = 1.0;
 

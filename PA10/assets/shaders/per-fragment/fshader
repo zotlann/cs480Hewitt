@@ -10,7 +10,6 @@ uniform vec3 AmbientLightColor;
 uniform float AmbientLightIntensity;
 uniform float SpecularIntensity;
 uniform vec3 spotlightPosition;
-uniform vec3 spotlightDirection;
 uniform vec3 spotlightColor;
 uniform float spotlightIntensity;
 uniform float spotlightCutoff;
@@ -37,17 +36,21 @@ void main()
 
   L = normalize(spotlightPosition - world_position);
   H = normalize(L+E);
-
-  Kd = max(dot(L,N),0);
-  Ks = pow(max(dot(N,H),0),shininess);
-
-  float theta = dot(normalize(world_position - spotlightPosition),spotlightDirection);
-  if(theta > spotlightCutoff){
-    diffuse += vec4(spotlightColor,1.0) * spotlightIntensity * Kd;
-    specular += vec4(spotlightColor,1.0) * spotlightIntensity * Ks;
-  }
   
-  vec4 color = ambient + specular + diffuse;
+  float spotlightKd = max(dot(L, N), 0.0);
+  float spotlightKs = pow(max(dot(E, H), 0.0), shininess);
+  float distance = length(spotlightPosition - world_position);
+  float attenuation = 1.0 / (1.0 + 1.0 * distance + 1.0 * (distance * distance));
+  
+  vec4 spotlightAmbient = vec4(spotlightColor,1.0) * spotlightIntensity;
+  vec4 spotlightDiffuse = spotlightKd * vec4(spotlightColor,1.0);
+  vec4 spotlightSpecular = spotlightKs * vec4(spotlightColor,1.0) * SpecularIntensity;
+/*
+  spotlightAmbient *= attenuation;
+  spotlightDiffuse *= attenuation;
+  spotlightSpecular *= attenuation;
+*/
+  vec4 color = (spotlightAmbient + spotlightDiffuse + spotlightSpecular);
   color.a = 1.0;
 
   frag_color = color * texture2D(gSampler,texture_coordinates.xy);
