@@ -20,6 +20,6 @@
 	<ambient-g>1</ambient-g>
 	<ambient-b>1</ambient-b>
 	<scale>1</scale>
-	<shininess>5</shininess>
+	<shininess>15</shininess>
 	<mass>20</mass>
 </object>

@@ -13,6 +13,7 @@ class Camera
     void Input(char input, unsigned int dt);
     glm::mat4 GetProjection();
     glm::mat4 GetView();
+    glm::vec3 GetPos();
   private:
     glm::mat4 projection;
     glm::mat4 view;

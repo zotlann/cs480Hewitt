@@ -21,6 +21,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   ambient_light_color.g = cfg.ag;
   ambient_light_color.b = cfg.ab;
   ambient_light_intensity = cfg.ambient_intensity;
+  specular_intensity = cfg.specular_intensity;
   std::cout << "TEST: " << ambient_light_intensity;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -211,6 +212,8 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   m_ambient = m_shaders[shader_index]->GetUniformLocation("AmbientProduct");
   m_diffuse = m_shaders[shader_index]->GetUniformLocation("DiffuseProduct");
   m_specular = m_shaders[shader_index]->GetUniformLocation("SpecularProduct");
+  m_specular_intensity = m_shaders[shader_index]->GetUniformLocation("SpecularIntensity");
+  m_viewPos = m_shaders[shader_index]->GetUniformLocation("viewPos");
   m_ambient_color = m_shaders[shader_index]->GetUniformLocation("AmbientLightColor");
   m_ambient_intensity = m_shaders[shader_index]->GetUniformLocation("AmbientLightIntensity");
   m_spotlight_position = m_shaders[shader_index]->GetUniformLocation("spotlightPosition");
@@ -264,6 +267,8 @@ void Graphics::Render()
   m_ambient = m_shaders[shader_index]->GetUniformLocation("AmbientProduct");
   m_diffuse = m_shaders[shader_index]->GetUniformLocation("DiffuseProduct");
   m_specular = m_shaders[shader_index]->GetUniformLocation("SpecularProduct");
+  m_specular_intensity = m_shaders[shader_index]->GetUniformLocation("SpecularIntensity");
+  m_viewPos = m_shaders[shader_index]->GetUniformLocation("viewPos");
   m_ambient_color = m_shaders[shader_index]->GetUniformLocation("AmbientLightColor");
   m_ambient_intensity = m_shaders[shader_index]->GetUniformLocation("AmbientLightIntensity");
   m_spotlight_position = m_shaders[shader_index]->GetUniformLocation("spotlightPosition");
@@ -287,11 +292,13 @@ void Graphics::Render()
     glm::mat4 modelView = m_camera->GetView() * objects[i]->GetModel();
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModel()));
     glUniformMatrix4fv(m_modelViewMatrix, 1, GL_FALSE, glm::value_ptr(modelView));
-    glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(1.0,1.0,1.0)));
+    glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(0.0,5.0,0.0)));
     glUniform1f(m_shininess, objects[i]->GetShininess());
     glUniform4fv(m_ambient, 1, glm::value_ptr(objects[i]->GetAmbient()));
     glUniform4fv(m_diffuse, 1, glm::value_ptr(objects[i]->GetDiffuse()));
     glUniform4fv(m_specular, 1, glm::value_ptr(objects[i]->GetSpecular()));
+    glUniform3fv(m_viewPos, 1, glm::value_ptr(m_camera->GetPos()));
+    glUniform1f(m_specular_intensity, specular_intensity);
     glUniform3fv(m_ambient_color, 1, glm::value_ptr(ambient_light_color));
     glUniform1f(m_ambient_intensity, ambient_light_intensity);
     glUniform3fv(m_spotlight_position, 1, glm::value_ptr(spotlight.position));

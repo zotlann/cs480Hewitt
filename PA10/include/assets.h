@@ -19,6 +19,7 @@ struct Config{
   float ag;
   float ab;
   float ambient_intensity;
+  float specular_intensity;
 };
 
 #endif
