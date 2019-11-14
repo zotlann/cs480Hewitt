@@ -95,9 +95,8 @@ Object::Object(char* object_config_filename)
   shapeMotionState = new btDefaultMotionState(startTransform);
   btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shapeMotionState,shape,localInertia);
   rigid_body_information.m_restitution = cfg.restitution;
-  rigid_body_information.m_friction = 0.5;
+  rigid_body_information.m_friction = cfg.friction;
   body = new btRigidBody(rigid_body_information);
-  std::cout << "Am I dynamic? " << std::boolalpha << cfg.is_dynamic << std::endl;
   
   if(cfg.is_dynamic)
   {
@@ -190,9 +189,6 @@ void Object::ProcessInput(char input)
 void Object::Update(unsigned int dt)
 {
   //body->activate(ACTIVE_TAG);
-  
-  body->applyGravity();
-
   btTransform transform;
   body->getMotionState()->getWorldTransform(transform);
 
@@ -482,7 +478,7 @@ void Object::LoadShape(char* shape_str){
     shape = new btStaticPlaneShape(btVector3(0,1,0),0);
   }
   else if((strcmp(shape_str,"sphere")) == 0){
-    btScalar radius = cfg.scale;
+    btScalar radius = cfg.scale * 2;
     shape = new btSphereShape(radius);
     std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
   }
