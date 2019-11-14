@@ -37,9 +37,9 @@ bool Camera::Initialize(int w, int h)
 
 void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
 {
-  /*
-  xLook += mouseLocation.x;
-  yLook += mouseLocation.y; //normal/non-inverted vertical look
+  
+  //xLook += mouseLocation.x;
+  //yLook += mouseLocation.y; //normal/non-inverted vertical look
 
   front.x = cos(glm::radians(yLook)) * cos(glm::radians(xLook));
   front.y = sin(glm::radians(yLook));
@@ -51,54 +51,68 @@ void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
   front.y += cameraLocation_y;
   front.z += cameraLocation_z;
   
-  view = glm::lookAt( glm::vec3(0, 50, 8),
-                      glm::vec3(0.0,0.0,0.0),
+  //boundry for cameraLocation
+  if(cameraLocation_x > 110)
+  {
+    cameraLocation_x = 110;
+  }
+  if(cameraLocation_x < 10)
+  {
+    cameraLocation_x = 10;
+  }
+
+  view = glm::lookAt( glm::vec3(cameraLocation_x, cameraLocation_y, cameraLocation_z),
+                      glm::vec3(0.0, 0.0, 0.0),
                       glm::vec3(0.0, 1.0, 0.0));
-  */
+  
 }
 
 void Camera::Input(char input, unsigned int dt)
 {
-  /*
   int movement = 5;// * (dt * 0.001);
+  glm::vec3 strafe(view[0][0], view[1][0], view[2][0]);
+  glm::vec3 height(view[0][1], view[1][1], view[2][1]);
   glm::vec3 fwd(view[0][2], view[1][2], view[2][2]);
   fwd.y *= -1;
   fwd.z *= -1;
-  glm::vec3 strafe(view[0][0], view[1][0], view[2][0]);
   switch(input)
   {
-    case 1:
-      cameraLocation_y += 10;
-      break;
-    case 2:
-      cameraLocation_y -= 10;
-      break;
     case 3:
       xLook = 45;
       yLook = 180;
       break;
-    case '^':
+    case 'i': //up
+      /*
+      cameraLocation_x += movement * height.x;
+      cameraLocation_y += movement * height.y;
+      cameraLocation_z -= movement * height.z;
+      */
+      //cameraLocation_y += 10;
       cameraLocation_x -= movement * fwd.x;
       cameraLocation_y += movement * fwd.y;
       cameraLocation_z += movement * fwd.z;
+      std::cout << cameraLocation_x << std::endl;
+      std::cout << cameraLocation_z << std::endl;
       break;
-    case '<':
+    case 'j': //left
       cameraLocation_x -= movement * strafe.x;
       cameraLocation_z -= movement * strafe.z;
       break;
-    case '>':
+    case 'l': //right
       cameraLocation_x += movement * strafe.x;
       cameraLocation_z += movement * strafe.z;
       break;
-    case 'V':
+    case 'k': //down
       cameraLocation_x += movement * fwd.x;
       cameraLocation_y -= movement * fwd.y;
       cameraLocation_z -= movement * fwd.z;
+      std::cout << cameraLocation_x << std::endl;
+      std::cout << cameraLocation_z << std::endl;
       break;
     default:
       break;
   }
-  */
+  
 }
 
 glm::mat4 Camera::GetProjection()
