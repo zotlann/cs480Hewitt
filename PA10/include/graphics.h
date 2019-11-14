@@ -2,6 +2,7 @@
 #define GRAPHICS_H
 
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 #include "graphics_headers.h"

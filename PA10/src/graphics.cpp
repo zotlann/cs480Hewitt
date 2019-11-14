@@ -228,11 +228,25 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
+  //Setup file io for pinball scoreboard
+  ifstream scoreboard ("../assets/scoreboard.txt");
+  if(scoreboard.is_open())
+  {
+    std::cout << std::endl << scoreboard.rdbuf() << std::endl;
+    scoreboard.close();
+  }
+  else
+  {
+    std::cout << "Could not open ../assets/scoreboard.txt" << std::endl;
+  }
+  
+
   return true;
 }
 
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
+  //handles plunger, flippers, and shader changes 
   Input(input);
 
   dynamics_world->stepSimulation(dt/1000.0f,10);
@@ -324,40 +338,20 @@ void Graphics::Input(char input)
     shader_index %= m_shaders.size();
     std::cout << shader_index << std::endl;
   }
-  if(input == 'q'){
-    spotlight.cutoff *= 2;
-  }
-  if(input == 'e'){
-    spotlight.cutoff /= 2;
-  }
-  
-  if(input == 'w'){
-    spotlight.position += glm::vec3(0.0,1.0,0.0);
-  }
-  if(input == 's'){
-    spotlight.position += glm::vec3(0.0,-1.0,0.0);
-  }
-  if(input == 'a'){
-    spotlight.position += glm::vec3(1.0,0.0,0.0); 
-  }
-  if(input == 'd'){
-    spotlight.position += glm::vec3(-1.0,0.0,0.0);
-  }
   if(input == 'z'){
-    spotlight.intensity += 0.025f;
+    //left flipper
   }
   if(input == 'x'){
-    spotlight.intensity -= 0.025f;
+    //right flipper
   }
   if(input == 'c'){
-   // ambient_light_intensity += 0.025f;
-   spotlight.position += glm::vec3(0,0,1.0);
+    if(true){ //check if ball is in plunger area
+      //plunger
+    }
   }
   if(input == 'v'){
-    spotlight.position += glm::vec3(0,0,-1.0);
-    //ambient_light_intensity -= 0.025f;
-  }
 
+  }
 }
 
 std::string Graphics::ErrorString(GLenum error)

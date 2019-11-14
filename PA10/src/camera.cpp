@@ -13,18 +13,18 @@ Camera::~Camera()
 bool Camera::Initialize(int w, int h)
 {
   // Init cameraLocation for update
-  cameraLocation_x = 90;
-  cameraLocation_y = 1;
+  cameraLocation_x = 60;
+  cameraLocation_y = 10;
   cameraLocation_z = 0;
-  xLook = 45;
-  yLook = 180;
+  //xLook = 45;
+  //yLook = 180;
   //zLook = 0;
-  front = {0,0,0};
+  //front = {0,0,0};
   //--Init the view and projection matrices
   //  if you will be having a moving camera the view matrix will need to more dynamic
   //  ...Like you should update it before you render more dynamic 
   //  for this project having them static will be fine
-  view = glm::lookAt( glm::vec3(0, 10, -10), //Eye Position. Default (0,5,10)
+  view = glm::lookAt( glm::vec3(cameraLocation_x, cameraLocation_y, cameraLocation_z), //Eye Position. Default (0,5,10)
                       glm::vec3(0.0, 0.0, 0.0), //Focus point
                       glm::vec3(0.0, 1.0, 0.0)); //Positive Y is up
 
@@ -37,9 +37,9 @@ bool Camera::Initialize(int w, int h)
 
 void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
 {
-  
-  //xLook += mouseLocation.x;
-  //yLook += mouseLocation.y; //normal/non-inverted vertical look
+  /*
+  xLook += mouseLocation.x;
+  yLook += mouseLocation.y; //normal/non-inverted vertical look
 
   front.x = cos(glm::radians(yLook)) * cos(glm::radians(xLook));
   front.y = sin(glm::radians(yLook));
@@ -50,7 +50,8 @@ void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
   front.x += cameraLocation_x;
   front.y += cameraLocation_y;
   front.z += cameraLocation_z;
-  
+  */
+
   //boundry for cameraLocation
   if(cameraLocation_x > 110)
   {
