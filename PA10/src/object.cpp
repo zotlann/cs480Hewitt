@@ -206,6 +206,8 @@ void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamicsWorld)
   model = glm::make_mat4(m);
   model *= glm::scale(glm::vec3(cfg.scale, cfg.scale, cfg.scale));
   //body->activate(DISABLE_DEACTIVATION);
+
+  location = glm::vec3(m[12], m[13], m[14]);
 }
 
 glm::mat4 Object::GetModel()
