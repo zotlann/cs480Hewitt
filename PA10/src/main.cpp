@@ -160,6 +160,9 @@ void loadConfig(char* config_filename, Config* cfg){
     cfg->ambient_intensity = element->FloatText();
     std::cout << "BIG TEST: " << cfg->ambient_intensity;
   }
+  if((element = config->FirstChildElement("specular-intensity"))){
+    cfg->specular_intensity = element->FloatText();
+  }
 
 }
 

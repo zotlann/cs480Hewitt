@@ -8,7 +8,8 @@
 	<ambient-r>1.0</ambient-r>
 	<ambient-g>1.0</ambient-g>
 	<ambient-b>1.0</ambient-b>
-	<ambient-intensity>1.0</ambient-intensity>
+	<ambient-intensity>0.5</ambient-intensity>
+	<specular-intensity>0.5</specular-intensity>
 	<windowname>bullet-test</windowname>
 	<w>1024</w>
 	<h>768</h>

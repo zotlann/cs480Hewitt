@@ -45,10 +45,13 @@ class Graphics
     GLint m_spotlight_cutoff;
     GLint m_spotlight_color;
     GLint m_spotlight_intensity;
+    GLint m_viewPos;
+    GLint m_specular_intensity;
 
     Spotlight spotlight;
     glm::vec3 ambient_light_color;
     float ambient_light_intensity;
+    float specular_intensity;
     unsigned int shader_index;
   
     Object* m_ball;

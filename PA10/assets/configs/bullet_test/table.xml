@@ -18,5 +18,5 @@
 	<ambient-b>1</ambient-b>
 	<scale>15</scale>
 	<mass>0</mass>
-	<shininess>5</shininess>
+	<shininess>0.5</shininess>
 </object>
