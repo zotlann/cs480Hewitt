@@ -16,7 +16,7 @@
 	<ambient-r>1</ambient-r>
 	<ambient-g>1</ambient-g>
 	<ambient-b>1</ambient-b>
-	<scale>15</scale>
+	<scale>30</scale>
 	<mass>0</mass>
-	<shininess>0.5</shininess>
+	<shininess>0</shininess>
 </object>

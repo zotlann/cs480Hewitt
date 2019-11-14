@@ -3,7 +3,7 @@
 	<texture>../assets/textures/cube.jpg</texture>
 	<dynamic>false</dynamic>
 	<kinematic>false</kinematic>
-	<shape>mesh</shape>
+	<shape>cylinder</shape>
 	<location-x>-10</location-x>
 	<location-y>0</location-y>
 	<location-z>-4</location-z>

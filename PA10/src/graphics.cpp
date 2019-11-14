@@ -88,9 +88,9 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   //set up the spotlight;
-  spotlight.intensity = 10;
-  spotlight.cutoff = M_PI/4;
-  spotlight.position = glm::vec3(0, -20, 0);
+  spotlight.intensity = 30;
+  spotlight.cutoff = M_PI/7;
+  spotlight.position = glm::vec3(0, -19, 0);
   spotlight.color = glm::vec3(1,1, 1);
 
   // Set up the shaders'
@@ -257,8 +257,10 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   for(unsigned int i = 0; i < objects.size(); i++){
     objects[i]->Update(dt, dynamics_world);
   }
-  //update spotlight direction
+  //update spotlight direction and position
   spotlight.direction = glm::vec3(0, -1, 0);
+  spotlight.position = m_ball->GetLocation();
+  spotlight.position.y = -19;
 
   //update m_camera
   m_camera->Input(input, dt);
