@@ -79,6 +79,8 @@ Object::Object(char* object_config_filename)
   //load the objects collision shape
   LoadShape(cfg.shape);
 
+  shape->setLocalScaling(btVector3(cfg.scale, cfg.scale, cfg.scale));
+
   //sets up rigidBody information
   //TODO
   //put this into a LoadBody Function
@@ -186,8 +188,14 @@ void Object::ProcessInput(char input)
   }
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, btDiscreteDynamicsWorld* dynamicsWorld)
 {
+  if(strcmp(cfg.shape, "mesh") == 0 )
+  {
+    shape->setLocalScaling(btVector3(cfg.scale, cfg.scale, cfg.scale));
+    dynamicsWorld->updateSingleAabb(body);
+  }
+
   //body->activate(ACTIVE_TAG);
   btTransform transform;
   body->getMotionState()->getWorldTransform(transform);
@@ -478,7 +486,7 @@ void Object::LoadShape(char* shape_str){
     shape = new btStaticPlaneShape(btVector3(0,1,0),0);
   }
   else if((strcmp(shape_str,"sphere")) == 0){
-    btScalar radius = cfg.scale * 2;
+    btScalar radius = cfg.scale;
     shape = new btSphereShape(radius);
     std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
   }

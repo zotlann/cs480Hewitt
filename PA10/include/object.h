@@ -40,7 +40,7 @@ class Object
     Object(char* object_config_filename);
     Object();
     ~Object();
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, btDiscreteDynamicsWorld* dynamicsWorld);
     void ProcessInput(char input);
     void Render();
 

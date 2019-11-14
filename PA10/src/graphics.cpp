@@ -242,7 +242,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   //m_cube->ProcessInput(input);
   //update all the objects
   for(unsigned int i = 0; i < objects.size(); i++){
-    objects[i]->Update(dt);
+    objects[i]->Update(dt, dynamics_world);
   }
   //update spotlight direction
   spotlight.direction = m_ball->GetLocation();

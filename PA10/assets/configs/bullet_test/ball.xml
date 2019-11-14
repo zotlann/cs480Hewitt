@@ -6,7 +6,7 @@
 	<shape>sphere</shape>
 	<radius>1</radius>
 	<location-x>0</location-x>
-	<location-y>0</location-y>
+	<location-y>20</location-y>
 	<location-z>0</location-z>
 	<restiution>0</restiution>
 	<friction>0.02</friction>
@@ -19,7 +19,7 @@
 	<ambient-r>1</ambient-r>
 	<ambient-g>1</ambient-g>
 	<ambient-b>1</ambient-b>
-	<scale>.3</scale>
+	<scale>1</scale>
 	<shininess>15</shininess>
 	<mass>20</mass>
 </object>
