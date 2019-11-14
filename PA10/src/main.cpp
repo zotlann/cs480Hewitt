@@ -118,40 +118,6 @@ void loadConfig(char* config_filename, Config* cfg){
     cfg->h = element->Int64Text();
   }
 
-  if((element = config->FirstChildElement("spotlight-location-x")))
-  {
-    x = element->FloatText();
-  }
-
-  if((element = config->FirstChildElement("spotlight-location-y")))
-  {
-    y = element->FloatText();
-  }  
-
-  if((element = config->FirstChildElement("spotlight-location-z")))
-  {
-    z = element->FloatText();
-  }
-
-  cfg->spotlightLocation = glm::vec3( x, y, z );
-
-  if((element = config->FirstChildElement("spotlight-r")))
-  {
-    x = element->FloatText();
-  }
-
-  if((element = config->FirstChildElement("spotlight-g")))
-  {
-    y = element->FloatText();
-  }  
-
-  if((element = config->FirstChildElement("spotlight-b")))
-  {
-    z = element->FloatText();
-  }
-
-  cfg->spotlightColor = glm::vec3( x, y, z );  
-
   if((element = config->FirstChildElement("spotlight-intensity")))
   {
     cfg->spotlightIntensity = element->FloatText();
@@ -202,6 +168,26 @@ void loadConfig(char* config_filename, Config* cfg){
   }
   if((element = config->FirstChildElement("specular-intensity"))){
     cfg->specular_intensity = element->FloatText();
+  }
+
+  //set up spotlight lighting
+  if((element = config->FirstChildElement("spotlight-r"))){
+    cfg->sr = element->FloatText();
+  }
+  if((element = config->FirstChildElement("spotlight-g"))){
+    cfg->sg = element->FloatText();
+  }
+  if((element = config->FirstChildElement("spotlight-b"))){
+    cfg->sb = element->FloatText();
+  }
+  if((element = config->FirstChildElement("spotlight-location-x"))){
+    cfg->sx = element->FloatText();
+  }
+  if((element = config->FirstChildElement("spotlight-location-y"))){
+    cfg->sy = element->FloatText();
+  }
+  if((element = config->FirstChildElement("spotlight-location-z"))){
+    cfg->sz = element->FloatText();
   }
 
 }

@@ -22,8 +22,12 @@ struct Config{
   float ambient_intensity;
   float specular_intensity;
 
-  glm::vec3 spotlightLocation;
-  glm::vec3 spotlightColor;
+  float sr;
+  float sg;
+  float sb;
+  float sx;
+  float sy;
+  float sz;
   float spotlightIntensity;
 };
 

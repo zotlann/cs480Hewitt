@@ -82,20 +82,16 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   objects = m_table->GetObjects();
 
   //add all rigit bodies to physics world
-<<<<<<< HEAD
   for(unsigned int i = 0; i < objects.size(); i++){
     std::cout << "RIGID BODY G: " << objects[i]->GetRigidBody() << std::endl;
-=======
-  for(int i = 0; i < objects.size(); i++){
->>>>>>> 836a391e11bb4b4b6e03e8e9e684ba24d95e1dc1
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
   }
 
   //set up the spotlight;
-  spotlight.intensity = cfg.spotlightIntensity;
-  spotlight.cutoff = M_PI;
-  spotlight.position = cfg.spotlightLocation;
-  spotlight.color = cfg.spotlightColor;
+  spotlight.intensity = 10;
+  spotlight.cutoff = M_PI/4;
+  spotlight.position = glm::vec3(0, -20, 0);
+  spotlight.color = glm::vec3(1,1, 1);
 
   // Set up the shaders'
   Shader* s1 = new Shader();
@@ -262,7 +258,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     objects[i]->Update(dt, dynamics_world);
   }
   //update spotlight direction
-  spotlight.direction = m_ball->GetLocation();
+  spotlight.direction = glm::vec3(0, -1, 0);
 
   //update m_camera
   m_camera->Input(input, dt);
