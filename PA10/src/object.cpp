@@ -386,6 +386,8 @@ void Object::ParseObjectConfig(char* object_config_filename)
 void Object::LoadModel(char* obj_filename)
 {
   triangle_mesh = new btTriangleMesh();
+  btVector3 triArray[3];
+
 
   //set up importer object
   Assimp::Importer importer;
@@ -411,7 +413,6 @@ void Object::LoadModel(char* obj_filename)
   //Process Faces
     for(unsigned int i = 0; i < mesh->mNumFaces; i++){
       aiFace face = mesh->mFaces[i];
-      btVector3 triArray[3];
 
     //if we were not given triangles throw an error and abort
       if(face.mNumIndices != 3){
@@ -425,9 +426,9 @@ void Object::LoadModel(char* obj_filename)
       {
         aiVector3D position = mesh->mVertices[face.mIndices[j]];
         triArray[j] = btVector3(position.x, position.y, position.z);
-        triangle_mesh->addTriangle(triArray[0], triArray[1], triArray[2]);
         Indices.push_back(face.mIndices[j]);
       }
+      triangle_mesh->addTriangle(triArray[0], triArray[1], triArray[2]);
     }
   }
 }
