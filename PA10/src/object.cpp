@@ -467,16 +467,22 @@ void Object::SetTexture(GLuint text)
 void Object::LoadShape(char* shape_str){
   if((strcmp(shape_str,"mesh")) == 0){
     if(!cfg.is_dynamic){
-      shape = new btBvhTriangleMeshShape(triangle_mesh,true);
+
+      btBvhTriangleMeshShape* temp_shape = new btBvhTriangleMeshShape(triangle_mesh,true);
+      shape = new btScaledBvhTriangleMeshShape(temp_shape,btVector3(cfg.scale,cfg.scale,cfg.scale));
+
     }
     else{
       shape = new btConvexTriangleMeshShape(triangle_mesh,true);
     }
     shape->setLocalScaling(btVector3(cfg.scale,cfg.scale,cfg.scale));
   }
+  else if((strcmp(shape_str,"plane"))== 0){
+    shape = new btStaticPlaneShape(btVector3(0,1,0),0);
+  }
   else if((strcmp(shape_str,"sphere")) == 0){
     btScalar radius = cfg.scale;
-    shape = new btSphereShape(radius*radius);
+    shape = new btSphereShape(radius);
     std::cout << "Sphere type: " << shape->getShapeType() << std::endl;
   }
   else if((strcmp(shape_str,"box")) == 0){
