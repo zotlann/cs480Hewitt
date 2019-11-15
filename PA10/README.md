@@ -54,10 +54,15 @@ NOTE: If collisions do not work, please restart the program.
 | <kbd>s</kbd> | Decrease specular intensity |
 | <kbd>&#8593;</kbd> | Increase specular intensity |
 | <kbd>&#8595;</kbd> | Decrease specular intensity |
-| <kbd>j</kbd> | Decrease specular intensity |
-| <kbd>l</kbd> | Increase specular intensity |
+| <kbd>i</kbd> | Increase spotlight intensity |
+| <kbd>k</kbd> | Decrease spotlight intensity |
+| <kbd>j</kbd> | Decrease spotlight radius |
+| <kbd>l</kbd> | Increase spotlight radius |
+| <kbd>n</kbd> | Decrease plunger intensity |
+| <kbd>m</kbd> | Increase plunger intensity |
 | <kbd>r</kbd> | Print ball location |
 
 ## Extra Credit
-- Spotlight that follows the ball is on and you can change the radius.  
+- Spotlight that follows the ball is on and you can change the radius and intensity.  
 - Game Replay is possible. The terminal will notify you how to restart if you lose your 3 lives.  
+- With <kbd>n</kbd> and <kbd>m</kbd>, you can change plunger intensity.  
