@@ -8,6 +8,7 @@
 	<location-y>3.14</location-y>
 	<location-z>22</location-z>
 	<width>1.5</width>
+	<restitution>2</restitution>
 	<height>1</height>
 	<length>1</length>
 	<scale>2</scale>

@@ -10,6 +10,7 @@
 	<width>1</width>
 	<height>1</height>
 	<length>1</length>
+	<restitution>2</restitution>
 	<scale>1.6</scale>
 	<mass>0</mass>
 	<score>20</score>
