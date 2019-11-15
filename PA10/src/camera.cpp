@@ -14,8 +14,8 @@ bool Camera::Initialize(int w, int h)
 {
   // Init cameraLocation for update
   cameraLocation_x = 0;
-  cameraLocation_y = 30;
-  cameraLocation_z = 75;
+  cameraLocation_y = 44;
+  cameraLocation_z = 60;
   //xLook = 45;
   //yLook = 180;
   //zLook = 0;
@@ -53,6 +53,7 @@ void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
   */
 
   //boundry for cameraLocation
+  /*
   if(cameraLocation_x > 110)
   {
     cameraLocation_x = 110;
@@ -61,7 +62,7 @@ void Camera::Update(unsigned int dt, glm::vec2 mouseLocation)
   {
     cameraLocation_x = 10;
   }
-
+  */
   view = glm::lookAt( glm::vec3(cameraLocation_x, cameraLocation_y, cameraLocation_z),
                       glm::vec3(0.0, 0.0, 0.0),
                       glm::vec3(0.0, 1.0, 0.0));
@@ -89,26 +90,35 @@ void Camera::Input(char input, unsigned int dt)
       cameraLocation_z -= movement * height.z;
       */
       //cameraLocation_y += 10;
+      std::cout << "X: " << cameraLocation_x << std::endl;
+      std::cout << "Y: " << cameraLocation_x << std::endl;
+      std::cout << "Z: " << cameraLocation_z << std::endl;
       cameraLocation_x -= movement * fwd.x;
       cameraLocation_y += movement * fwd.y;
       cameraLocation_z += movement * fwd.z;
-      std::cout << cameraLocation_x << std::endl;
-      std::cout << cameraLocation_z << std::endl;
+
       break;
     case 'j': //left
+      std::cout << "X: " << cameraLocation_x << std::endl;
+      std::cout << "Y: " << cameraLocation_x << std::endl;
+      std::cout << "Z: " << cameraLocation_z << std::endl;
       cameraLocation_x -= movement * strafe.x;
       cameraLocation_z -= movement * strafe.z;
       break;
     case 'l': //right
+      std::cout << "X: " << cameraLocation_x << std::endl;
+      std::cout << "Y: " << cameraLocation_x << std::endl;
+      std::cout << "Z: " << cameraLocation_z << std::endl;
       cameraLocation_x += movement * strafe.x;
       cameraLocation_z += movement * strafe.z;
       break;
     case 'k': //down
+      std::cout << "X: " << cameraLocation_x << std::endl;
+      std::cout << "Y: " << cameraLocation_x << std::endl;
+      std::cout << "Z: " << cameraLocation_z << std::endl;
       cameraLocation_x += movement * fwd.x;
       cameraLocation_y -= movement * fwd.y;
       cameraLocation_z -= movement * fwd.z;
-      std::cout << cameraLocation_x << std::endl;
-      std::cout << cameraLocation_z << std::endl;
       break;
     default:
       break;

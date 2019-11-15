@@ -23,7 +23,7 @@ void Flipper::Update(unsigned int dt){
   btScalar x,y,z;
   flipper_object->GetRigidBody()->getWorldTransform().getBasis().getEulerZYX(z,y,x);
   flipper_object->GetRigidBody()->getMotionState()->getWorldTransform(tr);
-  std::cout << z << " " << y << " " << x << std::endl;
+  //std::cout << z << " " << y << " " << x << std::endl;
   if( y > 0.0f ){
     std::cout << "TEST" << std::endl;
     y -= 0.5;
@@ -36,7 +36,7 @@ void Flipper::Update(unsigned int dt){
   tr.setRotation(quat);
   bd->setCenterOfMassTransform(tr);
   bd->getWorldTransform().getBasis().getEulerZYX(z,y,x);
-  std::cout << "A: " << y << std::endl;
+  //std::cout << "A: " << y << std::endl;
 }
 Object* Flipper::GetFlipper(){
   return flipper_object;
