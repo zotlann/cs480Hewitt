@@ -537,17 +537,6 @@ glm::vec3 Object::GetLocation(){
   return location;
 }
 
-void Object::SetLocation(glm::vec3 lastLocation)
-{
-  btTransform newTransform;
-
-  newTransform.setOrigin(btVector3(lastLocation.x, lastLocation.y, lastLocation.z));
-  newTransform.setRotation(btQuaternion(0,0,0,0));
-
-  body->setWorldTransform(newTransform);
-  shapeMotionState->setWorldTransform(newTransform);
-}
-
 void Object::applyForce(btVector3 force)
 {
   body->applyForce(force, btVector3(location.x, location.y, location.z));
