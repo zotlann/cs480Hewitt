@@ -9,7 +9,7 @@
 	<ambient-r>1.0</ambient-r>
 	<ambient-g>1.0</ambient-g>
 	<ambient-b>1.0</ambient-b>
-	<ambient-intensity>0.000001</ambient-intensity>
+	<ambient-intensity>1</ambient-intensity>
 	<specular-intensity>0</specular-intensity>
 
 	<spotlight-location-x>0</spotlight-location-x>

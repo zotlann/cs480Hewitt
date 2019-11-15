@@ -404,14 +404,20 @@ void Object::LoadModel(char* obj_filename)
   } 
 
   //iterate through the meshes and load vertices and indices for each 
-  for(unsigned int j = 0; j < my_scene->mNumMeshes; j++){ 
+  for(unsigned int j = 0; j < my_scene->mNumMeshes; j ++){ 
   aiMesh* mesh = my_scene->mMeshes[j];
   //Process Vertices
     for(unsigned int i = 0; i < mesh->mNumVertices; i++){
       aiVector3D ai_vec = mesh->mVertices[i];
-      aiVector3D ai_texture = mesh->mTextureCoords[0][i];
-      aiVector3D ai_normal = mesh->mNormals[i]; 
+      aiVector3D ai_texture = {0,0,0};
+      aiVector3D ai_normal = {0,0,0};
+      if(mesh->HasNormals()){
+        ai_normal = mesh->mNormals[i]; 
+      }
       glm::vec3 vertex = {ai_vec.x,ai_vec.y,ai_vec.z};
+      if(mesh->HasTextureCoords(0)){
+        ai_texture = mesh->mTextureCoords[0][i];
+      }
       glm::vec2 texture_coordinates = {ai_texture.x,ai_texture.y};
       glm::vec3 normal = {ai_normal.x,ai_normal.y,ai_normal.z};
       Vertices.push_back({vertex,texture_coordinates,normal});

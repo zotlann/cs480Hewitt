@@ -15,7 +15,7 @@ bool Camera::Initialize(int w, int h)
   // Init cameraLocation for update
   cameraLocation_x = 0;
   cameraLocation_y = 30;
-  cameraLocation_z = -75;
+  cameraLocation_z = 75;
   //xLook = 45;
   //yLook = 180;
   //zLook = 0;

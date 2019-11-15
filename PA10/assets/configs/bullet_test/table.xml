@@ -1,5 +1,5 @@
 <object>
-	<model>../assets/objects/new-tray.obj</model>
+	<model>../assets/objects/board.obj</model>
 	<texture>../assets/textures/table.jpg</texture>
 	<dynamic>false</dynamic>
 	<kinematic>false</kinematic>
@@ -16,7 +16,7 @@
 	<ambient-r>1</ambient-r>
 	<ambient-g>1</ambient-g>
 	<ambient-b>1</ambient-b>
-	<scale>30</scale>
+	<scale>3</scale>
 	<mass>0</mass>
 	<shininess>0</shininess>
 </object>
