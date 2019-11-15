@@ -268,9 +268,9 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   }
   else
   {
-    printf("Last Seen: %f, %f, %f\n", lastLocation.x, lastLocation.y, lastLocation.z);
-    m_ball->SetLocation(lastLocation);
-    printf("Where am I?: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
+    //printf("Last Seen: %f, %f, %f\n", lastLocation.x, lastLocation.y, lastLocation.z);
+    //m_ball->SetLocation(lastLocation);
+    //printf("Where am I?: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
   }
   
 
@@ -396,8 +396,9 @@ void Graphics::Input(char input)
       m_ball->applyForce(btVector3(0, 0, -60000));
     }
   }
-  if(input == 'v'){
-
+  if(input == 'b'){
+    std::cout << "HAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
+    m_ball->SetLocation(glm::vec3(14.6, 4, 29.4));
   }
 
   // Move ball?
