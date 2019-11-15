@@ -3,6 +3,7 @@
 	<bumpers>
 		<b1>../assets/configs/bullet_test/bumper1.xml</b1>
 		<b2>../assets/configs/bullet_test/bumper2.xml</b2>
+		<b3>../assets/configs/bullet_test/bumper3.xml</b3>
 	</bumpers>
 	<left-flippers>
 		<f1>../assets/configs/bullet_test/lflipper.xml</f1>
