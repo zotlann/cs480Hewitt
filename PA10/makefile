@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 # Linux
 ifeq ($(UNAME_S), Linux)
 	CC=g++
-	LIBS=-lSDL2 -lGLEW -lGL -lassimp -lMagick++-6.Q16 #`Magick++-config --cppflags --cxxflags --ldflags --libs` -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath
+	LIBS=-lSDL2 -lGLEW -lGL -lassimp -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath -lMagick++-6.Q16 #`Magick++-config --cppflags --cxxflags --ldflags --libs` 
 # Mac
 else
 	CC=clang++
