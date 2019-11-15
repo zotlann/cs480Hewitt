@@ -250,7 +250,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   return true;
 }
 
-void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)a
+void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
   //handles plunger, flippers, and shader changes 
   Input(input);
@@ -285,7 +285,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)a
   //update spotlight direction and position
   spotlight.direction = glm::vec3(0, -1, 0);
   spotlight.position = m_ball->GetLocation();
-  spotlight.position.y = -19;
+  spotlight.position.y = 10;
 
   //update m_camera
   m_camera->Input(input, dt);
