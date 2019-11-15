@@ -431,7 +431,7 @@ void Graphics::Input(char input)
     //right flipper
   }
   if(input == 'c'){
-    if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 30 ){ //check if ball is in plunger area  
+    if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 23.5 ){ //check if ball is in plunger area  
       // -40000 = minimum
       // -50000 = maximum
       if(!gameOver)
