@@ -19,13 +19,19 @@ Table::Table(char* table_filename){
       strcpy(filename,element->GetText());
       Flipper* flipper = new Flipper(filename);
       objects.push_back(flipper->GetFlipper());
+      bumpers.push_back(flipper->GetFlipper());
       while((element = element->NextSiblingElement())){
         strcpy(filename,element->GetText());
         Flipper* new_flipper = new Flipper(filename);
         objects.push_back(new_flipper->GetFlipper());
+        bumpers.push_back(flipper->GetFlipper());
       }
     }
     delete filename;
+  }
+  std::cout << "AAAAAAAAA" << std::endl;
+  for(int i = 0; i < bumpers.size(); i++){
+    std::cout << bumpers[i]->GetScore() << std::endl;
   }
 
 
@@ -109,6 +115,11 @@ void Table::Update(unsigned int dt){
 
 std::vector<Object*> Table::GetObjects(){
   return objects;
+}
+
+
+std::vector<Object*> Table::GetBumpers(){
+  return bumpers;
 }
 
 Object* Table::GetBall(){

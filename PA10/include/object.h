@@ -30,7 +30,7 @@ struct ObjectConfig{
 	glm::vec4 specular;
 	float shininess;
 	bool is_dynamic;
-  bool is_kinematic;
+        bool is_kinematic;
 	char* shape;
 };
 
@@ -44,6 +44,7 @@ class Object
     void ProcessInput(char input);
     void Render();
 
+    void SetScore(int);
     void LoadModel(char* obj_filename);
     void ParseObjectConfig(char* object_config_filename);
     void LoadTexture(char* texture_filepath);
@@ -65,6 +66,7 @@ class Object
     glm::vec4 GetAmbient();
     glm::vec4 GetSpecular(); 
     glm::vec3 GetLocation(); 
+    int GetScore();
     void SetLocation(glm::vec3 lastLocation);
 
     void applyForce(btVector3 force);
@@ -81,6 +83,8 @@ class Object
     GLuint texture;
 
     ObjectConfig cfg;
+
+    int score;
 
     btCollisionShape* shape;
     btRigidBody* body;
