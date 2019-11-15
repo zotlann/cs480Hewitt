@@ -6,8 +6,8 @@
 	<shape>sphere</shape>
 	<radius>1</radius>
 	<location-x>14.6</location-x>
-	<location-y>4</location-y>
-	<location-z>29.4</location-z>
+	<location-y>3.5</location-y>
+	<location-z>22.8</location-z>
 	<restitution>0.5</restitution>
 	<friction>0.02</friction>
 	<diffuse-r>1</diffuse-r>

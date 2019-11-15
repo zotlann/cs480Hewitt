@@ -398,7 +398,7 @@ void Graphics::Input(char input)
   }
   if(input == 'b'){
     std::cout << "HAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
-    m_ball->SetLocation(glm::vec3(14.6, 4, 29.4));
+    m_ball->SetLocation(glm::vec3(14.6, 3.5, 22.8));
   }
 
   // Move ball?
