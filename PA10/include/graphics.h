@@ -13,6 +13,7 @@ using namespace std;
 #include <btBulletDynamicsCommon.h>
 #include <btBulletCollisionCommon.h>
 #include "table.h"
+#include <stdlib.h>
 
 class Graphics
 {
