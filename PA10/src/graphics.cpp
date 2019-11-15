@@ -287,7 +287,10 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     m_ball->SetLocation(glm::vec3(14.6, 3.5, 22.8));
     livesChanged = true;
   }
-
+  if (m_ball->GetLocation().y >= 8)
+  {
+    m_ball->SetLocation(glm::vec3(m_ball->GetLocation().x, 8, m_ball->GetLocation().z));
+  }
   if(lives <= 0)
   { 
     if(!gameOverPrinted)
@@ -431,11 +434,7 @@ void Graphics::Input(char input)
     //right flipper
   }
   if(input == 'c'){
-<<<<<<< HEAD
-    if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 20 ){ //check if ball is in plunger area  
-=======
-    if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 23.5 ){ //check if ball is in plunger area  
->>>>>>> d7aa4ceac7fae2ca9c3629a558dc4697aa60d4fc
+    if((m_ball->GetLocation().x >= 13.5) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 20 ){ //check if ball is in plunger area  
       // -40000 = minimum
       // -50000 = maximum
       if(!gameOver)
