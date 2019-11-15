@@ -64,10 +64,14 @@ class Graphics
     bool livesChanged;
     bool scoreChanged;
     bool gameOverPrinted;
+    bool plungerInZone;
+    bool plungerChanged;
   
     Object* m_ball;
     Table* m_table;
     glm::vec3 lastLocation;
+
+    float plungerIntensity;
     
     btDiscreteDynamicsWorld* dynamics_world;
     btBroadphaseInterface* broadphase;

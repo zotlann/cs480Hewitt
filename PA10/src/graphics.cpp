@@ -106,6 +106,8 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   spotlight.position = glm::vec3(cfg.sx, cfg.sy, cfg.sz);
   spotlight.color = glm::vec3(cfg.sr, cfg.sg, cfg.sb);
 
+  plungerIntensity = -40000;
+
   // Set up game logic
   MAX_SCORE = cfg.extraGameScore;
   score = cfg.startScore;
@@ -291,6 +293,16 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     //printf("Where am I?: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
   }
 
+  if( (m_ball->GetLocation().x >= 13.5) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 20 )
+  {
+    plungerInZone = true;
+  }
+  else
+  {
+    plungerInZone = false;
+  }
+  
+
   // lose life / game over
   livesChanged = false;
   scoreChanged = false;
@@ -346,22 +358,28 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
       }
     }
 
-  if(!gameOver)
-  {
-    // check for extra ball
-    if( score % MAX_SCORE == 0 && score != 0)
+    if(!gameOver)
     {
-      lives++;
-      livesChanged = true;
-    }
+      // check for extra ball
+      if( score % MAX_SCORE == 0 && score != 0)
+      {
+        lives++;
+        livesChanged = true;
+      }
 
-    // Print your states
-    if(livesChanged || scoreChanged)
+      // Print your states
+      if(livesChanged || scoreChanged)
+      {
+        printf("Balls left: %d\n", lives);
+        printf("Score: %d\n\n", score);
+      }
+    }    
+
+    if(plungerChanged)
     {
-      printf("Balls left: %d\n", lives);
-      printf("Score: %d\n\n", score);
+      printf("Plunger intensity: %f\n", plungerIntensity / -10000 - 4);   
+      plungerChanged = false;   
     }
-  }    
   }
 
   //set the timestep
@@ -462,15 +480,41 @@ void Graphics::Input(char input)
       m_table->FlipRightFlippers();
   }
   if(input == 'c'){
-    if((m_ball->GetLocation().x >= 13.5) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 20 ){ //check if ball is in plunger area  
+    if( plungerInZone ){ //check if ball is in plunger area  
       // -40000 = minimum
       // -50000 = maximum
       if(!gameOver)
       {
-        m_ball->applyForce(btVector3(0, 0, -60000));
+        m_ball->applyForce(btVector3(0, 0, plungerIntensity));
       }
     }
   }
+
+  if(input == 'n')
+  {
+    if( plungerInZone )
+    {
+      plungerIntensity += 1000;
+      if (plungerIntensity >= -40000)
+      {
+        plungerIntensity = -40000;
+      }
+      plungerChanged = true;
+    }
+  }
+  if(input == 'm')
+  {
+    if(plungerInZone)
+    {
+      plungerIntensity -= 1000;
+      if(plungerIntensity <= -60000)
+      {
+        plungerIntensity = -60000;
+      }
+    }
+    plungerChanged = true;
+  }
+
   if(input == 'b'){
     printf("Resetting Ball\n");
     m_ball->SetLocation(glm::vec3(14.6,3.5,22.8));
@@ -519,14 +563,14 @@ void Graphics::Input(char input)
 
   if(input == 'i')
   {
-    m_spotlight_intensity += 10;
+    spotlight.intensity += 10;
   }
 
   if(input == 'k')
   {
-    m_spotlight_intensity -= 10;
-    if(m_spotlight_intensity <= 0)
-      m_spotlight_intensity = 0;
+    spotlight.intensity -= 10;
+    if(spotlight.intensity <= 0)
+      spotlight.intensity = 0;
   }
 
   if(input == 'l')
