@@ -431,7 +431,7 @@ void Object::LoadModel(char* obj_filename)
       if(face.mNumIndices != 3){
         std::string error;
         std::string file_name(obj_filename);
-        error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(mesh->mNumFaces) + " indices.\n";
+        error = "Expected triangles in faces from file: " + file_name + " but recived " + std::to_string(face.mNumIndices) + " indices.\n";
         throw std::logic_error(error);
       }
 

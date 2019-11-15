@@ -1,12 +1,12 @@
 <object>
-	<model>../assets/objects/cube.obj</model>
-	<texture>../assets/textures/cube.jpg</texture>
+	<model>../assets/objects/leftFlipper.obj</model>
+	<texture>../assets/textures/cylinder.jpg</texture>
 	<dynamic>false</dynamic>
-	<kinematic>false</kinematic>
-	<shape>cylinder</shape>
-	<location-x>-10</location-x>
-	<location-y>0</location-y>
-	<location-z>-4</location-z>
+	<kinematic>true</kinematic>
+	<shape>mesh</shape>
+	<location-x>-3</location-x>
+	<location-y>4</location-y>
+	<location-z>0</location-z>
 	<scale>.75</scale>
 	<mass>0</mass>
 	<diffuse-r>1</diffuse-r>
