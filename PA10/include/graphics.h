@@ -59,6 +59,10 @@ class Graphics
     unsigned int lives;
     unsigned int score;
     unsigned int MAX_SCORE;
+    bool gameOver;
+    bool livesChanged;
+    bool scoreChanged;
+    bool gameOverPrinted;
   
     Object* m_ball;
     Table* m_table;

@@ -98,6 +98,8 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   MAX_SCORE = cfg.extraGameScore;
   score = cfg.startScore;
   lives = cfg.startLives;
+  gameOver = false;
+  gameOverPrinted = false;
 
   // Set up the shaders'
   Shader* s1 = new Shader();
@@ -128,7 +130,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
     printf("Program to Finalize\n");
     return false;
   }
-  std::cout << MAX_SCORE << " " << score << " " << lives << std::endl;
 
   //push the program to the shaders vertex
   m_shaders.push_back(s1);
@@ -246,6 +247,11 @@ bool Graphics::Initialize(int width, int height, Config cfg)
     std::cout << "Could not open ../assets/scoreboard.txt" << std::endl;
   }
   
+  printf("Welcome to pinball!\n");
+  printf("Press c to shoot!\n");
+  printf("Press z and x for the flippers!\n\n");
+  printf("Balls left: %d\n", lives);
+  printf("Score: %d\n\n", score);
 
   return true;
 }
@@ -272,7 +278,44 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     //m_ball->SetLocation(lastLocation);
     //printf("Where am I?: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
   }
-  
+
+  // lose life / game over
+  livesChanged = false;
+  if( m_ball->GetLocation().z >= 34 && m_ball->GetLocation().x <= 13.8 )
+  {
+    lives--;
+    m_ball->SetLocation(glm::vec3(14.6, 4, 29.4));
+    livesChanged = true;
+  }
+
+  if(lives <= 0)
+  { 
+    if(!gameOverPrinted)
+    {
+      gameOver = true;
+      printf("Game over!\n");
+      printf("Final score: %d\n", score);
+      printf("Press p to replay!\n\n");
+      gameOverPrinted = true;
+    }
+  }
+
+  if(!gameOver)
+  {
+    // check for extra ball
+    if( score % MAX_SCORE == 0 && score != 0)
+    {
+      lives++;
+      livesChanged = true;
+    }
+
+    // Print your states
+    if(livesChanged)
+    {
+      printf("Balls left: %d\n", lives);
+      printf("Score: %d\n\n", score);
+    }
+  }
 
   // Check collisions
   int numManifolds = dynamics_world->getDispatcher()->getNumManifolds();
@@ -284,11 +327,11 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   
     if((obA->getUserPointer()) == m_ball && (obB->getUserPointer()) == objects[0])
     {
-      printf("hiA\n");
+      
     }
     if((obA->getUserPointer()) == objects[0] && (obB->getUserPointer()) == m_ball)
     {
-      printf("hiB\n");
+      
     }  
   }
 
@@ -388,17 +431,32 @@ void Graphics::Input(char input)
     //right flipper
   }
   if(input == 'c'){
-    //if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z <= 30 ){ //check if ball is in plunger area
-    if(true) {  
-      printf(">:(\n");
+    if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 30 ){ //check if ball is in plunger area  
       // -40000 = minimum
-      //
-      m_ball->applyForce(btVector3(0, 0, -60000));
+      // -50000 = maximum
+      if(!gameOver)
+      {
+        m_ball->applyForce(btVector3(0, 0, -60000));
+      }
     }
   }
-  if(input == 'b'){
-    std::cout << "HAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
-    m_ball->SetLocation(glm::vec3(14.6, 3.5, 22.8));
+  if(input == 'p'){
+    if(gameOver)
+    {
+      for(int i = 0; i < 60; i++)
+      {
+        printf("\n");
+      }
+      lives = 3;
+      score = 0;
+      gameOver = !gameOver;
+      printf("Welcome to pinball!\n");
+      printf("Press c to shoot!\n");
+      printf("Press z and x for the flippers!\n\n");
+      printf("Balls left: %d\n", lives);
+      printf("Score: %d\n\n", score);
+      gameOverPrinted = false;
+    }
   }
 
   // Move ball?
@@ -418,7 +476,7 @@ void Graphics::Input(char input)
   {
     m_ball->applyForce(btVector3(-50, 0, 0));
   }  
-  if(input == 'p')
+  if(input == 'r')
   {
     printf("Ball location: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
   }
