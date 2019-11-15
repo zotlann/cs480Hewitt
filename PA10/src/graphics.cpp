@@ -87,6 +87,17 @@ bool Graphics::Initialize(int width, int height, Config cfg)
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
     objects[i]->GetRigidBody()->setUserPointer(objects[i]);
   }
+  
+  //set up plane
+  btTransform planeTransform;
+  planeTransform.setIdentity();
+  planeTransform.setOrigin(btVector3(0,6,4));
+  btScalar mass = 0;
+  btVector3 inertia(0,0,0);
+  btStaticPlaneShape* shape = new btStaticPlaneShape(btVector3(0,1,0),100);
+  btDefaultMotionState* shape_state = new btDefaultMotionState(planeTransform);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,shape_state,shape,inertia);
+  
 
   //set up the spotlight;
   spotlight.intensity = cfg.spotlightIntensity;
