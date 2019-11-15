@@ -9,6 +9,7 @@
 	<location-z>22</location-z>
 	<scale>2</scale>
 	<mass>0</mass>
+	<restitution>2</restitution>
 	<diffuse-r>1</diffuse-r>
 	<diffuse-g>1</diffuse-g>
 	<diffuse-b>1</diffuse-b>

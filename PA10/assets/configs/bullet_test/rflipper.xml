@@ -6,7 +6,7 @@
 	<shape>mesh</shape>
 	<location-x>3</location-x>
 	<location-y>3.14</location-y>
-	<location-z>23</location-z>
+	<location-z>24</location-z>
 	<scale>.75</scale>
 	<mass>0</mass>
 	<diffuse-r>1</diffuse-r>
