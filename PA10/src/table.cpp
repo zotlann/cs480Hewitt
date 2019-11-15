@@ -97,6 +97,16 @@ void Table::FlipRightFlippers(){
   }
 }
 
+void Table::Update(unsigned int dt){
+  for(int i = 0; i < left_flippers.size(); i++){
+    left_flippers[i]->Update(dt);
+  }
+  for(int i = 0; i < right_flippers.size(); i++){
+    //right_flippers[i]->Update(dt);
+  }
+}
+
+
 std::vector<Object*> Table::GetObjects(){
   return objects;
 }

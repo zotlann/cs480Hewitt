@@ -8,6 +8,7 @@ class Flipper{
     Flipper(char* flipper_filename);
     void Flip();
     Object* GetFlipper();
+    void Update(unsigned int dt);
   private:
     Object* flipper_object;
 };

@@ -252,10 +252,12 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 {
   //handles plunger, flippers, and shader changes 
-  Input(input);
 
   dynamics_world->stepSimulation(dt/1000.0f,10);
 
+  Input(input);
+
+  m_table->Update(dt);
   //set the timestep
   //update the ball with user input
   //m_cube->ProcessInput(input);
@@ -346,7 +348,7 @@ void Graphics::Input(char input)
     shader_index %= m_shaders.size();
   }
   if(input == 'z'){
-    //left flipper
+    m_table->FlipLeftFlippers();
   }
   if(input == 'x'){
     //right flipper
