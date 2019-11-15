@@ -65,6 +65,8 @@ class Object
     glm::vec4 GetAmbient();
     glm::vec4 GetSpecular(); 
     glm::vec3 GetLocation(); 
+
+    void applyForce(btVector3 force);
   private:
     glm::mat4 model;
     glm::vec3 location;

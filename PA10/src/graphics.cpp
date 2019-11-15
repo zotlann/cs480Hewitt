@@ -72,7 +72,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config );
 
   //set gravity
-  dynamics_world->setGravity(btVector3(0,-10,-10));
+  dynamics_world->setGravity(btVector3(0,-10,0));
 
   //Create the objects
   m_table = new Table(cfg.table_config);
@@ -358,6 +358,28 @@ void Graphics::Input(char input)
   }
   if(input == 'v'){
 
+  }
+
+  // Move ball?
+  if(input == 'w')
+  {
+    m_ball->applyForce(btVector3(0, 0, 50));
+  }
+  if(input == 'a')
+  {
+    m_ball->applyForce(btVector3(50, 0, 0));
+  }
+  if(input == 's')
+  {
+    m_ball->applyForce(btVector3(0, 0, -50));
+  }
+  if(input == 'd')
+  {
+    m_ball->applyForce(btVector3(-50, 0, 0));
+  }  
+  if(input == 'p')
+  {
+    printf("Ball location: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
   }
 }
 
