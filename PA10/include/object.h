@@ -58,6 +58,7 @@ class Object
     void LoadShape(char* shape); 
 
     float Scale();
+    float GetMass();
 
     float GetShininess();
     glm::vec4 GetDiffuse();

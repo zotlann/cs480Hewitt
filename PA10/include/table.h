@@ -15,7 +15,6 @@ class Table{
   private:
     std::vector<Flipper*> left_flippers;
     std::vector<Flipper*> right_flippers;
-    std::vector<Object*> bumpers;
     std::vector<Object*> objects;
     Object* table;
     Object* ball;

@@ -1,14 +1,14 @@
 <table-config>
 	<table>../assets/configs/bullet_test/table.xml</table>
+	<bumpers>
+		<b1>../assets/configs/bullet_test/bumper1.xml</b1>
+		<b2>../assets/configs/bullet_test/bumper2.xml</b2>
+	</bumpers>
 	<left-flippers>
 		<f1>../assets/configs/bullet_test/lflipper.xml</f1>
 	</left-flippers>
 	<right-flippers>
 		<f1>../assets/configs/bullet_test/rflipper.xml</f1>
 	</right-flippers>
-	<bumpers>
-		<b1>../assets/configs/bullet_test/bumper1.xml</b1>
-		<b2>../assets/configs/bullet_test/bumper2.xml</b2>
-	</bumpers>
 	<ball>../assets/configs/bullet_test/ball.xml</ball>
 </table-config>

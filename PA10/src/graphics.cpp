@@ -83,7 +83,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   //add all rigit bodies to physics world
   for(unsigned int i = 0; i < objects.size(); i++){
-    std::cout << "RIGID BODY G: " << objects[i]->GetRigidBody() << std::endl;
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
   }
 
@@ -265,6 +264,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   //update m_camera
   m_camera->Input(input, dt);
   m_camera->Update(dt, mouseLocation);
+
 }
 
 void Graphics::Render()

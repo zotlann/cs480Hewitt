@@ -12,6 +12,24 @@ Table::Table(char* table_filename){
   tinyxml2::XMLElement* config = doc.FirstChildElement("table-config");
   tinyxml2::XMLElement* element = NULL;
 
+  //set the bumpers
+  if((element = config->FirstChildElement("bumpers"))){
+    char* filename = new char[256];
+    if((element = element->FirstChildElement())){
+      strcpy(filename,element->GetText());
+      Flipper* flipper = new Flipper(filename);
+      objects.push_back(flipper->GetFlipper());
+      while((element = element->NextSiblingElement())){
+        strcpy(filename,element->GetText());
+        Flipper* new_flipper = new Flipper(filename);
+        objects.push_back(new_flipper->GetFlipper());
+      }
+    }
+    delete filename;
+  }
+
+
+
   //set the table object
   if((element = config->FirstChildElement("table"))){
     char* filename = new char[256];
@@ -55,24 +73,6 @@ Table::Table(char* table_filename){
       }
     }
     delete filename;
-  }
-
-  //set the bumpers
-  if((element = config->FirstChildElement("bumpers"))){
-    char* filename = new char[256];
-    if((element = element->FirstChildElement())){
-      strcpy(filename,element->GetText());
-      Object* bumper = new Object(filename);
-      bumpers.push_back(bumper);
-      objects.push_back(bumper);
-      while((element = element->NextSiblingElement())){
-        strcpy(filename,element->GetText());
-        Object* new_bumper = new Object(filename);
-        bumpers.push_back(new_bumper);
-        objects.push_back(new_bumper);
-      }
-   }
-   delete filename;
   }
   //set the ball
   if((element = config->FirstChildElement("ball"))){
