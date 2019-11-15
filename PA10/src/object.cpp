@@ -360,7 +360,12 @@ void Object::ParseObjectConfig(char* object_config_filename)
   if((element = object->FirstChildElement("location-z"))){
     z = element->FloatText();
   }
-
+ 
+  score = 0; 
+  if((element = object->FirstChildElement("score"))){
+    score = element->Int64Text();
+  }
+  std::cout << "A: " << score << std::endl;
   //length, width, height
   if((element = object->FirstChildElement("width"))){
     float m = element->FloatText();
@@ -554,4 +559,12 @@ void Object::SetLocation(glm::vec3 lastLocation)
 void Object::applyForce(btVector3 force)
 {
   body->applyForce(force, btVector3(location.x, location.y, location.z));
+}
+
+int Object::GetScore(){
+  return score;
+}
+
+void Object::SetScore(int n){
+  score = n;
 }

@@ -12,11 +12,13 @@ class Table{
     glm::vec3 GetStartingBallPosition();
     Object* GetBall();
     std::vector<Object*> GetObjects();
+    std::vector<Object*> GetBumpers();
     void Update(unsigned int dt);
   private:
     std::vector<Flipper*> left_flippers;
     std::vector<Flipper*> right_flippers;
     std::vector<Object*> objects;
+    std::vector<Object*> bumpers;
     Object* table;
     Object* ball;
     glm::vec3 starting_ball_position;

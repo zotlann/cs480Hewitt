@@ -338,15 +338,28 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     btPersistentManifold* contactManifold = dynamics_world->getDispatcher()->getManifoldByIndexInternal(i);
     const btCollisionObject* obA = contactManifold->getBody0();
     const btCollisionObject* obB = contactManifold->getBody1();
-  
-    if((obA->getUserPointer()) == m_ball && (obB->getUserPointer()) == objects[0])
-    {
-      
+    std::vector<Object*> bumpers = m_table->GetBumpers();
+    
+    for(int i = 0; i < bumpers.size(); i++){
+      std::cout << bumpers[i]->GetScore();
     }
-    if((obA->getUserPointer()) == objects[0] && (obB->getUserPointer()) == m_ball)
+    if((obA->getUserPointer()) == m_ball)
     {
-      
-    }  
+      for(int i = 0; i < bumpers.size(); i++){
+        if(obB->getUserPointer() == bumpers[i]){
+          score += bumpers[i]->GetScore();
+        }
+      }
+    }
+    if((obB->getUserPointer()) == m_ball)
+    {
+      for(int i = 0; i < bumpers.size(); i++){
+        if(obA->getUserPointer() == bumpers[i]){
+          score += bumpers[i]->GetScore();
+        }
+      }
+    }
+    std::cout << "Score: " << score << std::endl;
   }
 
   //set the timestep

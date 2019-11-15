@@ -12,6 +12,7 @@
 	<length>1</length>
 	<scale>1.6</scale>
 	<mass>0</mass>
+	<score>20</score>
 	<diffuse-r>1</diffuse-r>
 	<diffuse-g>1</diffuse-g>
 	<diffuse-b>1</diffuse-b>
