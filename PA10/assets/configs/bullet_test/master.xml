@@ -18,8 +18,8 @@
 	<spotlight-r>1</spotlight-r>
 	<spotlight-g>1.0</spotlight-g>
 	<spotlight-b>1</spotlight-b>
-	<spotlight-intensity>30</spotlight-intensity>
-	<spotlight-cutoff>0.44445</spotlight-cutoff>
+	<spotlight-intensity>90</spotlight-intensity>
+	<spotlight-cutoff>7</spotlight-cutoff>
 
 	<windowname>bullet-test</windowname>
 	<w>1024</w>

@@ -90,7 +90,8 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   //set up the spotlight;
   spotlight.intensity = cfg.spotlightIntensity;
-  spotlight.cutoff = cfg.spotlightCutoff;
+  cutOffDivider = cfg.spotlightCutoff;
+  spotlight.cutoff = M_PI / cutOffDivider;
   spotlight.position = glm::vec3(cfg.sx, cfg.sy, cfg.sz);
   spotlight.color = glm::vec3(cfg.sr, cfg.sg, cfg.sb);
 
@@ -469,23 +470,55 @@ void Graphics::Input(char input)
     }
   }
 
-  // Move ball?
+  // Specular change
   if(input == 'w')
   {
-    m_ball->applyForce(btVector3(0, 0, 50));
-  }
-  if(input == 'a')
-  {
-    m_ball->applyForce(btVector3(50, 0, 0));
+    specular_intensity += 0.1;
   }
   if(input == 's')
   {
-    m_ball->applyForce(btVector3(0, 0, -50));
-  }
-  if(input == 'd')
+    specular_intensity -= 0.1;
+    if(specular_intensity <= 0)
+      specular_intensity = 0;
+  } 
+  if(input == '^')
   {
-    m_ball->applyForce(btVector3(-50, 0, 0));
-  }  
+    ambient_light_intensity += 0.1;
+  }
+  if(input == 'V')
+  {
+    ambient_light_intensity -= 0.1;
+  }
+
+  if(input == 'i')
+  {
+    m_spotlight_intensity += 10;
+  }
+
+  if(input == 'k')
+  {
+    m_spotlight_intensity -= 10;
+    if(m_spotlight_intensity <= 0)
+      m_spotlight_intensity = 0;
+  }
+
+  if(input == 'l')
+  {
+    cutOffDivider -= 1;
+    if(cutOffDivider <= 1)
+    {
+      cutOffDivider = 1;
+    }
+    
+    spotlight.cutoff = M_PI / cutOffDivider;
+  }
+
+  if(input == 'j')
+  {
+    cutOffDivider += 1;
+    spotlight.cutoff = M_PI / cutOffDivider;
+  }
+
   if(input == 'r')
   {
     printf("Ball location: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);

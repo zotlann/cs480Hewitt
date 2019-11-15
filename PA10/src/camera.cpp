@@ -79,6 +79,7 @@ void Camera::Input(char input, unsigned int dt)
   fwd.z *= -1;
   switch(input)
   {
+    /*
     case 3:
       xLook = 45;
       yLook = 180;
@@ -88,7 +89,7 @@ void Camera::Input(char input, unsigned int dt)
       cameraLocation_x += movement * height.x;
       cameraLocation_y += movement * height.y;
       cameraLocation_z -= movement * height.z;
-      */
+      
       //cameraLocation_y += 10;
       std::cout << "X: " << cameraLocation_x << std::endl;
       std::cout << "Y: " << cameraLocation_x << std::endl;
@@ -122,6 +123,7 @@ void Camera::Input(char input, unsigned int dt)
       break;
     default:
       break;
+    */
   }
   
 }

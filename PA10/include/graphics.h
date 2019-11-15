@@ -54,6 +54,7 @@ class Graphics
     float ambient_light_intensity;
     float specular_intensity;
     unsigned int shader_index;
+    float cutOffDivider;
 
     //Game logic variables
     unsigned int lives;
