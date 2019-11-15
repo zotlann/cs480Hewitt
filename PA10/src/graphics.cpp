@@ -72,7 +72,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config );
 
   //set gravity
-  dynamics_world->setGravity(btVector3(0,-10,-10));
+  dynamics_world->setGravity(btVector3(0,-10,0));
 
   //Create the objects
   m_table = new Table(cfg.table_config);
@@ -85,6 +85,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   //add all rigit bodies to physics world
   for(unsigned int i = 0; i < objects.size(); i++){
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
+    objects[i]->GetRigidBody()->setUserPointer(objects[i]);
   }
 
   //set up the spotlight;
@@ -258,6 +259,25 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   Input(input);
 
   m_table->Update(dt);
+  
+  // Check collisions
+  int numManifolds = dynamics_world->getDispatcher()->getNumManifolds();
+  for( int i = 0; i < numManifolds; i++ )
+  {
+    btPersistentManifold* contactManifold = dynamics_world->getDispatcher()->getManifoldByIndexInternal(i);
+    const btCollisionObject* obA = contactManifold->getBody0();
+    const btCollisionObject* obB = contactManifold->getBody1();
+  
+    if((obA->getUserPointer()) == m_ball && (obB->getUserPointer()) == objects[0])
+    {
+      printf("hiA\n");
+    }
+    if((obA->getUserPointer()) == objects[0] && (obB->getUserPointer()) == m_ball)
+    {
+      printf("hiB\n");
+    }  
+  }
+
   //set the timestep
   //update the ball with user input
   //m_cube->ProcessInput(input);
@@ -268,7 +288,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   //update spotlight direction and position
   spotlight.direction = glm::vec3(0, -1, 0);
   spotlight.position = m_ball->GetLocation();
-  spotlight.position.y = -19;
+  spotlight.position.y = 10;
 
   //update m_camera
   m_camera->Input(input, dt);
@@ -360,6 +380,28 @@ void Graphics::Input(char input)
   }
   if(input == 'v'){
 
+  }
+
+  // Move ball?
+  if(input == 'w')
+  {
+    m_ball->applyForce(btVector3(0, 0, 50));
+  }
+  if(input == 'a')
+  {
+    m_ball->applyForce(btVector3(50, 0, 0));
+  }
+  if(input == 's')
+  {
+    m_ball->applyForce(btVector3(0, 0, -50));
+  }
+  if(input == 'd')
+  {
+    m_ball->applyForce(btVector3(-50, 0, 0));
+  }  
+  if(input == 'p')
+  {
+    printf("Ball location: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
   }
 }
 

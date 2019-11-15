@@ -5,8 +5,11 @@
 	<kinematic>false</kinematic>
 	<shape>cylinder</shape>
 	<location-x>10</location-x>
-	<location-y>0</location-y>
+	<location-y>3</location-y>
 	<location-z>4</location-z>
+	<width>1.5</width>
+	<height>1</height>
+	<length>1</length>
 	<scale>.75</scale>
 	<mass>0</mass>
 	<diffuse-r>1</diffuse-r>

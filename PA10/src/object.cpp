@@ -536,3 +536,8 @@ float Object::GetShininess(){
 glm::vec3 Object::GetLocation(){
   return location;
 }
+
+void Object::applyForce(btVector3 force)
+{
+  body->applyForce(force, btVector3(location.x, location.y, location.z));
+}

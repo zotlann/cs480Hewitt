@@ -9,7 +9,7 @@ void Flipper::Flip(){
   btTransform tr;
   tr.setIdentity();
   btQuaternion quat;
-  quat.setEulerZYX(0,0,0);
+  quat.setEulerZYX(0,1,0);
   tr.setRotation(quat);
   bd->setCenterOfMassTransform(tr);
   btScalar x,y,z;

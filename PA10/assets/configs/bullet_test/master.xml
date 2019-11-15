@@ -9,17 +9,17 @@
 	<ambient-r>1.0</ambient-r>
 	<ambient-g>1.0</ambient-g>
 	<ambient-b>1.0</ambient-b>
-	<ambient-intensity>1</ambient-intensity>
+	<ambient-intensity>0</ambient-intensity>
 	<specular-intensity>0</specular-intensity>
 
 	<spotlight-location-x>0</spotlight-location-x>
-	<spotlight-location-y>-19</spotlight-location-y>
+	<spotlight-location-y>10</spotlight-location-y>
 	<spotlight-location-z>0</spotlight-location-z>
-	<spotlight-r>1.0</spotlight-r>
-	<spotlight-g>1.0</spotlight-g>
-	<spotlight-b>1.0</spotlight-b>
+	<spotlight-r>0</spotlight-r>
+	<spotlight-g>100.0</spotlight-g>
+	<spotlight-b>0</spotlight-b>
 	<spotlight-intensity>30</spotlight-intensity>
-	<spotlight-cutoff>0.4488</spotlight-cutoff>
+	<spotlight-cutoff>0.44445</spotlight-cutoff>
 
 	<windowname>bullet-test</windowname>
 	<w>1024</w>
