@@ -365,7 +365,6 @@ void Object::ParseObjectConfig(char* object_config_filename)
   if((element = object->FirstChildElement("score"))){
     score = element->Int64Text();
   }
-  std::cout << "A: " << score << std::endl;
   //length, width, height
   if((element = object->FirstChildElement("width"))){
     float m = element->FloatText();

@@ -116,7 +116,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   // Set up the shaders'
   Shader* s1 = new Shader();
   Shader* s2 = new Shader();
-  Shader* s3 = new Shader();
 
   if(!s1->Initialize())
   {
@@ -173,33 +172,6 @@ bool Graphics::Initialize(int width, int height, Config cfg)
 
   m_shaders.push_back(s2);
 
-    if(!s3->Initialize())
-  {
-    printf("Shader Failed to Initialize\n");
-    return false;
-  }
-  // Add the vertex shader
-  if(!s3->AddShader(GL_VERTEX_SHADER,cfg.vshader3_filename))
-  {
-    printf("Vertex Shader failed to Initialize\n");
-    return false;
-  }
-
-  // Add the fragment shader
-  if(!s3->AddShader(GL_FRAGMENT_SHADER,cfg.fshader3_filename))
-  {
-    printf("Fragment Shader failed to Initialize\n");
-    return false;
-  }
-  // Connect the program
-  if(!s3->Finalize())
-  {
-    printf("Program to Finalize\n");
-    return false;
-  }
-
-  m_shaders.push_back(s3);
-  
   shader_index = 0;
 
   // Locate the projection matrix in the shader
@@ -246,6 +218,10 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+
+  //flip all the flippers to make sure none of them are bugged out
+  m_table->FlipLeftFlippers();
+  m_table->FlipRightFlippers();
 
   //Setup file io for pinball scoreboard
   ifstream scoreboard ("../assets/scoreboard.txt");
