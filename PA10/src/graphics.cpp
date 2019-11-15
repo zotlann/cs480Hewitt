@@ -371,10 +371,6 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   spotlight.position = m_ball->GetLocation();
   spotlight.position.y = 10;
 
-  //update m_camera
-  m_camera->Input(input, dt);
-  m_camera->Update(dt, mouseLocation);
-
 }
 
 void Graphics::Render()
@@ -455,12 +451,14 @@ void Graphics::Input(char input)
     m_table->FlipRightFlippers();
   }
   if(input == 'c'){
-    if((m_ball->GetLocation().x >= 13.5) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 20 ){ //check if ball is in plunger area  
+    if((m_ball->GetLocation().x >= 13.5) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 15 ){ //check if ball is in plunger area  
       // -40000 = minimum
       // -50000 = maximum
       if(!gameOver)
       {
-        m_ball->applyForce(btVector3(0, 0, -60000));
+        float force = (rand() % 30000) + 50000;
+	
+        m_ball->applyForce(btVector3(0, 0, -force));
       }
     }
   }
