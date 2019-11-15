@@ -16,6 +16,7 @@
 	<ambient-r>1</ambient-r>
 	<ambient-g>1</ambient-g>
 	<ambient-b>1</ambient-b>
+	<restitution>0.5</restitution>
 	<scale>3</scale>
 	<mass>0</mass>
 	<shininess>0</shininess>

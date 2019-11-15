@@ -72,7 +72,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   dynamics_world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config );
 
   //set gravity
-  dynamics_world->setGravity(btVector3(0,-10,0));
+  dynamics_world->setGravity(btVector3(0,-10,10));
 
   //Create the objects
   m_table = new Table(cfg.table_config);
@@ -371,8 +371,12 @@ void Graphics::Input(char input)
     //right flipper
   }
   if(input == 'c'){
-    if(true){ //check if ball is in plunger area
-      //plunger
+    if(true)
+    {//m_ball->GetLocation().x >= 13.8 && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z == 29.349098 ){ //check if ball is in plunger area
+      printf(">:(\n");
+      // -40000 = minimum
+      //
+      m_ball->applyForce(btVector3(0, 0, -60000));
     }
   }
   if(input == 'v'){
