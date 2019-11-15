@@ -495,7 +495,7 @@ void Object::LoadShape(char* shape_str){
     shape = new btStaticPlaneShape(btVector3(0,1,0),0);
   }
   else if((strcmp(shape_str,"sphere")) == 0){
-    btScalar radius = cfg.scale*2;
+    btScalar radius = cfg.scale;
     shape = new btSphereShape(radius);
   }
   else if((strcmp(shape_str,"box")) == 0){
