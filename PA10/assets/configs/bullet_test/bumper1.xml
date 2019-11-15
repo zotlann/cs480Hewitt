@@ -1,6 +1,6 @@
 <object>
 	<model>../assets/objects/leftTriangle.obj</model>
-	<texture>../assets/textures/cylinder.jpg</texture>
+	<texture>../assets/textures/orange.jpeg</texture>
 	<dynamic>false</dynamic>
 	<kinematic>false</kinematic>
 	<shape>mesh</shape>

@@ -6,7 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-Pinball.
+Welcome to our Pinball. Using previous libraries as well as Bullet, we have been able to create a virtual pinball game for you to play today at the ECC.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -38,11 +38,26 @@ make
 ```bash
 ./PA10 -c ../assets/configs/bullet_test/master.xml
 ```
+NOTE: If collisions do not work, please restart the program.
 
 ## Keyboard
 | Input | Output |
 | - |:-:|
+| <kbd>Esc</kbd> | Exit program|
+| <kbd>Tab</kbd> | Swap through shader programs  |
 | <kbd>z</kbd> | Left Flipper |
 | <kbd>x</kbd> | Right Flipper |
 | <kbd>c</kbd> | Plunger |
-| <kbd>Tab</kbd> | Swap through shader programs  |
+| <kbd>b</kbd> | Reset ball's position to the plunger area |
+| <kbd>p</kbd> | Game replay (only if game over) |
+| <kbd>w</kbd> | Increase specular intensity |
+| <kbd>s</kbd> | Decrease specular intensity |
+| <kbd>&#8593;</kbd> | Increase specular intensity |
+| <kbd>&#8595;</kbd> | Decrease specular intensity |
+| <kbd>j</kbd> | Decrease specular intensity |
+| <kbd>l</kbd> | Increase specular intensity |
+| <kbd>r</kbd> | Print ball location |
+
+## Extra Credit
+- Spotlight that follows the ball is on and you can change the radius.  
+- Game Replay is possible. The terminal will notify you how to restart if you lose your 3 lives.  

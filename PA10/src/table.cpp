@@ -29,10 +29,6 @@ Table::Table(char* table_filename){
     }
     delete filename;
   }
-  std::cout << "AAAAAAAAA" << std::endl;
-  for(int i = 0; i < bumpers.size(); i++){
-    std::cout << bumpers[i]->GetScore() << std::endl;
-  }
 
 
 
