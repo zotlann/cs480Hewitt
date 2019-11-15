@@ -293,6 +293,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 
   // lose life / game over
   livesChanged = false;
+  scoreChanged = false;
   if( m_ball->GetLocation().z >= 34 && m_ball->GetLocation().x <= 13.8 )
   {
     lives--;
@@ -315,22 +316,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
     }
   }
 
-  if(!gameOver)
-  {
-    // check for extra ball
-    if( score % MAX_SCORE == 0 && score != 0)
-    {
-      lives++;
-      livesChanged = true;
-    }
 
-    // Print your states
-    if(livesChanged)
-    {
-      printf("Balls left: %d\n", lives);
-      printf("Score: %d\n\n", score);
-    }
-  }
 
   // Check collisions
   int numManifolds = dynamics_world->getDispatcher()->getNumManifolds();
@@ -346,6 +332,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
       for(int i = 0; i < bumpers.size(); i++){
         if(obB->getUserPointer() == bumpers[i]){
           score++;
+          scoreChanged = true;
 	}
       }
     }
@@ -354,9 +341,27 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
       for(int i = 0; i < bumpers.size(); i++){
         if(obA->getUserPointer() == bumpers[i]){
           score++;
+          scoreChanged = true;
 	}
       }
     }
+
+  if(!gameOver)
+  {
+    // check for extra ball
+    if( score % MAX_SCORE == 0 && score != 0)
+    {
+      lives++;
+      livesChanged = true;
+    }
+
+    // Print your states
+    if(livesChanged || scoreChanged)
+    {
+      printf("Balls left: %d\n", lives);
+      printf("Score: %d\n\n", score);
+    }
+  }    
   }
 
   //set the timestep
@@ -445,10 +450,12 @@ void Graphics::Input(char input)
     shader_index %= m_shaders.size();
   }
   if(input == 'z'){
-    m_table->FlipLeftFlippers();
+    if(!gameOver)
+      m_table->FlipLeftFlippers();
   }
   if(input == 'x'){
-    m_table->FlipRightFlippers();
+    if(!gameOver)
+      m_table->FlipRightFlippers();
   }
   if(input == 'c'){
     if((m_ball->GetLocation().x >= 13.5) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 15 ){ //check if ball is in plunger area  
