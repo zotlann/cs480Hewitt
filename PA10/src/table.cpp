@@ -87,22 +87,22 @@ Table::Table(char* table_filename){
 
 void Table::FlipLeftFlippers(){
   for(unsigned int i = 0; i < left_flippers.size(); i++){
-    left_flippers[i]->Flip();
+    left_flippers[i]->Flip(true);
   }
 }
 
 void Table::FlipRightFlippers(){
   for(unsigned int i = 0; i < right_flippers.size(); i++){
-    right_flippers[i]->Flip();
+    right_flippers[i]->Flip(false);
   }
 }
 
 void Table::Update(unsigned int dt){
   for(int i = 0; i < left_flippers.size(); i++){
-    left_flippers[i]->Update(dt);
+    left_flippers[i]->Update(dt, true);
   }
   for(int i = 0; i < right_flippers.size(); i++){
-    //right_flippers[i]->Update(dt);
+    right_flippers[i]->Update(dt, false);
   }
 }
 

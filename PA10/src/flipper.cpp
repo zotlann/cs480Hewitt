@@ -4,35 +4,51 @@ Flipper::Flipper(char* flipper_filename){
   flipper_object = new Object(flipper_filename);
 }
 
-void Flipper::Flip(){
-  btRigidBody* bd = flipper_object->GetRigidBody();
-  btTransform tr;
-  tr.setIdentity();
-  btQuaternion quat;
-  quat.setEulerZYX(0,1,0);
-  tr.setRotation(quat);
-  bd->setCenterOfMassTransform(tr);
-  btScalar x,y,z;
+void Flipper::Flip(bool left){
+  if(left)
+  {
+    yaw = 1.f;
+    btQuaternion turn(yaw, 0,0);
+    btTransform trans;
+    flipper_object->GetRigidBody()->getMotionState()->getWorldTransform(trans);
+    trans.setRotation(turn);
+    flipper_object->GetRigidBody()->getMotionState()->setWorldTransform(trans);
+  }
+  else
+  {
+    yaw = 2 * M_PI - 1.f;
+    btQuaternion turn(-yaw, 0,0);
+    btTransform trans;
+    flipper_object->GetRigidBody()->getMotionState()->getWorldTransform(trans);
+    trans.setRotation(turn);
+    flipper_object->GetRigidBody()->getMotionState()->setWorldTransform(trans);
+  }
+  
 }
 
-void Flipper::Update(unsigned int dt){
-  btTransform tr;
-  btRigidBody* bd = flipper_object->GetRigidBody();
-  tr.setIdentity();
-  btQuaternion quat;
-  btScalar x,y,z;
-  flipper_object->GetRigidBody()->getWorldTransform().getBasis().getEulerZYX(z,y,x);
-  flipper_object->GetRigidBody()->getMotionState()->getWorldTransform(tr);
-  if( y > 0.0f ){
-    y -= 0.5;
-    if(y < 0.0f){
-      y = 0;
-    }
+void Flipper::Update(unsigned int dt, bool left){
+  if(left)
+  {
+    yaw -= 0.3 * dt/100;
+    if(yaw <= 0)
+      yaw = 0;
+    btQuaternion turn(yaw, 0,0);
+    btTransform trans;
+    flipper_object->GetRigidBody()->getMotionState()->getWorldTransform(trans);
+    trans.setRotation(turn);
+    flipper_object->GetRigidBody()->getMotionState()->setWorldTransform(trans);
   }
-  quat.setEulerZYX(0,y,0);
-  tr.setRotation(quat);
-  bd->setCenterOfMassTransform(tr);
-  bd->getWorldTransform().getBasis().getEulerZYX(z,y,x);
+  else
+  {
+    yaw += 0.3 * dt/100;
+    if(yaw >= 2 * M_PI)
+      yaw = 2 * M_PI;
+    btQuaternion turn(yaw, 0,0);
+    btTransform trans;
+    flipper_object->GetRigidBody()->getMotionState()->getWorldTransform(trans);
+    trans.setRotation(turn);
+    flipper_object->GetRigidBody()->getMotionState()->setWorldTransform(trans);
+  }
 }
 Object* Flipper::GetFlipper(){
   return flipper_object;
