@@ -284,7 +284,7 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
   if( m_ball->GetLocation().z >= 34 && m_ball->GetLocation().x <= 13.8 )
   {
     lives--;
-    m_ball->SetLocation(glm::vec3(14.6, 4, 29.4));
+    m_ball->SetLocation(glm::vec3(14.6, 3.5, 22.8));
     livesChanged = true;
   }
 
@@ -431,7 +431,11 @@ void Graphics::Input(char input)
     //right flipper
   }
   if(input == 'c'){
+<<<<<<< HEAD
+    if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 20 ){ //check if ball is in plunger area  
+=======
     if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z >= 23.5 ){ //check if ball is in plunger area  
+>>>>>>> d7aa4ceac7fae2ca9c3629a558dc4697aa60d4fc
       // -40000 = minimum
       // -50000 = maximum
       if(!gameOver)
@@ -439,6 +443,13 @@ void Graphics::Input(char input)
         m_ball->applyForce(btVector3(0, 0, -60000));
       }
     }
+  }
+  if(input == 'b'){
+    printf("Resetting Ball\n");
+    m_ball->SetLocation(glm::vec3(14.6,3.5,22.8));
+    m_ball->GetRigidBody()->clearForces();
+    m_ball->GetRigidBody()->setLinearVelocity(btVector3(0,0,0));
+    m_ball->GetRigidBody()->setAngularVelocity(btVector3(0,0,0));
   }
   if(input == 'p'){
     if(gameOver)
