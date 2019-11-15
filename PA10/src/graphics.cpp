@@ -260,6 +260,20 @@ void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
 
   m_table->Update(dt);
   
+  if( m_ball->GetLocation().x >= -16 && m_ball->GetLocation().x <= 16 &&
+      m_ball->GetLocation().y >= 3 && m_ball->GetLocation().y <= 15 &&
+      m_ball->GetLocation().z >= -20 && m_ball->GetLocation().z <= 34 )
+  {
+    lastLocation = m_ball->GetLocation();
+  }
+  else
+  {
+    printf("Last Seen: %f, %f, %f\n", lastLocation.x, lastLocation.y, lastLocation.z);
+    m_ball->SetLocation(lastLocation);
+    printf("Where am I?: %f, %f, %f\n", m_ball->GetLocation().x, m_ball->GetLocation().y, m_ball->GetLocation().z);
+  }
+  
+
   // Check collisions
   int numManifolds = dynamics_world->getDispatcher()->getNumManifolds();
   for( int i = 0; i < numManifolds; i++ )
@@ -374,8 +388,8 @@ void Graphics::Input(char input)
     //right flipper
   }
   if(input == 'c'){
-    if(true)
-    {//m_ball->GetLocation().x >= 13.8 && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z == 29.349098 ){ //check if ball is in plunger area
+    //if((m_ball->GetLocation().x >= 13.8) && m_ball->GetLocation().x <= 15.9 && m_ball->GetLocation().z <= 30 ){ //check if ball is in plunger area
+    if(true) {  
       printf(">:(\n");
       // -40000 = minimum
       //

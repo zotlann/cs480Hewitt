@@ -62,6 +62,7 @@ class Graphics
   
     Object* m_ball;
     Table* m_table;
+    glm::vec3 lastLocation;
     
     btDiscreteDynamicsWorld* dynamics_world;
     btBroadphaseInterface* broadphase;
