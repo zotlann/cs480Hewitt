@@ -62,6 +62,7 @@ class Graphics
   
     Object* m_ball;
     Table* m_table;
+    Bumper* m_bumper1;
     
     btDiscreteDynamicsWorld* dynamics_world;
     btBroadphaseInterface* broadphase;

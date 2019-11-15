@@ -85,6 +85,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   //add all rigit bodies to physics world
   for(unsigned int i = 0; i < objects.size(); i++){
     dynamics_world->addRigidBody(objects[i]->GetRigidBody(),0b01111111,0b11111111);
+    objects[i]->GetRigidBody()->setUserPointer(objects[i]);
   }
 
   //set up the spotlight;
@@ -249,12 +250,30 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   return true;
 }
 
-void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)
+void Graphics::Update(unsigned int dt,char input,glm::vec2 mouseLocation)a
 {
   //handles plunger, flippers, and shader changes 
   Input(input);
 
   dynamics_world->stepSimulation(dt/1000.0f,10);
+
+  // Check collisions
+  int numManifolds = dynamics_world->getDispatcher()->getNumManifolds();
+  for( int i = 0; i < numManifolds; i++ )
+  {
+    btPersistentManifold* contactManifold = dynamics_world->getDispatcher()->getManifoldByIndexInternal(i);
+    const btCollisionObject* obA = contactManifold->getBody0();
+    const btCollisionObject* obB = contactManifold->getBody1();
+  
+    if((obA->getUserPointer()) == m_ball && (obB->getUserPointer()) == objects[0])
+    {
+      printf("hiA\n");
+    }
+    if((obA->getUserPointer()) == objects[0] && (obB->getUserPointer()) == m_ball)
+    {
+      printf("hiB\n");
+    }  
+  }
 
   //set the timestep
   //update the ball with user input
