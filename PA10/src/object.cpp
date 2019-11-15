@@ -409,7 +409,7 @@ void Object::LoadModel(char* obj_filename)
   //Process Vertices
     for(unsigned int i = 0; i < mesh->mNumVertices; i++){
       aiVector3D ai_vec = mesh->mVertices[i];
-      aiVector3D ai_texture = {0,0,0};
+      aiVector3D ai_texture = {0.5,0.5,0};
       aiVector3D ai_normal = {0,0,0};
       if(mesh->HasNormals()){
         ai_normal = mesh->mNormals[i]; 

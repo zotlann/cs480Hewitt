@@ -1,6 +1,6 @@
 <object>
 	<model>../assets/objects/board.obj</model>
-	<texture>../assets/textures/table.jpg</texture>
+	<texture>../assets/textures/blue.jpeg</texture>
 	<dynamic>false</dynamic>
 	<kinematic>false</kinematic>
 	<shape>mesh</shape>
