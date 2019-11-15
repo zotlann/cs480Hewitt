@@ -29,6 +29,10 @@ struct Config{
   float sy;
   float sz;
   float spotlightIntensity;
+
+  int startScore;
+  int startLives;
+  int extraGameScore;
 };
 
 #endif

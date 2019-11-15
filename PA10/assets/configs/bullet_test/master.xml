@@ -24,4 +24,8 @@
 	<w>1024</w>
 	<h>768</h>
 	<table-config>../assets/configs/bullet_test/table-config.xml</table-config>
+
+	<extra-score>1000</extra-score>
+	<start-score>0</start-score>
+	<start-lives>3</start-lives>
 </config>

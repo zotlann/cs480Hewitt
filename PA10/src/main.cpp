@@ -53,9 +53,6 @@ bool parseCmdArgs(int argc, char **argv, Config* cfg){
 }
 
 void loadConfig(char* config_filename, Config* cfg){
-  float x, y, z;
-  x = y = z = 0;
-
   tinyxml2::XMLDocument doc;
   tinyxml2::XMLError file_loaded = doc.LoadFile(config_filename);
   if(file_loaded != tinyxml2::XML_SUCCESS){
@@ -190,5 +187,20 @@ void loadConfig(char* config_filename, Config* cfg){
     cfg->sz = element->FloatText();
   }
 
+  // Set up game logic
+  if((element = config->FirstChildElement("extra-score")))
+  {
+    cfg->extraGameScore = element->IntText();
+  }
+
+  if((element = config->FirstChildElement("start-score")))
+  {
+    cfg->startScore = element->IntText();
+  }  
+
+  if((element = config->FirstChildElement("start-lives")))
+  {
+    cfg->startLives = element->IntText();
+  }
 }
 

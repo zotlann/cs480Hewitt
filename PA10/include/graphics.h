@@ -54,6 +54,11 @@ class Graphics
     float ambient_light_intensity;
     float specular_intensity;
     unsigned int shader_index;
+
+    //Game logic variables
+    unsigned int lives;
+    unsigned int score;
+    unsigned int MAX_SCORE;
   
     Object* m_ball;
     Table* m_table;

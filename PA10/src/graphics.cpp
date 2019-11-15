@@ -21,6 +21,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   ambient_light_color.g = cfg.ag;
   ambient_light_color.b = cfg.ab;
   ambient_light_intensity = cfg.ambient_intensity;
+    
   specular_intensity = cfg.specular_intensity;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -91,6 +92,13 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   spotlight.cutoff = M_PI/7;
   spotlight.position = glm::vec3(0, -19, 0);
   spotlight.color = glm::vec3(1,1, 1);
+
+  // Set up game logic
+  MAX_SCORE = cfg.extraGameScore;
+  score = cfg.startScore;
+  lives = cfg.startLives;
+
+  std::cout << MAX_SCORE << " " << score << " " << lives << std::endl;
 
   // Set up the shaders'
   Shader* s1 = new Shader();
