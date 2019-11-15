@@ -12,6 +12,7 @@ int main(int argc, char **argv)
   if(!parseCmdArgs(argc,argv,cfg)){
     return 0;
   }
+
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine(cfg->window_name, cfg->w, cfg->h);
   if(!engine->Initialize(*cfg))
@@ -186,21 +187,24 @@ void loadConfig(char* config_filename, Config* cfg){
   if((element = config->FirstChildElement("spotlight-location-z"))){
     cfg->sz = element->FloatText();
   }
+  if((element = config->FirstChildElement("spotlight-cutoff"))){
+    cfg->spotlightCutoff = element->FloatText();
+  }  
 
   // Set up game logic
   if((element = config->FirstChildElement("extra-score")))
   {
-    cfg->extraGameScore = element->IntText();
+    cfg->extraGameScore = element->FloatText();
   }
 
   if((element = config->FirstChildElement("start-score")))
   {
-    cfg->startScore = element->IntText();
+    cfg->startScore = element->FloatText();
   }  
 
   if((element = config->FirstChildElement("start-lives")))
   {
-    cfg->startLives = element->IntText();
+    cfg->startLives = element->FloatText();
   }
 }
 

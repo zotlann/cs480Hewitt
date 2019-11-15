@@ -88,17 +88,15 @@ bool Graphics::Initialize(int width, int height, Config cfg)
   }
 
   //set up the spotlight;
-  spotlight.intensity = 30;
-  spotlight.cutoff = M_PI/7;
-  spotlight.position = glm::vec3(0, -19, 0);
-  spotlight.color = glm::vec3(1,1, 1);
+  spotlight.intensity = cfg.spotlightIntensity;
+  spotlight.cutoff = cfg.spotlightCutoff;
+  spotlight.position = glm::vec3(cfg.sx, cfg.sy, cfg.sz);
+  spotlight.color = glm::vec3(cfg.sr, cfg.sg, cfg.sb);
 
   // Set up game logic
   MAX_SCORE = cfg.extraGameScore;
   score = cfg.startScore;
   lives = cfg.startLives;
-
-  std::cout << MAX_SCORE << " " << score << " " << lives << std::endl;
 
   // Set up the shaders'
   Shader* s1 = new Shader();
@@ -129,6 +127,7 @@ bool Graphics::Initialize(int width, int height, Config cfg)
     printf("Program to Finalize\n");
     return false;
   }
+  std::cout << MAX_SCORE << " " << score << " " << lives << std::endl;
 
   //push the program to the shaders vertex
   m_shaders.push_back(s1);

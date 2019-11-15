@@ -13,12 +13,13 @@
 	<specular-intensity>0</specular-intensity>
 
 	<spotlight-location-x>0</spotlight-location-x>
-	<spotlight-location-y>0</spotlight-location-y>
+	<spotlight-location-y>-19</spotlight-location-y>
 	<spotlight-location-z>0</spotlight-location-z>
 	<spotlight-r>1.0</spotlight-r>
 	<spotlight-g>1.0</spotlight-g>
 	<spotlight-b>1.0</spotlight-b>
-	<spotlight-intensity>1.0</spotlight-intensity>
+	<spotlight-intensity>30</spotlight-intensity>
+	<spotlight-cutoff>0.4488</spotlight-cutoff>
 
 	<windowname>bullet-test</windowname>
 	<w>1024</w>
