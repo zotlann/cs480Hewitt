@@ -1,0 +1,7 @@
+<config>
+	<vshader>../assets/shaders/vshader</vshader>
+	<fshader>../assets/shaders/fshader</fshader>
+	<windowname>bullet-test</windowname>
+	<w>1024</w>
+	<h>768</h>
+</config>

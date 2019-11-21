@@ -1,0 +1,13 @@
+<object>
+	<model>../assets/objects/tray.obj</model>
+	<texture>../assets/textures/orange.jpeg</texture>
+	<shape>mesh</shape>
+	<kinematic>false</kinematic>
+	<scale>20</scale>
+	<mass>0</mass>
+	<position>
+		<x>0</x>
+		<y>0</y>
+		<z>0</z>
+	</position>
+</object>
