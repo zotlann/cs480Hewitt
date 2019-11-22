@@ -4,6 +4,8 @@
 	<shape>sphere</shape>
 	<kinematic>false</kinematic>
 	<scale>1</scale>
+	<friction>0.25</friction>
+	<restitution>0.25</restitution>
 	<mass>10</mass>
 	<position>
 		<x>0</x>

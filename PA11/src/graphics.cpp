@@ -78,7 +78,7 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	for(unsigned int i = 0; i < objects.size(); i++){
 		physics_world->AddBody(objects[i]->GetRigidBody());
 	}
-	
+
 	//enable depth testing
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -91,10 +91,42 @@ void Graphics::Update(unsigned int dt, char input){
 	glm::vec3 g = camera->GetGravity();
 	g.y = physics_world->GetGravity().getY();
 	physics_world->SetGravity(btVector3(g.x,g.y,g.z));
+
 	physics_world->StepSimulation(dt);
 	for(unsigned int i = 0; i < objects.size(); i++){
 		objects[i]->Update(dt);
 	}
+
+	// friction simulation
+	btScalar linearVelocity_x = objects[1]->GetRigidBody()->getLinearVelocity().getX();
+	btScalar linearVelocity_y = objects[1]->GetRigidBody()->getLinearVelocity().getY();
+	btScalar linearVelocity_z = objects[1]->GetRigidBody()->getLinearVelocity().getZ();
+	if( linearVelocity_x > 0 )
+	{
+		linearVelocity_x -= float(dt)/5000.f;
+		if( linearVelocity_x <= 0 )
+			linearVelocity_x = 0;
+	}
+	if( linearVelocity_x < 0 )
+	{
+		linearVelocity_x += float(dt)/5000.f;
+		if( linearVelocity_x >= 0 )
+			linearVelocity_x = 0;
+	}
+		if( linearVelocity_z > 0 )
+	{
+		linearVelocity_z -= float(dt)/5000.f;
+		if( linearVelocity_z <= 0 )
+			linearVelocity_z = 0;
+	}
+	if( linearVelocity_z < 0 )
+	{
+		linearVelocity_z += float(dt)/5000.f;
+		if( linearVelocity_z >= 0 )
+			linearVelocity_z = 0;
+	}
+
+	objects[1]->GetRigidBody()->setLinearVelocity(btVector3(linearVelocity_x, linearVelocity_y, linearVelocity_z));
 }
 
 void Graphics::Render(){

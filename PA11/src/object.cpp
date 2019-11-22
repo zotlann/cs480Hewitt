@@ -85,6 +85,14 @@ void Object::LoadObjectConfig(char* object_config_filename){
 	if((element = object->FirstChildElement("mass"))){
 		config.mass = element->FloatText();
 	}
+	//set the friction
+	if((element = object->FirstChildElement("friction"))){
+		config.friction = element->FloatText();
+	}
+	//set the restitution
+	if((element = object->FirstChildElement("restitution"))){
+		config.restitution = element->FloatText();
+	}
 	//set the is_kinematic flag
 	if((element = object->FirstChildElement("kinematic"))){
 		config.is_kinematic = element->BoolText();
@@ -149,7 +157,8 @@ void Object::LoadBody(char* shape_str){
 	else{
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
 	}
-	
+	//set friction
+	body->setFriction(btScalar(config.friction));
 }
 
 void Object::LoadShape(char* shape_str){

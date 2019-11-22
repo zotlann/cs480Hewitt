@@ -5,6 +5,8 @@
 	<kinematic>false</kinematic>
 	<scale>20</scale>
 	<mass>0</mass>
+	<friction>5.5</friction>
+	<restitution>1.5</restitution>
 	<position>
 		<x>0</x>
 		<y>0</y>

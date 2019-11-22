@@ -19,6 +19,7 @@ class Camera{
 		glm::vec3 direction;
 		glm::vec3 orientation;
 		float angle;
+		float pitch;
 };
 
 #endif //CAMERA_H
