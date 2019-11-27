@@ -14,8 +14,8 @@ class Engine{
 		~Engine();
 		bool Initialize(Config cfg);
 		void Run();
-		char Keyboard();
-		char Mouse();
+		bool Keyboard();
+		bool Mouse();
 		glm::vec2 MouseMovement();
 		unsigned int GetDT();
 		long long GetCurrentTimeMillis();
@@ -27,6 +27,7 @@ class Engine{
 		int window_height;
 		bool is_fullscreen;
 		SDL_Event event;
+		KeyHandler* key_handler;
 
 		Graphics* graphics;
 		unsigned int DT;

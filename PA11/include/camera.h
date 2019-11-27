@@ -8,7 +8,7 @@ class Camera{
 		Camera();
 		~Camera();
 		bool Initialize(int w, int h);
-		void Update(unsigned int dt,char input, Object* player);
+		void Update(unsigned int dt,KeyHandler* key_handler, Object* player);
 		glm::mat4 GetProjectionMatrix();
 		glm::mat4 GetViewMatrix();
 		glm::vec3 GetGravity();

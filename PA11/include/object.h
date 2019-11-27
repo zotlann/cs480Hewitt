@@ -10,6 +10,7 @@
 #include "graphics_headers.h"
 #include "model.h"
 #include "texture.h"
+#include "keyhandler.h"
 
 struct ObjectConfig{
 	glm::vec3 position;

@@ -86,10 +86,10 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	return true;
 }
 
-void Graphics::Update(unsigned int dt, char input){
-	camera->Update(dt,input,objects[1]);
+void Graphics::Update(unsigned int dt, KeyHandler* key_handler){
+	camera->Update(dt,key_handler,objects[1]);
 	glm::vec3 g = camera->GetGravity();
-	g.y = physics_world->GetGravity().getY();
+	g *= 5;
 	physics_world->SetGravity(btVector3(g.x,g.y,g.z));
 
 	physics_world->StepSimulation(dt);

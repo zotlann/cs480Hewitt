@@ -37,12 +37,13 @@ bool Engine::Initialize(Config cfg){
 
 	//Set the time
 	current_time_millis = GetCurrentTimeMillis();
-
+	//Set up the keyhandler
+	key_handler = new KeyHandler();
 	return true;
 }
 
 void Engine::Run(){
-	char input = '\0';
+	bool input = false;
 	is_running = true;
 	while(is_running){
 		//Update the DT
@@ -53,40 +54,61 @@ void Engine::Run(){
 			if(input) break;
 		}
 		//Update and render the graphics
-		graphics->Update(DT,input);
+		graphics->Update(DT,key_handler);
 		graphics->Render();
-		input = '\0';
 
 		//Swap to the Window
 		window->Swap();
 	}
 }
 
-char Engine::Mouse(){
+bool Engine::Mouse(){
 	if(event.type == SDL_QUIT){
 		is_running = false;
-		return '\0';
+		return false;
 	}
 	else if(event.type == SDL_MOUSEBUTTONDOWN){
 		switch(event.button.button){
 			case SDL_BUTTON_LEFT:
-				return 1;
+				key_handler->Press('1');
+				return true;
 				break;
 			case SDL_BUTTON_RIGHT:
-				return 2;
+				key_handler->Press('2');
+				return true;
 				break;
 			case SDL_BUTTON_MIDDLE:
-				return 3;
+				key_handler->Press('3');
+				return true;
 				break;
 			default:
-				return '\0';
+				return false;
 				break;
 			}
 	}
-	return '\0';
+	else if(event.type == SDL_MOUSEBUTTONUP){
+		switch(event.button.button){
+			case SDL_BUTTON_LEFT:
+				key_handler->Unpress('1');
+				return true;
+				break;
+			case SDL_BUTTON_RIGHT:
+				key_handler->Unpress('2');
+				return true;
+				break;
+			case SDL_BUTTON_MIDDLE:
+				key_handler->Press('3');
+				return true;
+				break;
+			default:
+				return false;
+				break;
+		}
+	}
+	return false;
 }
 
-char Engine::Keyboard(){
+bool Engine::Keyboard(){
 	if(event.type == SDL_QUIT){
 		is_running = false;
 		return '\0';
@@ -96,25 +118,59 @@ char Engine::Keyboard(){
 			case SDLK_ESCAPE:
 				printf("Exiting Program\n");
 				is_running = false;
+				return false;
 				break;
 			case SDLK_w:
-				return 'w';
+				key_handler->Press('w');
+				std::cout << "W IS DOWN" << std::endl;
+				return true;
 				break;
 			case SDLK_a:
-				return 'a';
+				key_handler->Press('a');
+				return true;
 				break;
 			case SDLK_s:
-				return 's';
+				key_handler->Press('s');
+				return true;
 				break;
 			case SDLK_d:
-				return 'd';
+				key_handler->Press('d');
+				return true;
 				break;
 			default:
-				return '\0';
+				return true;
 				break;
 		}
 	}
-	return '\0';
+	else if(event.type == SDL_KEYDOWN){
+		switch(event.key.keysym.sym){
+			case SDLK_ESCAPE:
+				printf("Exiting Program\n");
+				is_running = false;
+				return false;
+				break;
+			case SDLK_w:
+				key_handler->Unpress('w');
+				return true;
+				break;
+			case SDLK_a:
+				key_handler->Unpress('a');
+				return true;
+				break;
+			case SDLK_s:
+				key_handler->Unpress('s');
+				return true;
+				break;
+			case SDLK_d:
+				key_handler->Unpress('d');
+				return true;
+				break;
+			default:
+				return true;
+				break;
+		}
+	}
+	return false;
 }
 
 unsigned int Engine::GetDT(){

@@ -31,18 +31,19 @@ bool Camera::Initialize(int w, int h){
 	return true;
 }
 
-void Camera::Update(unsigned int dt, char input, Object* player){
+void Camera::Update(unsigned int dt, KeyHandler* key_handler, Object* player){
 	float dt_float = (float)dt;
 	glm::vec3 ballLocation = player->GetLocation();
-	location = player->GetLocation();
+/*	location = player->GetLocation();
 	location.x += 10;
-	location.y += 5;
-	if(pitch > 0){
+	location.y += 5;*/
+/*	if(pitch > 0){
 		pitch -= dt_float*M_PI/15000;
 		if(pitch < 0){
 			pitch = 0;
 		}
-	}
+	}*/
+	if(direction
 	if(pitch < 0){
 		pitch += dt_float*M_PI/15000;
 		if(pitch > 0){
@@ -61,39 +62,28 @@ void Camera::Update(unsigned int dt, char input, Object* player){
 			angle = 0;
 		}
 	}
-	switch(input){
-		case 's':
-			pitch -= dt_float*M_PI/3000;
-			if( pitch <= -M_PI/4 )
-				pitch = -M_PI/4;
-			break;
-		case 'w':
-			pitch += dt_float*M_PI/3000;
-			if( pitch >= M_PI/4 )
-				pitch = M_PI/4;
-			break;
-		case 'a':
-			angle -= dt_float*M_PI/3000;
-			if( angle <= -M_PI/4 )
-				angle = -M_PI/4;
-			break;
-		case 'd':
-			angle += dt_float*M_PI/3000;
-			if( angle >= M_PI/4 )
-				angle = M_PI/4;
-			break;
-		default:
-			 break;
+	if(key_handler->IsPressed('s')){
+		pitch -= dt_float*M_PI/3000;
 	}
-	ballLocation.y += 5*sin(pitch);
+	if(key_handler->IsPressed('w')){
+		pitch += dt_float*M_PI/3000;
+	}
+	if(key_handler->IsPressed('a')){
+		angle -= dt_float*M_PI/3000;
+	}
+	if(key_handler->IsPressed('d')){
+		angle += dt_float*M_PI/3000;
+	}
+//	ballLocation.y += 5*sin(pitch);
 	orientation = glm::vec3(sin(pitch),cos(angle),sin(angle));
 	view_matrix = glm::lookAt(location,ballLocation,orientation);
 }
 
 glm::vec3 Camera::GetGravity(){
-	float gx = -5*orientation.x;
-	float gz = -5*orientation.z;
-	return glm::vec3(gx,0,gz);
+	float gx = -orientation.x;
+	float gy = -orientation.y;
+	float gz = -orientation.z;
+	return glm::normalize(glm::vec3(gx,gy,gz));
 }
 
 glm::mat4 Camera::GetProjectionMatrix(){
