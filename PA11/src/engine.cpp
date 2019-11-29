@@ -122,7 +122,6 @@ bool Engine::Keyboard(){
 				break;
 			case SDLK_w:
 				key_handler->Press('w');
-				std::cout << "W IS DOWN" << std::endl;
 				return true;
 				break;
 			case SDLK_a:
@@ -142,7 +141,7 @@ bool Engine::Keyboard(){
 				break;
 		}
 	}
-	else if(event.type == SDL_KEYDOWN){
+	else if(event.type == SDL_KEYUP){
 		switch(event.key.keysym.sym){
 			case SDLK_ESCAPE:
 				printf("Exiting Program\n");

@@ -43,7 +43,6 @@ void Camera::Update(unsigned int dt, KeyHandler* key_handler, Object* player){
 			pitch = 0;
 		}
 	}*/
-	if(direction
 	if(pitch < 0){
 		pitch += dt_float*M_PI/15000;
 		if(pitch > 0){
