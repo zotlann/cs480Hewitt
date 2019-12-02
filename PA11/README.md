@@ -36,7 +36,7 @@ make
 ```
 **EXAMPLE:**
 ```bash
-./apesphere -c ../assets/configs/bullet_test/master.xml
+./apesphere -c ../assets/configs/apesphere/master.xml
 ```
 NOTE: If collisions do not work, please restart the program.
 
