@@ -85,6 +85,11 @@ void Object::LoadObjectConfig(char* object_config_filename){
 	if((element = object->FirstChildElement("mass"))){
 		config.mass = element->FloatText();
 	}
+	//set the shininess
+	if((element = object->FirstChildElement("shininess"))){
+		float m = element->FloatText();
+		config.shininess = m;
+	}
 	//set the friction
 	if((element = object->FirstChildElement("friction"))){
 		config.friction = element->FloatText();
@@ -183,4 +188,7 @@ void Object::LoadShape(char* shape_str){
 
 btRigidBody* Object::GetRigidBody(){
 	return body;
+}
+float Object::GetShininess(){
+ 	return config.shininess;
 }

@@ -22,6 +22,7 @@ struct ObjectConfig{
 	char* model_filename;
 	char* shape;
 	bool is_kinematic;
+	float shininess;
 };
 
 class Object{
@@ -40,6 +41,7 @@ class Object{
 		glm::mat4 GetModelMatrix();
 		glm::vec3 GetLocation();
 		btRigidBody* GetRigidBody();
+		float GetShininess();
 	private:
 		glm::mat4 model_matrix;
 		glm::vec3 location;

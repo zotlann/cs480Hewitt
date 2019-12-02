@@ -12,6 +12,7 @@ class Camera{
 		glm::mat4 GetProjectionMatrix();
 		glm::mat4 GetViewMatrix();
 		glm::vec3 GetGravity();
+		glm::vec3 GetPos();
 	private:
 		glm::mat4 projection_matrix;
 		glm::mat4 view_matrix;

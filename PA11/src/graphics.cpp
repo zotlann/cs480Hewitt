@@ -4,6 +4,14 @@ Graphics::Graphics(){}
 Graphics::~Graphics(){}
 
 bool Graphics::Initialize(int w, int h, Config cfg){
+	//set up ambient lighting
+	ambient_light_color.r = cfg.ar;
+	ambient_light_color.g = cfg.ag;
+	ambient_light_color.b = cfg.ab;
+	ambient_light_intensity = cfg.ambient_intensity;
+		
+	specular_intensity = cfg.specular_intensity;
+	
 	//used for linux OS
 	#if !defined(__APPLE__) && !defined(MACOSX)
 		glewExperimental = GL_TRUE;
@@ -25,6 +33,13 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 		printf("Camera Failed to Initialize\n");
 		return false;
 	}
+
+	//set up the spotlight;
+	spotlight.intensity = cfg.spotlightIntensity;
+	cutOffDivider = cfg.spotlightCutoff;
+	spotlight.cutoff = M_PI / cutOffDivider;
+	spotlight.position = glm::vec3(cfg.sx, cfg.sy, cfg.sz);
+	spotlight.color = glm::vec3(cfg.sr, cfg.sg, cfg.sb);
 
 	//Set up the shaders
 	Shader* s1 = new Shader();
@@ -64,6 +79,21 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	if(model_view_matrix == INVALID_UNIFORM_LOCATION){
 		printf("modelViewMatrix not found\n");
 	}
+
+	m_lightPosition = shaders[shader_index]->GetUniformLocation("AmbientLightPosition");
+	m_shininess = shaders[shader_index]->GetUniformLocation("shininess");
+	m_ambient = shaders[shader_index]->GetUniformLocation("AmbientProduct");
+	m_diffuse = shaders[shader_index]->GetUniformLocation("DiffuseProduct");
+	m_specular = shaders[shader_index]->GetUniformLocation("SpecularProduct");
+	m_specular_intensity = shaders[shader_index]->GetUniformLocation("SpecularIntensity");
+	m_viewPos = shaders[shader_index]->GetUniformLocation("viewPos");
+	m_ambient_color = shaders[shader_index]->GetUniformLocation("AmbientLightColor");
+	m_ambient_intensity = shaders[shader_index]->GetUniformLocation("AmbientLightIntensity");
+	m_spotlight_position = shaders[shader_index]->GetUniformLocation("spotlightPosition");
+	m_spotlight_direction = shaders[shader_index]->GetUniformLocation("spotlightDirection");
+	m_spotlight_cutoff = shaders[shader_index]->GetUniformLocation("spotlightCutoff");
+	m_spotlight_color = shaders[shader_index]->GetUniformLocation("spotlightColor");
+	m_spotlight_intensity = shaders[shader_index]->GetUniformLocation("spotlightIntensity");
 
 	//set up the physics world
 	physics_world = new PhysicsWorld(btVector3(10,-10,0));
@@ -130,6 +160,21 @@ void Graphics::Update(unsigned int dt, KeyHandler* key_handler){
 }
 
 void Graphics::Render(){
+	m_lightPosition = shaders[shader_index]->GetUniformLocation("AmbientLightPosition");
+	m_shininess = shaders[shader_index]->GetUniformLocation("shininess");
+	m_ambient = shaders[shader_index]->GetUniformLocation("AmbientProduct");
+	m_diffuse = shaders[shader_index]->GetUniformLocation("DiffuseProduct");
+	m_specular = shaders[shader_index]->GetUniformLocation("SpecularProduct");
+	m_specular_intensity = shaders[shader_index]->GetUniformLocation("SpecularIntensity");
+	m_viewPos = shaders[shader_index]->GetUniformLocation("viewPos");
+	m_ambient_color = shaders[shader_index]->GetUniformLocation("AmbientLightColor");
+	m_ambient_intensity = shaders[shader_index]->GetUniformLocation("AmbientLightIntensity");
+	m_spotlight_position = shaders[shader_index]->GetUniformLocation("spotlightPosition");
+	m_spotlight_direction = shaders[shader_index]->GetUniformLocation("spotlightDirection");
+	m_spotlight_cutoff = shaders[shader_index]->GetUniformLocation("spotlightCutoff");
+	m_spotlight_color = shaders[shader_index]->GetUniformLocation("spotlightColor");
+	m_spotlight_intensity = shaders[shader_index]->GetUniformLocation("spotlightIntensity");
+	
 	//clear the screen and set the black background
 	glClearColor(0.0,0.0,0.0,1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -146,6 +191,18 @@ void Graphics::Render(){
 		glm::mat4 model_view = camera->GetViewMatrix() * objects[i]->GetModelMatrix();
 		glUniformMatrix4fv(model_matrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModelMatrix()));
 		glUniformMatrix4fv(model_view_matrix, 1, GL_FALSE, glm::value_ptr(model_view));
+		glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(0.0,7.0,0.0)));
+		glUniform1f(m_shininess, objects[i]->GetShininess());
+		glUniform3fv(m_viewPos, 1, glm::value_ptr(camera->GetPos()));
+		glUniform1f(m_specular_intensity, specular_intensity);
+		glUniform3fv(m_ambient_color, 1, glm::value_ptr(ambient_light_color));
+		glUniform1f(m_ambient_intensity, ambient_light_intensity);
+		glUniform3fv(m_spotlight_position, 1, glm::value_ptr(spotlight.position));
+		glUniform3fv(m_spotlight_direction, 1, glm::value_ptr(spotlight.direction));
+		glUniform3fv(m_spotlight_color, 1, glm::value_ptr(spotlight.color));
+		glUniform1f(m_spotlight_cutoff, glm::cos(spotlight.cutoff));
+		glUniform1f(m_spotlight_intensity, spotlight.intensity);
+		
 		objects[i]->Render();
 	}
 

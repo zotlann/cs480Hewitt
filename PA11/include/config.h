@@ -15,6 +15,21 @@ struct Config{
 	char* fshader_filename;
 	int w;
 	int h;
+	
+	float ar;
+	float ag;
+	float ab;
+	float ambient_intensity;
+	float specular_intensity;
+
+	float sr;
+	float sg;
+	float sb;
+	float sx;
+	float sy;
+	float sz;
+	float spotlightIntensity;
+	float spotlightCutoff;
 };
 
 #endif //CONFIG_H
