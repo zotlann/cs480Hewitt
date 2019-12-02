@@ -21,7 +21,7 @@ O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.
 INCLUDES=-I../include -I/usr/include/bullet
 
 all: $(O_FILES)
-	$(CC) $(CXXFLAGS) -o PA10 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
+	$(CC) $(CXXFLAGS) -o apesphere $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
 
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INCLUDES)
@@ -46,14 +46,18 @@ window.o: ../src/window.cpp
 
 tinyxml2.o: ../src/tinyxml2.cpp
 	$(CC) $(CXXFLAGS) -c ../src/tinyxml2.cpp -o tinyxml2.o $(INCLUDES)
+
 model.o: ../src/model.cpp
 	$(CC) $(CXXFLAGS) -c ../src/model.cpp -o model.o $(INCLUDES)
+
 texture.o: ../src/texture.cpp
 	$(CC) $(CXXFLAGS) -c ../src/texture.cpp -o texture.o $(INCLUDES)
+
 physics.o: ../src/physics.cpp
 	$(CC) $(CXXFLAGS) -c ../src/physics.cpp -o physics.o $(INCLUDES)
+
 keyhandler.o: ../src/keyhandler.cpp
 	$(CC) $(CXXFLAGS) -c ../src/keyhandler.cpp -o keyhandler.o $(INCLUDES)
 
 clean:
-	-@if rm *.o PA10 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
+	-@if rm *.o apesphere 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
