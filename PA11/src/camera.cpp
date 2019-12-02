@@ -84,8 +84,6 @@ void Camera::Update(unsigned int dt, KeyHandler* key_handler, Object* player){
 	ballLocation.y += 3*sin(pitch);
 	orientation = glm::vec3(sin(pitch),cos(angle),sin(angle));
 	view_matrix = glm::lookAt(location,ballLocation,orientation);
-
-	std::cout << "Ball location: " << ballLocation.x << ", " << ballLocation.y << ", " << ballLocation.z << std::endl;
 }
 
 glm::vec3 Camera::GetGravity(){

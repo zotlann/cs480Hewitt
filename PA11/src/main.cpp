@@ -61,6 +61,12 @@ void loadConfig(char* config_filename, Config* cfg)
 	tinyxml2::XMLElement* config = doc.FirstChildElement("config");
 	tinyxml2::XMLElement* element = NULL;
 
+	//set the window
+	if((element = config->FirstChildElement("windowname"))){
+		cfg->window_name = new char[256];
+		strcpy(cfg->window_name,element->GetText());
+	}
+
 	//set the vertex shader filename
 	if((element = config->FirstChildElement("vshader"))){
 		cfg->vshader_filename = new char[256];
