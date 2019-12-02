@@ -34,15 +34,15 @@ bool Camera::Initialize(int w, int h){
 void Camera::Update(unsigned int dt, KeyHandler* key_handler, Object* player){
 	float dt_float = (float)dt;
 	glm::vec3 ballLocation = player->GetLocation();
-/*	location = player->GetLocation();
+	location = player->GetLocation();
 	location.x += 10;
-	location.y += 5;*/
-/*	if(pitch > 0){
+	location.y += 5;
+	if(pitch > 0){
 		pitch -= dt_float*M_PI/15000;
 		if(pitch < 0){
 			pitch = 0;
 		}
-	}*/
+	}
 	if(pitch < 0){
 		pitch += dt_float*M_PI/15000;
 		if(pitch > 0){
@@ -63,17 +63,25 @@ void Camera::Update(unsigned int dt, KeyHandler* key_handler, Object* player){
 	}
 	if(key_handler->IsPressed('s')){
 		pitch -= dt_float*M_PI/3000;
+		if( pitch < -M_PI/3)
+			pitch = -M_PI/3;
 	}
 	if(key_handler->IsPressed('w')){
 		pitch += dt_float*M_PI/3000;
+		if( pitch > M_PI/3)
+			pitch = M_PI/3;
 	}
 	if(key_handler->IsPressed('a')){
 		angle -= dt_float*M_PI/3000;
+		if( angle < -M_PI/3)
+			angle = -M_PI/3;
 	}
 	if(key_handler->IsPressed('d')){
 		angle += dt_float*M_PI/3000;
+		if( angle > M_PI/3)
+			angle = M_PI/3;
 	}
-//	ballLocation.y += 5*sin(pitch);
+	ballLocation.y += 3*sin(pitch);
 	orientation = glm::vec3(sin(pitch),cos(angle),sin(angle));
 	view_matrix = glm::lookAt(location,ballLocation,orientation);
 }
