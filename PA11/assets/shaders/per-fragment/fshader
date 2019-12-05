@@ -1,7 +1,9 @@
 #version 330
 
-in vec3 normal;
-in vec3 world_position;
+in vec3 fN;
+in vec3 fE;
+in vec3 fragPos;
+in vec3 fL;
 in vec2 texture_coordinates;
 
 uniform vec3 viewPos;
@@ -14,14 +16,11 @@ uniform float shininess;
 
 uniform sampler2D gSampler;
 
-out vec4 frag_color; 
-
 void main()
 {
-  vec3 eye = viewPos - world_position;
-  vec3 N = normalize(normal);
-  vec3 L = normalize(AmbientLightPosition.xyz);
-  vec3 E = normalize(eye);
+  vec3 N = normalize(fN);
+  vec3 L = normalize(fL - fragPos);
+  vec3 E = normalize(fE);
   vec3 H = normalize(L+E);
 
   vec4 ambient = vec4(AmbientLightColor,1.0) * AmbientLightIntensity;
@@ -29,9 +28,12 @@ void main()
   vec4 diffuse = Kd * vec4(AmbientLightColor, 1.0);
   float Ks = pow(max(dot(E,H),0.0),shininess);
   vec4 specular = Ks * vec4(AmbientLightColor, 1.0) * SpecularIntensity;
+  if(dot(L,N) < 0.0)
+    specular = vec4(0.0,0.0,0.0,1.0);
 
   vec4 color = ambient + specular + diffuse;
   color.a = 1.0;
 
-  frag_color = color * texture2D(gSampler,texture_coordinates.xy);
+  gl_FragColor = color * texture2D(gSampler,texture_coordinates.xy);
+  gl_FragColor.a = 1.0;
 }

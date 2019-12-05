@@ -5,20 +5,24 @@ layout (location = 1) in vec2 v_texture_coordinates;
 layout (location = 2) in vec3 v_normal;
 
 out vec2 texture_coordinates;
-out vec3 world_position;
-out vec3 normal;
+out vec3 fragPos;
+out vec3 fE;
+out vec3 fN;
+out vec3 fL;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 uniform mat4 modelViewMatrix;
+uniform vec3 AmbientLightPosition;
 
 void main(void){
   vec4 v = vec4(v_position, 1.0);
   gl_Position = (projectionMatrix * modelViewMatrix) * v;
   
-  world_position = (modelMatrix * vec4(v_position, 1.0)).xyz;
-  
-  normal = v_normal;
+  fragPos = (modelMatrix * vec4(v_position, 1.0)).xyz;
+  fL = AmbientLightPosition;
+  fE = v_position;
+  fN = mat3(transpose(inverse(modelMatrix))) * v_normal;
   texture_coordinates = v_texture_coordinates;
 }

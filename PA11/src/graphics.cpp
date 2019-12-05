@@ -191,7 +191,7 @@ void Graphics::Render(){
 		glm::mat4 model_view = camera->GetViewMatrix() * objects[i]->GetModelMatrix();
 		glUniformMatrix4fv(model_matrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModelMatrix()));
 		glUniformMatrix4fv(model_view_matrix, 1, GL_FALSE, glm::value_ptr(model_view));
-		glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(0.0,7.0,0.0)));
+		glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(0.0,10.0,0.0)));
 		glUniform1f(m_shininess, objects[i]->GetShininess());
 		glUniform3fv(m_viewPos, 1, glm::value_ptr(camera->GetPos()));
 		glUniform1f(m_specular_intensity, specular_intensity);
