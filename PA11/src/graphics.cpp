@@ -99,8 +99,10 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	//set up the objects
 	Object* object = new Object("../assets/configs/apesphere/table.xml");
 	Object* object2 = new Object("../assets/configs/apesphere/ball.xml");
+	Object* skyBox = new Object("../assets/configs/apesphere/skybox.xml");
 	objects.push_back(object);
 	objects.push_back(object2);
+	objects.push_back(skyBox);
 
 	//add the objects to the physics world
 	for(unsigned int i = 0; i < objects.size(); i++){
