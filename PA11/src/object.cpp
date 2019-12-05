@@ -199,7 +199,7 @@ void Object::SetLocationOrigin()
   btTransform newTransform;
 
   newTransform.setOrigin(btVector3(config.position.x, config.position.y, config.position.z));
-  newTransform.setRotation(btQuaternion(1,1,1,1));
+  newTransform.setRotation(btQuaternion(0,1,0,1));
 
   body->setWorldTransform(newTransform);
   body->setCenterOfMassTransform(newTransform);

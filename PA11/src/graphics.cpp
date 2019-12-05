@@ -113,6 +113,8 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
+	objects[1]->SetLocationOrigin();
+
 	return true;
 }
 
