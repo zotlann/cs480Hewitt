@@ -2,8 +2,8 @@
 	<model>../assets/objects/cube.obj</model>
 	<texture>../assets/textures/skyBox1.jpg</texture>
 	<shape>box</shape>
-	<kinematic>false</kinematic>
-	<scale>100</scale>
+	<kinematic>true</kinematic>
+	<scale>2000</scale>
 	<mass>0</mass>
 	<position>
 		<x>0</x>
