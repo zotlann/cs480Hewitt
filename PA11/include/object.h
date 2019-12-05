@@ -38,6 +38,7 @@ class Object{
 		void LoadBody(char* shape_str);
 		void LoadShape(char* shape_str);
 		void LoadObjectConfig(char* object_config_filename);
+		void SetLocationOrigin();
 		glm::mat4 GetModelMatrix();
 		glm::vec3 GetLocation();
 		btRigidBody* GetRigidBody();

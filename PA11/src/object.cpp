@@ -192,3 +192,17 @@ btRigidBody* Object::GetRigidBody(){
 float Object::GetShininess(){
  	return config.shininess;
 }
+
+void Object::SetLocationOrigin()
+{
+  
+  btTransform newTransform;
+
+  newTransform.setOrigin(btVector3(config.position.x, config.position.y, config.position.z));
+  newTransform.setRotation(btQuaternion(1,1,1,1));
+
+  body->setWorldTransform(newTransform);
+  body->setCenterOfMassTransform(newTransform);
+  motion_state->setWorldTransform(newTransform);
+  
+}

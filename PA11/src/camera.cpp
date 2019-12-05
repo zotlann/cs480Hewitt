@@ -105,3 +105,9 @@ glm::vec3 Camera::GetPos()
 {
 	return glm::vec3(location.x, location.y, location.z);
 }
+
+void Camera::Reset()
+{
+	pitch = 0;
+	angle = 0;
+}

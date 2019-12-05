@@ -1,6 +1,6 @@
 <object>
 	<model>../assets/objects/ball.obj</model>
-	<texture>../assets/textures/cube.jpg</texture>
+	<texture>../assets/textures/legoboi.png</texture>
 	<shape>sphere</shape>
 	<kinematic>false</kinematic>
 	<scale>1</scale>

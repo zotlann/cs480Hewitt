@@ -155,6 +155,15 @@ void Graphics::Update(unsigned int dt, KeyHandler* key_handler){
 	}
 
 	objects[1]->GetRigidBody()->setLinearVelocity(btVector3(linearVelocity_x, linearVelocity_y, linearVelocity_z));
+
+	if(objects[1]->GetLocation().y < -10)
+	{
+		physics_world->SetGravity(btVector3(0,-10,0));
+		objects[1]->GetRigidBody()->setLinearVelocity(btVector3(0,0,0));
+		objects[1]->GetRigidBody()->setAngularVelocity(btVector3(0,0,0));
+		objects[1]->SetLocationOrigin();
+		camera->Reset();
+	}
 }
 
 void Graphics::Render(){
