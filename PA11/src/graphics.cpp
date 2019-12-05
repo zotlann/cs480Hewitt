@@ -62,6 +62,8 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	}
 	shaders.push_back(s1);
 
+	shader_index = 0;
+
 	//Locate the MVP matricies in the shader
 	projection_matrix = shaders[0]->GetUniformLocation("projectionMatrix");
 	if(projection_matrix == INVALID_UNIFORM_LOCATION){
@@ -74,10 +76,6 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	model_matrix = shaders[0]->GetUniformLocation("modelMatrix");
 	if(model_matrix == INVALID_UNIFORM_LOCATION){
 		printf("modelMatrix not found\n");
-	}
-	model_view_matrix = shaders[0]->GetUniformLocation("modelViewMatrix");
-	if(model_view_matrix == INVALID_UNIFORM_LOCATION){
-		printf("modelViewMatrix not found\n");
 	}
 
 	m_lightPosition = shaders[shader_index]->GetUniformLocation("AmbientLightPosition");
@@ -188,9 +186,7 @@ void Graphics::Render(){
 
 	//Render the objects
 	for(unsigned int i = 0; i < objects.size(); i++){
-		glm::mat4 model_view = camera->GetViewMatrix() * objects[i]->GetModelMatrix();
 		glUniformMatrix4fv(model_matrix, 1, GL_FALSE, glm::value_ptr(objects[i]->GetModelMatrix()));
-		glUniformMatrix4fv(model_view_matrix, 1, GL_FALSE, glm::value_ptr(model_view));
 		glUniform3fv(m_lightPosition, 1, glm::value_ptr(glm::vec3(0.0,10.0,0.0)));
 		glUniform1f(m_shininess, objects[i]->GetShininess());
 		glUniform3fv(m_viewPos, 1, glm::value_ptr(camera->GetPos()));

@@ -13,12 +13,11 @@ out vec3 fL;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
-uniform mat4 modelViewMatrix;
 uniform vec3 AmbientLightPosition;
 
 void main(void){
   vec4 v = vec4(v_position, 1.0);
-  gl_Position = (projectionMatrix * modelViewMatrix) * v;
+  gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * v;
   
   fragPos = (modelMatrix * vec4(v_position, 1.0)).xyz;
   fL = AmbientLightPosition;
