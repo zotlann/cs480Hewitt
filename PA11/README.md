@@ -6,7 +6,7 @@
 - [Jonathon Hewitt](https://github.com/zotlann)
 
 ## Project Description
-Apesphere.
+Apesphere is our final project that is inspired by Super Monkey Ball.
 
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
@@ -20,8 +20,6 @@ sudo apt-get install libglew-dev libglm-dev libsdl2-dev libassimp-dev libbullet-
 ```
 
 ## Build Instructions
-NOTE: Building with cmake will cause the executable to be called ./Tutorial. Cmake is not officially supported, but it will build. Change the commands as necessary if built using cmake.
-
 Use make with the following commands:
 ```bash
 mkdir build
@@ -38,12 +36,13 @@ make
 ```bash
 ./apesphere -c ../assets/configs/apesphere/master.xml
 ```
-NOTE: If collisions do not work, please restart the program.
+NOTE: Sometimes there is a seg fault at start, just re-run it until it runs.
 
 ## Keyboard
 | Input | Output |
-| - |:-:|
-| <kbd>Esc</kbd> | Exit program|
+| - | :-: |
+| <kbd>Esc</kbd> | Exit program |
+| <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> | Roll Ball/Adjust Camera |
 
 ## Extra Credit
 N/A
