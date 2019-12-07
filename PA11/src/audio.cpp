@@ -34,7 +34,7 @@ bool Audio::Initialize()
     }
     SDL_CloseAudioDevice(audioDevice);
     SDL_FreeWAV(wavStart);
-    SDL_Quit();
+    //SDL_Quit();
 
     std::cout << "Audio!" << std::endl;
     return true;
