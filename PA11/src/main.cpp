@@ -67,6 +67,16 @@ void loadConfig(char* config_filename, Config* cfg)
 		strcpy(cfg->window_name,element->GetText());
 	}
 
+	//set the window width
+	if((element = config->FirstChildElement("w"))){
+		cfg->w =  element->Int64Text();
+	}
+
+	//set the window height
+	if((element = config->FirstChildElement("h"))){
+		cfg->h = element->Int64Text();
+	}
+
 	//set the vertex shader filename
 	if((element = config->FirstChildElement("vshader"))){
 		cfg->vshader_filename = new char[256];
