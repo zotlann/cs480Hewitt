@@ -35,6 +35,13 @@ bool Engine::Initialize(Config cfg){
 		return false;
 	}
 
+	//Start the audio
+	audio = new Audio();
+	if(!audio->Initialize()){
+		printf("The audio failed to intialize.\n");
+		return false;
+	}
+
 	//Set the time
 	current_time_millis = GetCurrentTimeMillis();
 	//Set up the keyhandler

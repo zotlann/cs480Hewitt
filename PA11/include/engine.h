@@ -33,6 +33,8 @@ class Engine{
 		unsigned int DT;
 		long long current_time_millis;
 		bool is_running;
+
+		Audio* audio;
 };
 
 #endif //ENGINE_H

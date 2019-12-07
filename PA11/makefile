@@ -15,7 +15,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x `Magick++-config --cppflags --cxxflags --ldflags --libs`
 
 # .o Compilation
-O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o
+O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o audio.o
 
 # Point to includes of local directories
 INCLUDES=-I../include -I/usr/include/bullet
@@ -58,6 +58,9 @@ physics.o: ../src/physics.cpp
 
 keyhandler.o: ../src/keyhandler.cpp
 	$(CC) $(CXXFLAGS) -c ../src/keyhandler.cpp -o keyhandler.o $(INCLUDES)
+
+audio.o: ../src/audio.cpp
+	$(CC) $(CXXFLAGS) -c ../src/audio.cpp -o audio.o $(INCLUDES)
 
 clean:
 	-@if rm *.o apesphere 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
