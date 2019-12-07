@@ -16,6 +16,8 @@ class Audio{
         friend void MyAudioCallback(void* userData, Uint8* stream, int streamLength);
     private:
         AudioData adata;
+        //Uint8* aPos;
+        //Uint32 aLen;
 };
 
 

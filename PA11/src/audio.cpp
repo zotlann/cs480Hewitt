@@ -28,12 +28,13 @@ bool Audio::Initialize()
         return false;
     }
     SDL_PauseAudioDevice(audioDevice, 0);
-    while(adata.length > 0)
+    /*while(adata.length > 0)
     {
         SDL_Delay(100);
     }
     SDL_CloseAudioDevice(audioDevice);
-    SDL_FreeWAV(wavStart);
+    SDL_FreeWAV(wavStart);*/
+    //TODO: figure out how to loop this track
     //SDL_Quit();
 
     std::cout << "Audio!" << std::endl;

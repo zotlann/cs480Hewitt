@@ -6,6 +6,7 @@
 
 #include "window.h"
 #include "graphics.h"
+#include "audio.h"
 
 class Engine{
 	public:
