@@ -5,7 +5,7 @@
 	<kinematic>false</kinematic>
 	<scale>1</scale>
 	<friction>0.25</friction>
-	<shininess>20</shininess>
+	<shininess>40</shininess>
 	<restitution>0.25</restitution>
 	<mass>10</mass>
 	<position>

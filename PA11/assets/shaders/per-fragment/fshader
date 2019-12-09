@@ -1,7 +1,6 @@
 #version 330
 
 in vec3 fN;
-in vec3 fE;
 in vec3 fragPos;
 in vec3 fL;
 in vec2 texture_coordinates;
@@ -20,13 +19,13 @@ void main()
 {
   vec3 N = normalize(fN);
   vec3 L = normalize(fL - fragPos);
-  vec3 E = normalize(fE);
+  vec3 E = normalize(fragPos);
   vec3 H = normalize(L+E);
 
   vec4 ambient = vec4(AmbientLightColor,1.0) * AmbientLightIntensity;
   float Kd = max(dot(L,N),0.0);
   vec4 diffuse = Kd * vec4(AmbientLightColor, 1.0);
-  float Ks = pow(max(dot(E,H),0.0),shininess);
+  float Ks = pow(max(dot(N,H),0.0),shininess);
   vec4 specular = Ks * vec4(AmbientLightColor, 1.0) * SpecularIntensity;
   if(dot(L,N) < 0.0)
     specular = vec4(0.0,0.0,0.0,1.0);
