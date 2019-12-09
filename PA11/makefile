@@ -15,7 +15,7 @@ endif
 CXXFLAGS=-g -Wall -std=c++0x `Magick++-config --cppflags --cxxflags --ldflags --libs`
 
 # .o Compilation
-O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o audio.o
+O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o audio.o imgui.o imgui_demo.o imgui_draw.o imgui_widgets.o
 
 # Point to includes of local directories
 INCLUDES=-I../include -I/usr/include/bullet
@@ -61,6 +61,18 @@ keyhandler.o: ../src/keyhandler.cpp
 
 audio.o: ../src/audio.cpp
 	$(CC) $(CXXFLAGS) -c ../src/audio.cpp -o audio.o $(INCLUDES)
+
+imgui.o: ../src/imgui.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui.cpp -o imgui.o $(INCLUDES)
+	
+imgui_demo.o: ../src/imgui_demo.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui_demo.cpp -o imgui_demo.o $(INCLUDES)
+
+imgui_draw.o: ../src/imgui_draw.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui_draw.cpp -o imgui_draw.o $(INCLUDES)
+
+imgui_widgets.o: ../src/imgui_widgets.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui_widgets.cpp -o imgui_widgets.o $(INCLUDES)
 
 clean:
 	-@if rm *.o apesphere 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
