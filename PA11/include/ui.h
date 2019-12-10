@@ -16,8 +16,8 @@ class Ui
         ~Ui();
         bool Initialize();
         void Update(KeyHandler* key_handler);
-        void Render();
-        bool GetStatisticState();
+        void Render(SDL_Window* window, unsigned int dt);
+        bool GetPauseState();
 
     private:
         SDL_GLContext gl_context;
@@ -26,6 +26,9 @@ class Ui
         bool showMainMenu;
         bool showPauseMenu;
         bool showStatistics;
+
+        float time;
+        int score;
 };
 
 #endif

@@ -67,17 +67,17 @@ void Engine::Run(){
 			input = Keyboard() | Mouse();
 			if(input) break;
 		}
-		//Update and render the ui
-		ui->Update(key_handler);
-		ui->Render();
-
 		//Update and render the graphics
 		//Do this only if the game is playing
-		if(ui->GetStatisticState())
+		if(!ui->GetPauseState())
 		{
 			graphics->Update(DT,key_handler);
 			graphics->Render();
 		}
+
+		//Update and render the ui
+		ui->Update(key_handler);
+		ui->Render(window->GetWindow(), DT);
 
 		//Swap to the Window
 		window->Swap();
