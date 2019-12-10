@@ -16,7 +16,7 @@ class Graphics{
 		Graphics();
 		~Graphics();
 		bool Initialize(int w, int h, Config cfg);
-		void Update(unsigned int dt, KeyHandler* key_handler);
+		void Update(unsigned int dt, KeyHandler* key_handler, bool& died);
 		void Render();
 		void Input(char input);
 		char* ErrorString(GLenum error);

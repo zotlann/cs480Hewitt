@@ -118,7 +118,7 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	return true;
 }
 
-void Graphics::Update(unsigned int dt, KeyHandler* key_handler){
+void Graphics::Update(unsigned int dt, KeyHandler* key_handler, bool& died){
 	camera->Update(dt,key_handler,objects[1]);
 	glm::vec3 g = camera->GetGravity();
 	g *= 5;
@@ -168,7 +168,7 @@ void Graphics::Update(unsigned int dt, KeyHandler* key_handler){
 		objects[1]->GetRigidBody()->setAngularVelocity(btVector3(0,0,0));
 		objects[1]->SetLocationOrigin();
 		camera->Reset();
-		std::cout << "Ball Reset!" << std::endl;
+		died = true;
 	}
 }
 

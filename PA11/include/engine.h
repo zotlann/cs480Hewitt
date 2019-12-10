@@ -36,6 +36,8 @@ class Engine{
 		long long current_time_millis;
 		bool is_running;
 
+		bool died;
+
 		Audio* audio;
 		Ui* ui;
 };

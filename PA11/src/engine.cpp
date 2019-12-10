@@ -59,6 +59,7 @@ bool Engine::Initialize(Config cfg){
 void Engine::Run(){
 	bool input = false;
 	is_running = true;
+	died = false;
 	while(is_running){
 		//Update the DT
 		DT = GetDT();
@@ -69,15 +70,18 @@ void Engine::Run(){
 		}
 		//Update and render the graphics
 		//Do this only if the game is playing
-		if(!ui->GetPauseState())
+		if(!ui->GetPauseState() && !ui->GetDeathState())
 		{
-			graphics->Update(DT,key_handler);
+			graphics->Update(DT,key_handler, died);
 			graphics->Render();
 		}
 
 		//Update and render the ui
 		ui->Update(key_handler);
-		ui->Render(window->GetWindow(), DT);
+		ui->Render(window->GetWindow(), DT, died);
+
+		// Reset died boolean
+		died = false;
 
 		//Swap to the Window
 		window->Swap();
