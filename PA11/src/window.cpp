@@ -62,3 +62,12 @@ void Window::Swap(){
 	SDL_GL_SwapWindow(window);
 }
 
+SDL_Window* Window::GetWindow()
+{
+	return window;
+}
+
+SDL_GLContext Window::GetContext()
+{
+	return context;
+}

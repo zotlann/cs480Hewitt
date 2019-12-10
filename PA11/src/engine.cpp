@@ -42,6 +42,13 @@ bool Engine::Initialize(Config cfg){
 		return false;
 	}
 
+	// Start the UI
+	ui = new Ui(window->GetWindow(), window->GetContext());
+	if(!ui->Initialize()) {
+		printf("UI failed to initialize\n");
+		return false;
+	}
+
 	//Set the time
 	current_time_millis = GetCurrentTimeMillis();
 	//Set up the keyhandler
@@ -60,9 +67,17 @@ void Engine::Run(){
 			input = Keyboard() | Mouse();
 			if(input) break;
 		}
+		//Update and render the ui
+		ui->Update(key_handler);
+		ui->Render();
+
 		//Update and render the graphics
-		graphics->Update(DT,key_handler);
-		graphics->Render();
+		//Do this only if the game is playing
+		if(ui->GetStatisticState())
+		{
+			graphics->Update(DT,key_handler);
+			graphics->Render();
+		}
 
 		//Swap to the Window
 		window->Swap();
@@ -169,6 +184,10 @@ bool Engine::Keyboard(){
 				break;
 			case SDLK_d:
 				key_handler->Unpress('d');
+				return true;
+				break;
+			case SDLK_p:
+				key_handler->Press('p');
 				return true;
 				break;
 			default:

@@ -1,5 +1,5 @@
 #ifndef KEYHANDLER_H
-#define KEYHANDLER_h
+#define KEYHANDLER_H
 
 class KeyHandler{
 	public:

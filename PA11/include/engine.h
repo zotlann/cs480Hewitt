@@ -7,6 +7,7 @@
 #include "window.h"
 #include "graphics.h"
 #include "audio.h"
+#include "ui.h"
 
 class Engine{
 	public:
@@ -36,6 +37,7 @@ class Engine{
 		bool is_running;
 
 		Audio* audio;
+		Ui* ui;
 };
 
 #endif //ENGINE_H
