@@ -76,6 +76,9 @@ void Engine::Run(){
 			graphics->Render();
 		}
 
+		//Check audio
+		audio->Update();
+
 		//Update and render the ui
 		ui->Update(key_handler);
 		ui->Render(window->GetWindow(), DT, died);

@@ -7,10 +7,7 @@ bool Audio::Initialize()
 {
     return true; //REMOVE THIS
     SDL_Init(SDL_INIT_AUDIO);
-    SDL_AudioSpec wavSpec;
-    Uint8* wavStart;
-    Uint32 wavLength;
-    char* filePath = "../assets/audio/coolMusic.wav";
+    filePath = "../assets/audio/coolMusic.wav";
     if(SDL_LoadWAV(filePath, &wavSpec, &wavStart, &wavLength) == NULL)
     {
         std::cerr << "Wrong audio file path." << std::endl;
@@ -20,14 +17,15 @@ bool Audio::Initialize()
     adata.length = wavLength;
     wavSpec.callback = MyAudioCallback;
     wavSpec.userdata = &adata;
-    SDL_AudioDeviceID audioDevice;
     audioDevice = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE);
     if(audioDevice == 0)
     {
         std::cerr << "Error: " << SDL_GetError() << std::endl;
         return false;
     }
+    //starts track
     SDL_PauseAudioDevice(audioDevice, 0);
+
     /*while(adata.length > 0)
     {
         SDL_Delay(100);
@@ -36,11 +34,26 @@ bool Audio::Initialize()
     SDL_FreeWAV(wavStart);*/
     //TODO: figure out how to loop this track
     //SDL_Quit();
+    if(adata.length <= 0)
+    {
+        SDL_CloseAudioDevice(audioDevice);
+        SDL_FreeWAV(wavStart);
+    }
 
-    std::cout << "Audio!" << std::endl;
+    isFinished = false;
     return true;
 }
 
+void Audio::Update()
+{
+    if(adata.length <= 0 && !isFinished)
+    {
+        isFinished = true;
+        SDL_CloseAudioDevice(audioDevice);
+        SDL_FreeWAV(wavStart);
+        printf("Track finished\n");
+    }
+}
 
 void MyAudioCallback(void* userData, Uint8* stream, int streamLength)
 {
@@ -59,48 +72,3 @@ void MyAudioCallback(void* userData, Uint8* stream, int streamLength)
     audioTemp->position += length;
     audioTemp->length -= length;
 }
-/*
-int main(int argc, char** argv)
-{
-    SDL_Init(SDL_INIT_AUDIO);
-
-    SDL_AudioSpec wavSpec;
-    Uint8* wavStart;
-    Uint32 wavLength;
-    char* filePath = "ADD YOUR FILE PATH HERE";
-
-    if(SDL_LoadWAV(filePath, &wavSpec, &wavStart, &wavLength) == NULL)
-    {
-        cerr << "Error: file could not be loaded as an audio file." << endl;
-    }
-
-    AudioData audio;
-    audio.position = wavStart;
-    audio.length = wavLength;
-
-    wavSpec.callback = audioCallback;
-    wavSpec.userdata = &audio;
-
-    SDL_AudioDeviceID audioDevice;
-    audioDevice = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE);
-
-    if (audioDevice == 0)
-    {
-        cerr << "Error: " << SDL_GetError() << endl;
-        return 1;
-    }
-
-    SDL_PauseAudioDevice(audioDevice, 0);
-
-    while (audio.length > 0)
-    {
-        SDL_Delay(100);
-    }
-
-    SDL_CloseAudioDevice(audioDevice);
-    SDL_FreeWAV(wavStart);
-    SDL_Quit();
-
-    return 0;
-}
-*/
