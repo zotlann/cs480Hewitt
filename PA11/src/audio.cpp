@@ -5,7 +5,7 @@ Audio::Audio(){}
 Audio::~Audio(){}
 bool Audio::Initialize()
 {
-    return true; //Comment out to disable
+    //return true; //Comment out to disable
     //Needs to be ran once
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
         printf("SDL failed to initialize: %s\n", SDL_GetError());

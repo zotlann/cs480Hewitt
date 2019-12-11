@@ -42,10 +42,8 @@ NOTE: Sometimes there is a seg fault at start, just re-run it until it runs.
 | Input | Output |
 | - | :-: |
 | <kbd>Esc</kbd> | Exit program |
+| <kbd>P</kbd> | Pause |
 | <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> | Roll Ball/Adjust Camera |
-
-## Extra Credit
-N/A
 
 ## Manual
 The current manual can be found [here](https://docs.google.com/document/d/1aIcbmTQSdgDmyJRhLJwzB5e0xmMzvdijlrm1QTCOtoU/edit?usp=sharing).
