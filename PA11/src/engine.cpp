@@ -76,14 +76,14 @@ void Engine::Run(){
 			graphics->Render();
 		}
 
-		//Check audio
-		audio->Update();
+		//Check audio (comment out to disable)
+		audio->Update(ui->GetPauseState());
 
 		//Update and render the ui
 		ui->Update(key_handler);
 		ui->Render(window->GetWindow(), DT, died);
 
-		// Reset died boolean
+		//Reset died boolean
 		died = false;
 
 		//Swap to the Window

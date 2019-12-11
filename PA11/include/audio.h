@@ -13,7 +13,8 @@ class Audio{
         Audio();
         ~Audio();
         bool Initialize();
-        void Update();
+        bool Start();
+        void Update(bool pause);
         friend void MyAudioCallback(void* userData, Uint8* stream, int streamLength);
     private:
         SDL_AudioSpec wavSpec;
@@ -22,9 +23,6 @@ class Audio{
         const char* filePath; //used to be char*
         SDL_AudioDeviceID audioDevice;
         AudioData adata;
-        //Uint8* aPos;
-        //Uint32 aLen;
-        bool isFinished;
 };
 
 #endif //AUDIO_H

@@ -5,9 +5,24 @@ Audio::Audio(){}
 Audio::~Audio(){}
 bool Audio::Initialize()
 {
-    return true; //REMOVE THIS
-    SDL_Init(SDL_INIT_AUDIO);
+    return true; //Comment out to disable
+    //Needs to be ran once
+    if(SDL_Init(SDL_INIT_AUDIO) < 0){
+        printf("SDL failed to initialize: %s\n", SDL_GetError());
+		return false; 
+    }
     filePath = "../assets/audio/coolMusic.wav";
+    if(!Start())
+    {
+        printf("Audio failed to initialize: %s\n", SDL_GetError());
+		return false; 
+    }
+
+    return true;
+}
+
+bool Audio::Start()
+{
     if(SDL_LoadWAV(filePath, &wavSpec, &wavStart, &wavLength) == NULL)
     {
         std::cerr << "Wrong audio file path." << std::endl;
@@ -23,35 +38,37 @@ bool Audio::Initialize()
         std::cerr << "Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    //starts track
+
+    //Starts track
     SDL_PauseAudioDevice(audioDevice, 0);
 
-    /*while(adata.length > 0)
-    {
-        SDL_Delay(100);
-    }
-    SDL_CloseAudioDevice(audioDevice);
-    SDL_FreeWAV(wavStart);*/
-    //TODO: figure out how to loop this track
     //SDL_Quit();
+
+    //
     if(adata.length <= 0)
     {
         SDL_CloseAudioDevice(audioDevice);
         SDL_FreeWAV(wavStart);
     }
-
-    isFinished = false;
     return true;
 }
 
-void Audio::Update()
+void Audio::Update(bool pause)
 {
-    if(adata.length <= 0 && !isFinished)
+    if(adata.length == 0)
     {
-        isFinished = true;
         SDL_CloseAudioDevice(audioDevice);
         SDL_FreeWAV(wavStart);
-        printf("Track finished\n");
+        printf("Looping Track.\n");
+        Start();
+    }
+    if(pause)
+    {
+        SDL_PauseAudioDevice(audioDevice, 1);
+    }
+    else
+    {
+        SDL_PauseAudioDevice(audioDevice, 0);
     }
 }
 

@@ -62,12 +62,12 @@ void Camera::Update(unsigned int dt, KeyHandler* key_handler, Object* player){
 		}
 	}
 	if(key_handler->IsPressed('s')){
-		pitch -= dt_float*M_PI/3000;
+		pitch -= dt_float*M_PI/1500; //3000 (fix w,s movement)
 		if( pitch < -M_PI/3)
 			pitch = -M_PI/3;
 	}
 	if(key_handler->IsPressed('w')){
-		pitch += dt_float*M_PI/3000;
+		pitch += dt_float*M_PI/1500; //3000
 		if( pitch > M_PI/3)
 			pitch = M_PI/3;
 	}
