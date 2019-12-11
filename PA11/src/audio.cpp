@@ -7,13 +7,14 @@ Audio::~Audio(){}
 //For things that need to be ran once
 bool Audio::Initialize()
 {
-    //return true; //Comment out to disable
+    //return true; //Remove comment to disable
     
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
         printf("SDL failed to initialize: %s\n", SDL_GetError());
 		return false; 
     }
     
+    //File path for audio track
     filePath = "../assets/audio/coolMusic.wav";
 
     if(!Start())
@@ -62,7 +63,7 @@ void Audio::Update(bool pause)
     {
         SDL_CloseAudioDevice(audioDevice);
         SDL_FreeWAV(wavStart);
-        printf("Looping Track.\n"); //Feel free to remove this line
+        //printf("Looping Track\n"); //Feel free to remove this line
         Start();
     }
     //Whenever the game is paused, the audio pauses with it

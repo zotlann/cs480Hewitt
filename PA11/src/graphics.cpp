@@ -228,5 +228,4 @@ char* Graphics::ErrorString(GLenum error){
 	char ret[6];
 	printf("Graphics::ErrorString function called: ");
 	return strcpy(ret,"test"); //Test this!
-}
-		
+}	
