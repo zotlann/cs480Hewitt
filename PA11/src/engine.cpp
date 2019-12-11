@@ -42,7 +42,7 @@ bool Engine::Initialize(Config cfg){
 		return false;
 	}
 
-	// Start the UI
+	//Start the UI
 	ui = new Ui(window->GetWindow(), window->GetContext());
 	if(!ui->Initialize()) {
 		printf("UI failed to initialize\n");
