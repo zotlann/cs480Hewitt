@@ -20,7 +20,7 @@ class Audio{
         SDL_AudioSpec wavSpec;
         Uint8* wavStart;
         Uint32 wavLength;
-        const char* filePath; //used to be char*
+        const char* filePath;
         SDL_AudioDeviceID audioDevice;
         AudioData adata;
 };

@@ -3,15 +3,19 @@
 void MyAudioCallback(void* userData, Uint8* stream, int streamLength);
 Audio::Audio(){}
 Audio::~Audio(){}
+
+//For things that need to be ran once
 bool Audio::Initialize()
 {
     //return true; //Comment out to disable
-    //Needs to be ran once
+    
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
         printf("SDL failed to initialize: %s\n", SDL_GetError());
 		return false; 
     }
+    
     filePath = "../assets/audio/coolMusic.wav";
+
     if(!Start())
     {
         printf("Audio failed to initialize: %s\n", SDL_GetError());
@@ -42,10 +46,8 @@ bool Audio::Start()
     //Starts track
     SDL_PauseAudioDevice(audioDevice, 0);
 
-    //SDL_Quit();
-
-    //
-    if(adata.length <= 0)
+    //If track has 0 length, end it.
+    if(adata.length == 0)
     {
         SDL_CloseAudioDevice(audioDevice);
         SDL_FreeWAV(wavStart);
@@ -55,13 +57,15 @@ bool Audio::Start()
 
 void Audio::Update(bool pause)
 {
+    //Allows us to loop tracks
     if(adata.length == 0)
     {
         SDL_CloseAudioDevice(audioDevice);
         SDL_FreeWAV(wavStart);
-        printf("Looping Track.\n");
+        printf("Looping Track.\n"); //Feel free to remove this line
         Start();
     }
+    //Whenever the game is paused, the audio pauses with it
     if(pause)
     {
         SDL_PauseAudioDevice(audioDevice, 1);

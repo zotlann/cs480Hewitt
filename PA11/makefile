@@ -16,6 +16,7 @@ CXXFLAGS=-g -Wall -Wformat -std=c++0x `Magick++-config --cppflags --cxxflags --l
 
 # .o Compilation
 O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o audio.o imgui.o imgui_demo.o imgui_draw.o imgui_widgets.o ui.o imgui_impl_opengl3.o imgui_impl_sdl.o
+
 # Point to includes of local directories
 INCLUDES=-I../include -I/usr/include/bullet
 
