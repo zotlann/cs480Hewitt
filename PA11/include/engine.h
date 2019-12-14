@@ -37,6 +37,8 @@ class Engine{
 		bool is_running;
 
 		bool died;
+		bool quit;
+		bool reset;
 
 		Audio* audio;
 		Ui* ui;

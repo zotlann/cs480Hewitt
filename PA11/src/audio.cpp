@@ -15,7 +15,7 @@ bool Audio::Initialize()
     }
     
     //File path for audio track
-    filePath = "../assets/audio/coolMusic.wav";
+    filePath = "../assets/audio/backgroundMusic.wav";
 
     if(!Start())
     {

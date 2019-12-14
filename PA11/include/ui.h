@@ -16,18 +16,23 @@ class Ui
         ~Ui();
         bool Initialize();
         void Update(KeyHandler* key_handler);
-        void Render(SDL_Window* window, unsigned int dt, bool died);
+        void Render(SDL_Window* window, unsigned int dt, bool died, bool& quit, bool &reset);
         bool GetPauseState();
         bool GetDeathState();
+        bool GetMainMenuState();
+        bool GetConfirmState();
+        bool GetTimeOutState();
 
     private:
         SDL_GLContext gl_context;
         
         // States of windows
         bool showMainMenu;
+        bool showTimeOut;
         bool showPauseMenu;
         bool showStatistics;
         bool showDeathScreen;
+        bool showConfirmQuit;
 
         float time;
         int score;

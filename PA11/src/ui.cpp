@@ -12,10 +12,12 @@ Ui::Ui(SDL_Window *window, SDL_GLContext context)
     ImGui_ImplOpenGL3_Init("#version 330");
 
     // Set up states
-    showMainMenu = false;
+    showMainMenu = true;
     showPauseMenu = false;
-    showStatistics = true;
+    showStatistics = false;
     showDeathScreen = false;
+    showTimeOut = false;
+    showConfirmQuit = false;
 
     // Set up scoring
     time = 0;
@@ -54,9 +56,16 @@ void Ui::Update(KeyHandler* key_handler)
             return;
         }
     }
+
+    if(key_handler->IsPressed('q'))
+    {
+        showConfirmQuit = true;
+        showPauseMenu = false;
+        key_handler->Unpress('q');
+    }
 }
 
-void Ui::Render(SDL_Window* window, unsigned int dt, bool died)
+void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool &reset)
 {
     // io
     ImGuiIO& io = ImGui::GetIO(); (void) io;
@@ -66,21 +75,98 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died)
     ImGui_ImplSDL2_NewFrame(window);
     ImGui::NewFrame();
 
+    if(showMainMenu)
+    {
+        // Reset up states
+        showPauseMenu = false;
+        showStatistics = false;
+        showDeathScreen = false;
+        showTimeOut = false;
+
+        ImGui::SetNextWindowPos( ImVec2( io.DisplaySize.x/2, io.DisplaySize.y/2 ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+
+        // Title bar
+        ImGui::Begin("Main Menu");
+
+        // Start game
+        if(ImGui::Button("Start Game"))
+        {
+            showMainMenu = false;
+            showStatistics = true;
+            showPauseMenu = false;
+            showDeathScreen = false;
+            showTimeOut = false;
+
+            // Reset stats
+            time = 60;
+            score = 0;
+            lives = 3;
+        }
+
+        // Choose level
+
+
+        // Show high score
+
+        
+        // Quit Game
+        if(ImGui::Button("Quit Game"))
+        {
+            quit = true;
+            printf("Exiting Program\n");
+        }
+
+        ImGui::End();
+    }
+
+    if(showConfirmQuit)
+    {
+        ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+
+        ImGui::Begin("Confirm Exit");
+
+        ImGui::Text("Are you sure you want to return to main menu?");
+        if(ImGui::Button("Yes, Quit"))
+        {
+            showConfirmQuit = false;
+            showStatistics = false;
+            showPauseMenu = false;
+            showMainMenu = true;
+            reset = true;
+        }
+        ImGui::SameLine();
+        if(ImGui::Button("No, Don't Quit"))
+        {
+            showConfirmQuit = false;
+        }
+
+        ImGui::End();
+    }
+
     // Score bar
     if(showStatistics)
     {
+        ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.1f, io.DisplaySize.y * 0.15f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+
         // Title bar
-        ImGui::Begin("ApeSphere", &showStatistics);
+        ImGui::Begin("ApeSphere");
         
         // Time
         ImGui::Text("Time: %.1f", time);
-        if(!showPauseMenu && !showDeathScreen)
-            time += dt/1000.f;
+        if(!showPauseMenu && !showDeathScreen && !showConfirmQuit && !showTimeOut)
+            time -= dt/1000.f;
 
         // Lives
         if(died)
             lives--;
         ImGui::Text("Lives: %d", lives);
+
+        // Game over if statements
+        if(time <= 0)
+        {
+            showTimeOut = true;
+            time = 0;
+        }
 
         if(lives == 0)
         {
@@ -100,25 +186,41 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died)
 
     if(showPauseMenu)
     {
-        ImGui::Begin("Pause", &showPauseMenu);
+        if(!showDeathScreen & !showMainMenu)
+        {
+            ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+            
+            ImGui::Begin("Pause");
 
-        //Return to game
-        if(ImGui::Button("Return to Game"))
+            //Return to game
+            if(ImGui::Button("Return to Game"))
+            {
+                showPauseMenu = false;
+            }
+
+            //Open main menu
+            if(ImGui::Button("Main Menu"))
+            {
+                showConfirmQuit = true;
+            }
+
+            ImGui::End();
+        }
+        else
         {
             showPauseMenu = false;
         }
-
-        //Open main menu
-
-        ImGui::End();
+        
     }
 
     if(showDeathScreen)
     {
-        ImGui::Begin("You Died!", &showDeathScreen);
+        ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+
+        ImGui::Begin("You Died!");
 
         // Final score
-        ImGui::Text("Final time: %.1f", time);
+        ImGui::Text("Final score: %.1f", time);
 
         // Retry
         if(ImGui::Button("Retry Level"))
@@ -130,6 +232,42 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died)
         }
 
         // Go to main menu
+        if(ImGui::Button("Main Menu"))
+        {
+            showMainMenu = true;
+            reset = true;
+            showDeathScreen = false;
+        }
+
+        ImGui::End();
+    }
+
+    if(showTimeOut)
+    {
+        ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+
+        ImGui::Begin("You Ran Out Of Time!");
+
+        // Final score
+        ImGui::Text("Final score: %.1f", time);
+
+        // Retry
+        if(ImGui::Button("Retry Level"))
+        {
+            lives = 3;
+            time = 60;
+            score = 0;
+            showTimeOut = false;
+            reset = true;
+        }
+
+        // Go to main menu
+        if(ImGui::Button("Main Menu"))
+        {
+            showMainMenu = true;
+            reset = true;
+            showTimeOut = false;
+        }
 
         ImGui::End();
     }
@@ -148,4 +286,19 @@ bool Ui::GetPauseState()
 bool Ui::GetDeathState()
 {
     return showDeathScreen;
+}
+
+bool Ui::GetTimeOutState()
+{
+    return showTimeOut;
+}
+
+bool Ui::GetMainMenuState()
+{
+    return showMainMenu;
+}
+
+bool Ui::GetConfirmState()
+{
+    return showConfirmQuit;
 }

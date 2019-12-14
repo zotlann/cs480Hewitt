@@ -60,6 +60,7 @@ void Engine::Run(){
 	bool input = false;
 	is_running = true;
 	died = false;
+	quit = false;
 	while(is_running){
 		//Update the DT
 		DT = GetDT();
@@ -70,24 +71,36 @@ void Engine::Run(){
 		}
 		//Update and render the graphics
 		//Do this only if the game is playing
-		if(!ui->GetPauseState() && !ui->GetDeathState())
+		if(!ui->GetDeathState() && !ui->GetPauseState() && !ui->GetMainMenuState() && !ui->GetConfirmState() && !ui->GetTimeOutState())
 		{
 			graphics->Update(DT,key_handler, died);
 			graphics->Render();
 		}
 
 		//Check audio (comment out to disable)
-		audio->Update(ui->GetPauseState());
+		audio->Update(ui->GetPauseState() || ui->GetDeathState() || ui->GetTimeOutState());
 
 		//Update and render the ui
 		ui->Update(key_handler);
-		ui->Render(window->GetWindow(), DT, died);
+		ui->Render(window->GetWindow(), DT, died, quit, reset);
+
+		// Reset if main menu is called
+		if(reset)
+		{
+			graphics->Reset();
+		}
 
 		//Reset died boolean
 		died = false;
+		reset = false;
 
 		//Swap to the Window
 		window->Swap();
+
+		if(quit)
+		{
+			is_running = false;
+		}
 	}
 }
 
@@ -195,6 +208,10 @@ bool Engine::Keyboard(){
 				break;
 			case SDLK_p:
 				key_handler->Press('p');
+				return true;
+				break;
+			case SDLK_q:
+				key_handler->Press('q');
 				return true;
 				break;
 			default:

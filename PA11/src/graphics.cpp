@@ -160,16 +160,12 @@ void Graphics::Update(unsigned int dt, KeyHandler* key_handler, bool& died){
 
 	objects[1]->GetRigidBody()->setLinearVelocity(btVector3(linearVelocity_x, linearVelocity_y, linearVelocity_z));
 
-	//basic game logic if ball falls off, the ball is reset
-	if(objects[1]->GetLocation().y < -10)
-	{
-		physics_world->SetGravity(btVector3(0,-10,0));
-		objects[1]->GetRigidBody()->setLinearVelocity(btVector3(0,0,0));
-		objects[1]->GetRigidBody()->setAngularVelocity(btVector3(0,0,0));
-		objects[1]->SetLocationOrigin();
-		camera->Reset();
-		died = true;
-	}
+		//basic game logic if ball falls off, the ball is reset
+		if(objects[1]->GetLocation().y < -10)
+		{
+			Reset();
+			died = true;
+		}
 }
 
 void Graphics::Render(){
@@ -229,3 +225,13 @@ char* Graphics::ErrorString(GLenum error){
 	printf("Graphics::ErrorString function called: ");
 	return strcpy(ret,"test"); //Test this!
 }	
+
+void Graphics::Reset()
+{
+	// the ball is reset
+	physics_world->SetGravity(btVector3(0,-10,0));
+	objects[1]->GetRigidBody()->setLinearVelocity(btVector3(0,0,0));
+	objects[1]->GetRigidBody()->setAngularVelocity(btVector3(0,0,0));
+	objects[1]->SetLocationOrigin();
+	camera->Reset();
+}

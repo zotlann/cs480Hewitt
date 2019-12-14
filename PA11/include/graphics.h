@@ -20,6 +20,7 @@ class Graphics{
 		void Render();
 		void Input(char input);
 		char* ErrorString(GLenum error);
+		void Reset();
 	private:
 
 		Camera* camera;
