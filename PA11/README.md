@@ -36,14 +36,14 @@ make
 ```bash
 ./apesphere -c ../assets/configs/apesphere/master.xml
 ```
-NOTE: Sometimes there is a seg fault at start, just re-run it until it runs.
 
 ## Keyboard and Mouse
 There are menus that are accessible through the mouse. Below is how the keyboard functions.
 | Input | Output |
 | - | :-: |
 | <kbd>Esc</kbd> | Exit program |
-| <kbd>P</kbd> | Pause |
+| <kbd>Q</kbd> | Quit to main menu |
+| <kbd>P</kbd> | Pause game |
 | <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> | Roll Ball/Adjust Camera |
 
 ## Manual

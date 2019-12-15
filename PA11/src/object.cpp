@@ -231,6 +231,7 @@ void Object::SetLocationLevel(int level)
   
 }
 
+//last minute way to check if the ball has fallen into the hole
 bool Object::CheckLevelWin(int level)
 {
 	if(location.y < -2)
@@ -246,20 +247,20 @@ bool Object::CheckLevelWin(int level)
 			}
 		}
 	}
-	if(location.y < 23)
+	if(location.y < 20)
 	{
 		if(level == 1)
 		{
-			/*
-			ben: do this
-			if(location.x >= -150 && location.x <= -39)
+			std::cout << "x:" << location.x << " y: " << location.y << " z: " << location.z << std::endl;
+			//ben: do this
+			if(location.x >= -173 && location.x <= -168)
 			{
-				if(location.z >= -4 && location.z <= 6)
+				if(location.z >= -6 && location.z <= -1)
 				{
+					std::cout << "AAAAAAAAAAAAAAAAAAAA";
 					return true;
 				}
 			}
-			*/
 		}
 	}
 
