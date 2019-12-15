@@ -11,7 +11,7 @@
 
 class Engine{
 	public:
-		Engine(char* name, int w, int h);
+		Engine(char* name,int w, int h);
 		Engine(char* name);
 		~Engine();
 		bool Initialize(Config cfg);

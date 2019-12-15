@@ -48,6 +48,9 @@ bool Engine::Initialize(Config cfg){
 		printf("UI failed to initialize\n");
 		return false;
 	}
+	if(cfg.scoreboard_filename){
+		ui->SetScoreboard(cfg.scoreboard_filename);
+	}
 
 	//Set the time
 	current_time_millis = GetCurrentTimeMillis();
