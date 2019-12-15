@@ -9,8 +9,8 @@
 	<shininess>10</shininess>
 	<restitution>1</restitution>
 	<level1-pos>
-		<x>-150</x>
-		<y>25</y>
+		<x>-220</x>
+		<y>28</y>
 		<z>0</z>
 	</level1-pos>
 </object>

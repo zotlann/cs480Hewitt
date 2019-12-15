@@ -15,6 +15,7 @@
 struct ObjectConfig{
 	glm::vec3 level1Pos;
 	glm::vec3 level2Pos;
+	glm::vec3 level3Pos;
 	float scale;
 	float mass;
 	float restitution;

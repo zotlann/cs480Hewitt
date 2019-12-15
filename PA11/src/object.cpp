@@ -7,7 +7,7 @@ Object::~Object(){
 	delete texture;
 	delete shape;
 	delete body;
-	delete triangle_mesh;
+	//delete triangle_mesh;
 	delete motion_state;
 }
 
@@ -141,6 +141,23 @@ void Object::LoadObjectConfig(char* object_config_filename){
 		}
 	}
 	config.level2Pos = (glm::vec3(x,y,z));	
+
+	x = y = z = 0;
+	if((element = object->FirstChildElement("level3-pos"))){
+		tinyxml2::XMLElement* position = NULL;
+		//set the x,y,z
+		if((position = element->FirstChildElement("x"))){
+			x = position->FloatText();
+		}
+		if((position = element->FirstChildElement("y"))){
+			y = position->FloatText();
+		}
+		if((position = element->FirstChildElement("z"))){
+			z = position->FloatText();
+		}
+	}
+	config.level3Pos = (glm::vec3(x,y,z));
+
 }
 
 void Object::LoadBody(char* shape_str){
@@ -227,6 +244,11 @@ void Object::SetLocationLevel(int level)
   {
  	 newTransform.setOrigin(btVector3(config.level2Pos.x, config.level2Pos.y, config.level2Pos.z));
  	 newTransform.setRotation(btQuaternion(0,1,0,1));
+  }
+  if(level == 2)
+  {
+ 	 newTransform.setOrigin(btVector3(config.level3Pos.x, config.level3Pos.y, config.level3Pos.z));
+ 	 newTransform.setRotation(btQuaternion(0,1,0,1));  
   }
 
   body->setWorldTransform(newTransform);
