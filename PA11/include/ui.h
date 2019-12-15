@@ -8,6 +8,7 @@
 #include "imgui_impl_sdl.h"
 #include "graphics_headers.h"
 #include "keyhandler.h"
+#include "score.h"
 
 class Ui
 {
@@ -25,6 +26,7 @@ class Ui
         bool GetTimeOutState();
         bool GetWinState();
         int GetLevel();
+	void SetScoreboard(char* filename);
 
     private:
         SDL_GLContext gl_context;
@@ -37,11 +39,13 @@ class Ui
         bool showDeathScreen;
         bool showConfirmQuit;
         bool showWin;
+	std::vector<Score> scores;
 
         float time;
         int score;
         int lives;
         int level;
+	char* scoreboard_filename;
 };
 
 #endif

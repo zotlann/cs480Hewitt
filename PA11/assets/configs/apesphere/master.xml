@@ -4,7 +4,7 @@
 	<windowname>ApeSphere</windowname>
 	<w>1024</w>
 	<h>768</h>
-
+	<scoreboard>../assets/configs/apesphere/scoreboard.xml</scoreboard>
 	<ambient-r>1.0</ambient-r>
 	<ambient-g>1.0</ambient-g>
 	<ambient-b>1.0</ambient-b>

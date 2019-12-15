@@ -127,5 +127,9 @@ void loadConfig(char* config_filename, Config* cfg)
 	}
 	if((element = config->FirstChildElement("spotlight-cutoff"))){
 		cfg->spotlightCutoff = element->FloatText();
-  }  
+  	}
+        if((element = config->FirstChildElement("scoreboard"))){
+		cfg->scoreboard_filename = new char[256];
+		strcpy(cfg->scoreboard_filename, element->GetText());
+	}	
 }

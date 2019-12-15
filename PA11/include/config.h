@@ -13,6 +13,7 @@ struct Config{
 	char* window_name;
 	char* vshader_filename;
 	char* fshader_filename;
+	char* scoreboard_filename;
 	int w;
 	int h;
 	
