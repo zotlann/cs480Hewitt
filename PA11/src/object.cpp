@@ -251,18 +251,16 @@ bool Object::CheckLevelWin(int level)
 	{
 		if(level == 1)
 		{
-			std::cout << "x:" << location.x << " y: " << location.y << " z: " << location.z << std::endl;
-			//ben: do this
+			//test this more
 			if(location.x >= -173 && location.x <= -168)
 			{
 				if(location.z >= -6 && location.z <= -1)
 				{
-					std::cout << "AAAAAAAAAAAAAAAAAAAA";
 					return true;
 				}
 			}
 		}
 	}
-
+	//ben: make level == 2
 	return false;
 }
