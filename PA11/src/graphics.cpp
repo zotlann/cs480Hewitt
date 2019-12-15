@@ -101,13 +101,15 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	Object* level1 = new Object("../assets/configs/apesphere/level1.xml");
 	Object* ball = new Object("../assets/configs/apesphere/ball.xml");
 	Object* level2 = new Object("../assets/configs/apesphere/level2.xml");
-	//Object* harris = new Object("../assets/configs/apesphere/harris.xml");
+	//Object* level3 = new Object("../assets/configs/apesphere/level3.xml");
+	Object* harris = new Object("../assets/configs/apesphere/harris.xml");
 	//Object* skyBox = new Object("../assets/configs/apesphere/skybox.xml");
 	
 	objects.push_back(level1);
 	objects.push_back(ball);
 	objects.push_back(level2);
-	//objects.push_back(harris);
+	//objects.push_back(level3);
+	objects.push_back(harris);
 	//objects.push_back(skyBox);
 	
 
