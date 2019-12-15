@@ -11,7 +11,7 @@ Apesphere is our final project that is inspired by Super Monkey Ball.
 ## Dependency Instructions
 To run this project on Linux, installation of these three programs are required [GLEW](http://glew.sourceforge.net/), [GLM](http://glm.g-truc.net/0.9.7/index.html), and [SDL2](https://wiki.libsdl.org/Tutorials).
 
-This project uses OpenGL 3.3. Some computers, such as virtual machines in the ECC, can not run this version. In in order to run OpenGL 2.7 follow the instructions at [Using OpenGL 2.7](https://github.com/HPC-Vis/computer-graphics/wiki/Using-OpenGL-2.7)
+This project uses OpenGL 3.3. Some computers, such as virtual machines in the ECC, can not run this version. In in order to run OpenGL 2.7 follow the instructions at [Using OpenGL 2.7](https://github.com/HPC-Vis/computer-graphics/wiki/Using-OpenGL-2.7).
 
 ### Ubuntu/Linux
 Assimp, Magick++, and Bullet are needed.
@@ -38,7 +38,8 @@ make
 ```
 NOTE: Sometimes there is a seg fault at start, just re-run it until it runs.
 
-## Keyboard
+## Keyboard and Mouse
+There are menus that are accessible through the mouse. Below is how the keyboard functions.
 | Input | Output |
 | - | :-: |
 | <kbd>Esc</kbd> | Exit program |
