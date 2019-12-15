@@ -38,13 +38,14 @@ make
 ```
 
 ## Keyboard and Mouse
-There are menus that are accessible through the mouse. Below is how the keyboard functions.
-| Input | Output |
-| - | :-: |
-| <kbd>Esc</kbd> | Exit program |
-| <kbd>Q</kbd> | Quit to main menu |
-| <kbd>P</kbd> | Pause game |
-| <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> | Roll Ball/Adjust Camera |
+There are menus that are accessible through the mouse. Below is how the keyboard functions.  
+
+| Input | Output |  
+| :-: | :-: |  
+| <kbd>Esc</kbd> | Exit program |  
+| <kbd>Q</kbd> | Quit to main menu |  
+| <kbd>P</kbd> | Pause game |  
+| <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> | Roll Ball/Adjust Camera |  
 
 ## Manual
 The current manual can be found [here](https://docs.google.com/document/d/1aIcbmTQSdgDmyJRhLJwzB5e0xmMzvdijlrm1QTCOtoU/edit?usp=sharing).
