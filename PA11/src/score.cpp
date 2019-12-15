@@ -3,7 +3,7 @@
 std::vector<Score> ReadScoreFile(char* filename){
 	tinyxml2::XMLDocument score_file;
 	tinyxml2::XMLError file_loaded = score_file.LoadFile(filename);
-	if(file_loaded != tinyxml2::XML_SUCCESS){
+	if(file_loaded == tinyxml2::XML_ERROR_FILE_NOT_FOUND){
 		std::string error;
 		std::string fname(filename);
 		error = "XML Error: " + std::to_string(file_loaded) + " in file: "+ fname + "\n";
@@ -33,7 +33,7 @@ std::vector<Score> ReadScoreFile(char* filename){
 
 void WriteScoreFile(char* filename, std::vector<Score> scores){
 	std::ofstream file;
-	file.open(filename);
+	file.open(filename,std::ofstream::trunc);
 	std::string  element_text;
 	file << "<scoreboard>\n";
 	for(unsigned int i = 0; i < scores.size(); i++){

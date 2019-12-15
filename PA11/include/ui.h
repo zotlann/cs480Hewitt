@@ -45,6 +45,7 @@ class Ui
         int score;
         int lives;
         int level;
+	char* scoreboard_filename;
 };
 
 #endif

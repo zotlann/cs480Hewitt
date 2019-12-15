@@ -433,5 +433,6 @@ int Ui::GetLevel()
 }
 
 void Ui::SetScoreboard(char* filename){
+	scoreboard_filename = filename;
 	scores = ReadScoreFile(filename);
 }
