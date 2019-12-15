@@ -16,12 +16,15 @@ class Ui
         ~Ui();
         bool Initialize();
         void Update(KeyHandler* key_handler);
-        void Render(SDL_Window* window, unsigned int dt, bool died, bool& quit, bool &reset);
+        void Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool& quit, bool &reset);
+        
         bool GetPauseState();
         bool GetDeathState();
         bool GetMainMenuState();
         bool GetConfirmState();
         bool GetTimeOutState();
+        bool GetWinState();
+        int GetLevel();
 
     private:
         SDL_GLContext gl_context;
@@ -33,10 +36,12 @@ class Ui
         bool showStatistics;
         bool showDeathScreen;
         bool showConfirmQuit;
+        bool showWin;
 
         float time;
         int score;
         int lives;
+        int level;
 };
 
 #endif

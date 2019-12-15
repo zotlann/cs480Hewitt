@@ -37,6 +37,7 @@ class Engine{
 		bool is_running;
 
 		bool died;
+		bool win;
 		bool quit;
 		bool reset;
 

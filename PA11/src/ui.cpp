@@ -18,11 +18,13 @@ Ui::Ui(SDL_Window *window, SDL_GLContext context)
     showDeathScreen = false;
     showTimeOut = false;
     showConfirmQuit = false;
+    showWin = false;
 
     // Set up scoring
     time = 0;
     score = 0;
     lives = 3;
+    level = 0;
 }
 
 Ui::~Ui()
@@ -65,7 +67,7 @@ void Ui::Update(KeyHandler* key_handler)
     }
 }
 
-void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool &reset)
+void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &quit, bool &reset)
 {
     // io
     ImGuiIO& io = ImGui::GetIO(); (void) io;
@@ -84,6 +86,7 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
         showTimeOut = false;
 
         ImGui::SetNextWindowPos( ImVec2( io.DisplaySize.x/2, io.DisplaySize.y/2 ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize( ImVec2(135, 125));
 
         // Title bar
         ImGui::Begin("Main Menu");
@@ -98,13 +101,43 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
             showTimeOut = false;
 
             // Reset stats
+            level = 0;
             time = 60;
             score = 0;
             lives = 3;
         }
 
         // Choose level
+        ImGui::Text("Choose Level");
+        if(ImGui::Button("Level 1"))
+        {
+            level = 0;
+            time = 60;
+            score = 0;
+            lives = 3;
 
+            showMainMenu = false;
+            showStatistics = true;
+            showPauseMenu = false;
+            showDeathScreen = false;
+            showTimeOut = false;
+            reset = true;
+        }
+        ImGui::SameLine();
+        if(ImGui::Button("Level 2"))
+        {
+            level = 1;
+            time = 60;
+            score = 0;
+            lives = 3;
+            
+            showMainMenu = false;
+            showStatistics = true;
+            showPauseMenu = false;
+            showDeathScreen = false;
+            showTimeOut = false;
+            reset = true;
+        }
 
         // Show high score
 
@@ -153,12 +186,16 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
         
         // Time
         ImGui::Text("Time: %.1f", time);
-        if(!showPauseMenu && !showDeathScreen && !showConfirmQuit && !showTimeOut)
+        if(!showPauseMenu && !showDeathScreen && !showConfirmQuit && !showTimeOut && !showWin)
             time -= dt/1000.f;
 
         // Lives
         if(died)
             lives--;
+        
+        if(win)
+            showWin = true;
+
         ImGui::Text("Lives: %d", lives);
 
         // Game over if statements
@@ -189,13 +226,46 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
         if(!showDeathScreen & !showMainMenu)
         {
             ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-            
+            ImGui::SetNextWindowSize( ImVec2(135, 125));
+ 
             ImGui::Begin("Pause");
 
             //Return to game
             if(ImGui::Button("Return to Game"))
             {
                 showPauseMenu = false;
+            }
+
+            // Choose level
+            ImGui::Text("Choose Level");
+            if(ImGui::Button("Level 1"))
+            {
+                level = 0;
+                time = 60;
+                score = 0;
+                lives = 3;
+
+                showMainMenu = false;
+                showStatistics = true;
+                showPauseMenu = false;
+                showDeathScreen = false;
+                showTimeOut = false;
+                reset = true;
+            }
+            ImGui::SameLine();
+            if(ImGui::Button("Level 2"))
+            {
+                level = 1;
+                time = 60;
+                score = 0;
+                lives = 3;
+                
+                showMainMenu = false;
+                showStatistics = true;
+                showPauseMenu = false;
+                showDeathScreen = false;
+                showTimeOut = false;
+                reset = true;
             }
 
             //Open main menu
@@ -216,6 +286,7 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
     if(showDeathScreen)
     {
         ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize( ImVec2(135, 100));
 
         ImGui::Begin("You Died!");
 
@@ -226,7 +297,7 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
         if(ImGui::Button("Retry Level"))
         {
             lives = 3;
-            time = 0;
+            time = 60;
             score = 0;
             showDeathScreen = false;
         }
@@ -245,6 +316,7 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
     if(showTimeOut)
     {
         ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize( ImVec2(135, 100));
 
         ImGui::Begin("You Ran Out Of Time!");
 
@@ -267,6 +339,47 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool &quit, bool
             showMainMenu = true;
             reset = true;
             showTimeOut = false;
+        }
+
+        ImGui::End();
+    }
+
+    if(showWin)
+    {
+        ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize( ImVec2(135, 125));
+
+        ImGui::Begin("You Won!");
+
+        // Final Score
+        ImGui::Text("Final Score: %.1f", time);
+
+        // Retry
+        if(ImGui::Button("Retry Level"))
+        {
+            lives = 3;
+            time = 60;
+            score = 0;
+            showWin = false;
+            reset = true;
+        }        
+
+        // Next level
+        if(ImGui::Button("Next Level"))
+        {
+            level++;
+            time = 60;
+            score = 0;
+            showWin = false;
+            reset = true;
+        }
+
+        // Main Menu
+        if(ImGui::Button("Main Menu"))
+        {
+            showMainMenu = true;
+            reset = true;
+            showWin = false;
         }
 
         ImGui::End();
@@ -301,4 +414,14 @@ bool Ui::GetMainMenuState()
 bool Ui::GetConfirmState()
 {
     return showConfirmQuit;
+}
+
+bool Ui::GetWinState()
+{
+    return showWin;
+}
+
+int Ui::GetLevel()
+{
+    return level;
 }

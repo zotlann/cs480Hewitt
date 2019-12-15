@@ -13,7 +13,8 @@
 #include "keyhandler.h"
 
 struct ObjectConfig{
-	glm::vec3 position;
+	glm::vec3 level1Pos;
+	glm::vec3 level2Pos;
 	float scale;
 	float mass;
 	float restitution;
@@ -38,7 +39,11 @@ class Object{
 		void LoadBody(char* shape_str);
 		void LoadShape(char* shape_str);
 		void LoadObjectConfig(char* object_config_filename);
-		void SetLocationOrigin();
+
+		// Level functions
+		void SetLocationLevel(int level);
+		bool CheckLevelWin(int level);
+
 		glm::mat4 GetModelMatrix();
 		glm::vec3 GetLocation();
 		btRigidBody* GetRigidBody();

@@ -8,9 +8,9 @@
 	<friction>5.5</friction>
 	<shininess>10</shininess>
 	<restitution>1</restitution>
-	<position>
+	<level1-pos>
 		<x>0</x>
 		<y>0</y>
 		<z>0</z>
-	</position>
+	</level1-pos>
 </object>

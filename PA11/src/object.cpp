@@ -20,8 +20,8 @@ Object::Object(char* object_config_filename){
 	model = new Model(config.model_filename);
 	//Load the texture
 	texture = new Texture(config.texture_filename);
-	//Translate model by initial position from config
-	model_matrix *= glm::translate(glm::mat4(1.0f),config.position);
+	//Translate model by initial level1Pos from config
+	model_matrix *= glm::translate(glm::mat4(1.0f),config.level1Pos);
 	//set the model scale
 	model_matrix *= glm::scale(glm::mat4(1.0f),glm::vec3(config.scale));
 	//Load the rigid body
@@ -111,7 +111,7 @@ void Object::LoadObjectConfig(char* object_config_filename){
 	//set the initial position
 	float x,y,z;
 	x = y = z = 0;
-	if((element = object->FirstChildElement("position"))){
+	if((element = object->FirstChildElement("level1-pos"))){
 		tinyxml2::XMLElement* position = NULL;
 		//set the x,y,z
 		if((position = element->FirstChildElement("x"))){
@@ -124,7 +124,23 @@ void Object::LoadObjectConfig(char* object_config_filename){
 			z = position->FloatText();
 		}
 	}
-	config.position = glm::vec3(x,y,z);	
+	config.level1Pos = (glm::vec3(x,y,z));	
+
+	x = y = z = 0;
+	if((element = object->FirstChildElement("level2-pos"))){
+		tinyxml2::XMLElement* position = NULL;
+		//set the x,y,z
+		if((position = element->FirstChildElement("x"))){
+			x = position->FloatText();
+		}
+		if((position = element->FirstChildElement("y"))){
+			y = position->FloatText();
+		}
+		if((position = element->FirstChildElement("z"))){
+			z = position->FloatText();
+		}
+	}
+	config.level2Pos = (glm::vec3(x,y,z));	
 }
 
 void Object::LoadBody(char* shape_str){
@@ -141,7 +157,7 @@ void Object::LoadBody(char* shape_str){
 		shape->calculateLocalInertia(mass,local_inertia);
 	}
 	//set transform origin to object's initial position
-	start_transform.setOrigin(btVector3(config.position.x,config.position.y,config.position.z));
+	start_transform.setOrigin(btVector3(config.level1Pos.x,config.level1Pos.y,config.level1Pos.z));
 	//set up the rigid body
 	motion_state = new btDefaultMotionState(start_transform);
 	btRigidBody::btRigidBodyConstructionInfo rigid_body_information(mass,motion_state,shape,local_inertia);
@@ -193,16 +209,59 @@ float Object::GetShininess(){
  	return config.shininess;
 }
 
-void Object::SetLocationOrigin()
+void Object::SetLocationLevel(int level)
 {
   
   btTransform newTransform;
 
-  newTransform.setOrigin(btVector3(config.position.x, config.position.y, config.position.z));
-  newTransform.setRotation(btQuaternion(0,1,0,1));
+  if(level == 0)
+  {
+ 	 newTransform.setOrigin(btVector3(config.level1Pos.x, config.level1Pos.y, config.level1Pos.z));
+ 	 newTransform.setRotation(btQuaternion(0,1,0,1));
+  }
+  if(level == 1)
+  {
+ 	 newTransform.setOrigin(btVector3(config.level2Pos.x, config.level2Pos.y, config.level2Pos.z));
+ 	 newTransform.setRotation(btQuaternion(0,1,0,1));
+  }
 
   body->setWorldTransform(newTransform);
   body->setCenterOfMassTransform(newTransform);
   motion_state->setWorldTransform(newTransform);
   
+}
+
+bool Object::CheckLevelWin(int level)
+{
+	if(location.y < -2)
+	{
+		if(level == 0)
+		{
+			if(location.x >= -46 && location.x <= -39)
+			{
+				if(location.z >= -4 && location.z <= 6)
+				{
+					return true;
+				}
+			}
+		}
+	}
+	if(location.y < 23)
+	{
+		if(level == 1)
+		{
+			/*
+			ben: do this
+			if(location.x >= -150 && location.x <= -39)
+			{
+				if(location.z >= -4 && location.z <= 6)
+				{
+					return true;
+				}
+			}
+			*/
+		}
+	}
+
+	return false;
 }

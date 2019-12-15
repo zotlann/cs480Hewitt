@@ -60,6 +60,8 @@ void Engine::Run(){
 	bool input = false;
 	is_running = true;
 	died = false;
+	int level = 0;
+	win = false;
 	quit = false;
 	while(is_running){
 		//Update the DT
@@ -71,9 +73,9 @@ void Engine::Run(){
 		}
 		//Update and render the graphics
 		//Do this only if the game is playing
-		if(!ui->GetDeathState() && !ui->GetPauseState() && !ui->GetMainMenuState() && !ui->GetConfirmState() && !ui->GetTimeOutState())
+		if(!ui->GetDeathState() && !ui->GetPauseState() && !ui->GetMainMenuState() && !ui->GetConfirmState() && !ui->GetTimeOutState() && !ui->GetWinState())
 		{
-			graphics->Update(DT,key_handler, died);
+			graphics->Update(DT,key_handler, died, win, level);
 			graphics->Render();
 		}
 
@@ -82,16 +84,18 @@ void Engine::Run(){
 
 		//Update and render the ui
 		ui->Update(key_handler);
-		ui->Render(window->GetWindow(), DT, died, quit, reset);
+		ui->Render(window->GetWindow(), DT, died, win, quit, reset);
+		level = ui->GetLevel();
 
 		// Reset if main menu is called
 		if(reset)
 		{
-			graphics->Reset();
+			graphics->Reset(level);
 		}
 
-		//Reset died boolean
+		//Reset all boolean
 		died = false;
+		win = false;
 		reset = false;
 
 		//Swap to the Window

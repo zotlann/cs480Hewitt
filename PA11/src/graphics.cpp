@@ -101,10 +101,12 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	Object* object2 = new Object("../assets/configs/apesphere/ball.xml");
 	Object* harris = new Object("../assets/configs/apesphere/harris.xml");
 	Object* skyBox = new Object("../assets/configs/apesphere/skybox.xml");
+	Object* level2 = new Object("../assets/configs/apesphere/level2.xml");
 	objects.push_back(object);
 	objects.push_back(object2);
-	objects.push_back(harris);
-	objects.push_back(skyBox);
+	//objects.push_back(harris);
+	//objects.push_back(skyBox);
+	objects.push_back(level2);
 
 	//add the objects to the physics world
 	for(unsigned int i = 0; i < objects.size(); i++){
@@ -115,12 +117,12 @@ bool Graphics::Initialize(int w, int h, Config cfg){
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	objects[1]->SetLocationOrigin();
+	objects[1]->SetLocationLevel(0);
 
 	return true;
 }
 
-void Graphics::Update(unsigned int dt, KeyHandler* key_handler, bool& died){
+void Graphics::Update(unsigned int dt, KeyHandler* key_handler, bool& died, bool& win, int level){
 	camera->Update(dt,key_handler,objects[1]);
 	glm::vec3 g = camera->GetGravity();
 	g *= 5;
@@ -162,12 +164,19 @@ void Graphics::Update(unsigned int dt, KeyHandler* key_handler, bool& died){
 
 	objects[1]->GetRigidBody()->setLinearVelocity(btVector3(linearVelocity_x, linearVelocity_y, linearVelocity_z));
 
-		//basic game logic if ball falls off, the ball is reset
-		if(objects[1]->GetLocation().y < -10)
-		{
-			Reset();
-			died = true;
-		}
+	//basic game logic if ball falls off, the ball is reset
+	if(objects[1]->GetLocation().y < -10)
+	{
+		Reset(level);
+		died = true;			
+	}
+
+	if(objects[1]->CheckLevelWin(level))
+	{
+		win = true;
+		Reset(level);
+	}
+	//printf("%f, %f, %f\n", objects[1]->GetLocation().x, objects[1]->GetLocation().y, objects[1]->GetLocation().z);
 }
 
 void Graphics::Render(){
@@ -228,12 +237,12 @@ char* Graphics::ErrorString(GLenum error){
 	return strcpy(ret,"test"); //Test this!
 }	
 
-void Graphics::Reset()
+void Graphics::Reset(int level)
 {
 	// the ball is reset
 	physics_world->SetGravity(btVector3(0,-10,0));
 	objects[1]->GetRigidBody()->setLinearVelocity(btVector3(0,0,0));
 	objects[1]->GetRigidBody()->setAngularVelocity(btVector3(0,0,0));
-	objects[1]->SetLocationOrigin();
+	objects[1]->SetLocationLevel(level);
 	camera->Reset();
 }

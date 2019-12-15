@@ -16,11 +16,11 @@ class Graphics{
 		Graphics();
 		~Graphics();
 		bool Initialize(int w, int h, Config cfg);
-		void Update(unsigned int dt, KeyHandler* key_handler, bool& died);
+		void Update(unsigned int dt, KeyHandler* key_handler, bool& died, bool& win, int level);
 		void Render();
 		void Input(char input);
 		char* ErrorString(GLenum error);
-		void Reset();
+		void Reset(int level);
 	private:
 
 		Camera* camera;
