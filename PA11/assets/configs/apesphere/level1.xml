@@ -1,13 +1,13 @@
 <object>
-	<model>../assets/objects/tray.obj</model>
-	<texture>../assets/textures/orange.jpeg</texture>
+	<model>../assets/objects/level1.obj</model>
+	<texture>../assets/textures/checkerboard1.jpg</texture>
 	<shape>mesh</shape>
 	<kinematic>false</kinematic>
-	<scale>20</scale>
+	<scale>2</scale>
 	<mass>0</mass>
 	<friction>5.5</friction>
 	<shininess>10</shininess>
-	<restitution>1.5</restitution>
+	<restitution>1</restitution>
 	<position>
 		<x>0</x>
 		<y>0</y>
