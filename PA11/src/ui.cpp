@@ -369,9 +369,15 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &
         {
             level++;
             time = 60;
+            lives = 3;
             score = 0;
             showWin = false;
             reset = true;
+            //go back to first level from 2nd one
+            if(level > 1)
+            {
+                level = 0;
+            }
         }
 
         // Main Menu
