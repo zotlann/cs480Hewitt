@@ -200,6 +200,10 @@ void Object::LoadShape(char* shape_str){
 		btScalar radius = config.scale;
 		shape = new btSphereShape(radius);
 	}
+	else if((strcmp(shape_str,"skybox"))==0){
+		btVector3 vec = {0, 0, 0};
+		shape = new btBoxShape(vec);
+	}
 }
 
 btRigidBody* Object::GetRigidBody(){

@@ -1,7 +1,7 @@
 <object>
 	<model>../assets/objects/cube.obj</model>
 	<texture>../assets/textures/skyBox1.jpg</texture>
-	<shape>box</shape>
+	<shape>skybox</shape>
 	<kinematic>true</kinematic>
 	<scale>2000</scale>
 	<mass>0</mass>
