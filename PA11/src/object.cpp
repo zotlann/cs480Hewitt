@@ -273,7 +273,7 @@ bool Object::CheckLevelWin(int level)
 			}
 		}
 	}
-	if(location.y < 20)
+	if(location.y < 20 && location.y > 16)
 	{
 		if(level == 1)
 		{
@@ -288,5 +288,21 @@ bool Object::CheckLevelWin(int level)
 		}
 	}
 	//ben: make level == 2
+	if(location.y < 23)
+	{
+		if(level == 2)
+		{
+			//std::cout << "x: " << location.x << " y: " << location.y << " z: " << location.z << std::endl;
+			//test this more
+			if(location.x >= -257 && location.x <= -249)
+			{
+				if(location.z >= -2 && location.z <= 1)
+				{
+					//std::cout << "AAAAAAAAAAAAAAAAAAAAA" << std::endl;
+					return true;
+				}
+			}
+		}
+	}
 	return false;
 }

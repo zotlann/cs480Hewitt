@@ -86,7 +86,7 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &
         showTimeOut = false;
 
         ImGui::SetNextWindowPos( ImVec2( io.DisplaySize.x/2, io.DisplaySize.y/2 ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-        ImGui::SetNextWindowSize( ImVec2(135, 125));
+        ImGui::SetNextWindowSize( ImVec2(210, 125));
 
         // Title bar
         ImGui::Begin("Main Menu");
@@ -138,7 +138,21 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &
             showTimeOut = false;
             reset = true;
         }
-
+        ImGui::SameLine();
+        if(ImGui::Button("Level 3"))
+        {
+            level = 2;
+            time = 60;
+            score = 0;
+            lives = 3;
+            
+            showMainMenu = false;
+            showStatistics = true;
+            showPauseMenu = false;
+            showDeathScreen = false;
+            showTimeOut = false;
+            reset = true;
+        }
         // Show high score
 
         
@@ -226,7 +240,7 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &
         if(!showDeathScreen & !showMainMenu)
         {
             ImGui::SetNextWindowPos(ImVec2( io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f ), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-            ImGui::SetNextWindowSize( ImVec2(135, 125));
+            ImGui::SetNextWindowSize( ImVec2(210, 125));
  
             ImGui::Begin("Pause");
 
@@ -267,6 +281,21 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &
                 showTimeOut = false;
                 reset = true;
             }
+        ImGui::SameLine();
+        if(ImGui::Button("Level 3"))
+        {
+            level = 2;
+            time = 60;
+            score = 0;
+            lives = 3;
+            
+            showMainMenu = false;
+            showStatistics = true;
+            showPauseMenu = false;
+            showDeathScreen = false;
+            showTimeOut = false;
+            reset = true;
+        }
 
             //Open main menu
             if(ImGui::Button("Main Menu"))
