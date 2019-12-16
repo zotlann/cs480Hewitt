@@ -15,7 +15,7 @@ endif
 CXXFLAGS=-g -Wall -Wformat -std=c++0x `Magick++-config --cppflags --cxxflags --ldflags --libs`
 
 # .o Compilation
-O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o audio.o imgui.o imgui_demo.o imgui_draw.o imgui_widgets.o ui.o imgui_impl_opengl3.o imgui_impl_sdl.o score.o
+O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o audio.o imgui.o imgui_demo.o imgui_draw.o imgui_widgets.o ui.o imgui_impl_opengl3.o imgui_impl_sdl.o imgui_stdlib.o score.o
 
 # Point to includes of local directories
 INCLUDES=-I../include -I/usr/include/bullet
@@ -79,6 +79,9 @@ imgui_impl_opengl3.o: ../src/imgui_impl_opengl3.cpp
 
 imgui_impl_sdl.o: ../src/imgui_impl_sdl.cpp
 	$(CC) $(CXXFLAGS) -c ../src/imgui_impl_sdl.cpp -o imgui_impl_sdl.o $(INCLUDES)
+
+imgui_stdlib.o: ../src/imgui_stdlib.cpp
+	$(CC) $(CXXFLAGS) -c ../src/imgui_stdlib.cpp -o imgui_stdlib.o $(INCLUDES)
 
 ui.o: ../src/ui.cpp
 	$(CC) $(CXXFLAGS) -c ../src/ui.cpp -o ui.o $(INCLUDES)

@@ -25,6 +25,8 @@ class Ui
         bool GetConfirmState();
         bool GetTimeOutState();
         bool GetWinState();
+        bool GetHSState();
+        bool GetHSRState();
         int GetLevel();
 	void SetScoreboard(char* filename);
 
@@ -39,13 +41,17 @@ class Ui
         bool showDeathScreen;
         bool showConfirmQuit;
         bool showWin;
-	std::vector<Score> scores;
+        bool showHighScoreRead;
+        bool showHighScore;
+
+	    std::vector<Score> scores;
 
         float time;
         int score;
         int lives;
         int level;
-	char* scoreboard_filename;
+	    char* scoreboard_filename;
+        std::string name;
 };
 
 #endif

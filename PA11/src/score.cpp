@@ -49,19 +49,13 @@ void WriteScoreFile(char* filename, std::vector<Score> scores){
 
 bool AddScore(std::vector<Score>& scores, Score new_score){
 	bool score_added = false;
-	std::vector<Score> level_scores;
-	for(unsigned int i = 0; i < scores.size(); i++){
-		if((scores[i].level = new_score.level)){
-			level_scores.push_back(scores[i]);
-			scores.erase(scores.begin()+i);
-		}
-	}
 	std::vector<Score> new_scores;
-	for(unsigned int i = 0; i < level_scores.size(); i++){
-		if(new_score.time < level_scores[i].time){
+	for(unsigned int i = 0; i < scores.size(); i++){		
+		if(new_score.time > scores[i].time && scores[i].level == new_score.level){
 			score_added  = true;
 			new_scores.push_back(new_score);
-			new_score = level_scores[i];
+			new_score = scores[i];
+			scores.erase(scores.begin() + i);
 			i=0;
 		}
 	}

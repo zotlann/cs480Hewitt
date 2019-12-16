@@ -76,7 +76,7 @@ void Engine::Run(){
 		}
 		//Update and render the graphics
 		//Do this only if the game is playing
-		if(!ui->GetDeathState() && !ui->GetPauseState() && !ui->GetMainMenuState() && !ui->GetConfirmState() && !ui->GetTimeOutState() && !ui->GetWinState())
+		if(!ui->GetDeathState() && !ui->GetPauseState() && !ui->GetMainMenuState() && !ui->GetConfirmState() && !ui->GetTimeOutState() && !ui->GetWinState() && !ui->GetHSState() && !ui->GetHSRState())
 		{
 			graphics->Update(DT,key_handler, died, win, level);
 			graphics->Render();
