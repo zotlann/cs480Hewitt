@@ -4,7 +4,7 @@ UNAME_S := $(shell uname -s)
 # Linux
 ifeq ($(UNAME_S), Linux)
 	CC=g++
-	LIBS=-lSDL2 -lGLEW -lGL -lassimp `Magick++-config --cppflags --cxxflags --ldflags --libs` -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath
+	LIBS=-lSDL2 -lGLEW -lGL -lassimp -lMagick++-6.Q16 -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath
 # Mac
 else
 	CC=clang++
@@ -12,13 +12,13 @@ else
 endif
 
 #Compiler Flags
-CXXFLAGS=-g -Wall -Wformat -std=c++0x `Magick++-config --cppflags --cxxflags --ldflags --libs`
+CXXFLAGS=-g -Wall -Wformat -std=c++0x #`Magick++-config --cppflags --cxxflags --ldflags --libs`
 
 # .o Compilation
 O_FILES=main.o camera.o engine.o graphics.o object.o shader.o window.o tinyxml2.o model.o texture.o physics.o keyhandler.o audio.o imgui.o imgui_demo.o imgui_draw.o imgui_widgets.o ui.o imgui_impl_opengl3.o imgui_impl_sdl.o imgui_stdlib.o score.o
 
 # Point to includes of local directories
-INCLUDES=-I../include -I/usr/include/bullet
+INCLUDES=-I../include -I/usr/include/bullet -I/usr/include/x86_64-linux-gnu/ImageMagick-6/ -I/usr/include/ImageMagick-6/
 
 all: $(O_FILES)
 	$(CC) $(CXXFLAGS) -o apesphere $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
