@@ -27,7 +27,6 @@ Ui::Ui(SDL_Window *window, SDL_GLContext context)
     score = 0;
     lives = 3;
     level = 0;
-    name = "DEFAULT";
 }
 
 Ui::~Ui()
@@ -229,7 +228,7 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &
         
         if(win)
         {
-            Score newScore(level, time, "DEFAULT");
+            Score newScore(level, time);
 
             if(AddScore(scores, newScore))
             {
@@ -481,39 +480,42 @@ void Ui::Render(SDL_Window* window, unsigned int dt, bool died, bool win, bool &
 
         ImGui::Begin("High Score List");
         
-        // Show level 1 scores
-        ImGui::Text("Level 1");
+        // Load levels and sort
+        Score levelScores[3][3];
+        int j = 0;
+        int k = 0;
+        int m = 0;
         for(int i = 0; i < 9; i++)
         {
             if(0 == scores[i].level)
             {
-                ImGui::Text("%.1f", 60 - scores[i].time);
+                levelScores[0][j] = scores[i];
+                j++;
             }
-        }
-
-        ImGui::Text("\n");
-
-        // Show level 2 scores
-        ImGui::Text("Level 2");
-        for(int i = 0; i < 9; i++)
-        {
             if(1 == scores[i].level)
             {
-                ImGui::Text("%.1f", 60 - scores[i].time);
+                levelScores[1][k] = scores[i];
+                k++;
+            }
+            if(2 == scores[i].level)
+            {
+                levelScores[2][m] = scores[i];
+                m++;
+            }
+        }
+        
+
+        // Show level scores
+        for(int i = 0; i < 3; i++)
+        {
+            ImGui::Text("Level %d", i + 1);
+            for(int n = 0; n < 3; n++)
+            {
+                ImGui::Text("%d) %.1f", n + 1, 60 - levelScores[i][n].time);
             }
         }
 
         ImGui::Text("\n");
-
-        // Show level 3 scores
-        ImGui::Text("Level 3");
-        for(int i = 0; i < 9; i++)
-        {
-            if(2 == scores[i].level)
-            {
-                ImGui::Text("%.1f", 60 - scores[i].time);
-            }
-        }
 
         if(ImGui::Button("Close"))
         {

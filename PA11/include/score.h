@@ -11,11 +11,14 @@
 struct Score{
 	int level;
 	float time;
-	std::string name;
-	Score(int l, float t, std::string n){
+	Score(int l, float t){
 		level = l;
 		time = t;
-		name = n;
+	}
+	Score()
+	{
+		level = 0;
+		time = 0;
 	}
 };
 

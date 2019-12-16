@@ -22,9 +22,7 @@ std::vector<Score> ReadScoreFile(char* filename){
 			temp_level = score->Int64Text();
 			score = element->FirstChildElement("time");
 			temp_time = score->FloatText();
-			score = element->FirstChildElement("name");
-			temp_name = std::string(score->GetText());
-			scores.push_back(Score(temp_level,temp_time,temp_name));
+			scores.push_back(Score(temp_level,temp_time));
 			element = element->NextSiblingElement();
 		}while(element != NULL);
 	}
@@ -41,7 +39,6 @@ void WriteScoreFile(char* filename, std::vector<Score> scores){
 		file << "<" << element_text << ">\n";
 		file << "<level>" << scores[i].level << "</level>\n";
 		file << "<time>" << scores[i].time << "</time>\n";
-		file << "<name>" << scores[i].name << "</name>\n";
 		file << "</" << element_text << ">\n";
 	}
 	file << "</scoreboard>\n";
