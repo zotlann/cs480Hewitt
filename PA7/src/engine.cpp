@@ -54,11 +54,23 @@ void Engine::Run()
   glm::vec2 mouseLocation = {0.0,0.0};
   char input = '\0';  
   m_running = true;
+  int n_frames = 0;
+  long long int last_time = GetCurrentTimeMillis();
 
   while(m_running)
   {
     // Update the DT
     m_DT = getDT();
+
+    long long int current_time = GetCurrentTimeMillis();
+    n_frames++;
+
+    if(current_time - last_time >= 1000){
+      int dt = current_time - last_time;
+      printf("%f ms/frame \n", double(dt)/double(n_frames));
+      n_frames = 0;
+      last_time = current_time;
+    }
 
     mouseLocation = MouseMovement();
 

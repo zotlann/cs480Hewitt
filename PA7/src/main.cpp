@@ -19,6 +19,12 @@ int main(int argc, char **argv)
   Object::orbit_scale = cfg->orbit_scale*2;
   Object::planet_scale = cfg->planet_scale;
   Object::time_scale = cfg->time_scale; 
+  //Initialize FreeType
+  FT_Library library;
+  if(FT_Init_FreeType(&library)){
+    std::cout << "Error initializing freetype\n";
+    return 0;
+  }
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine(cfg->window_name, cfg->w, cfg->h);
   if(!engine->Initialize(*cfg))
