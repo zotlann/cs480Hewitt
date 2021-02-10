@@ -1,5 +1,5 @@
 # PA11: Apesphere
-##Image:
+## Gameplay Image:
 ![Apesphere Gameplay](docs/apesphere.png)
 
 
