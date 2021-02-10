@@ -1,4 +1,7 @@
 # PA11: Apesphere
+##Image:
+![Apesphere Gameplay](docs/apesphere.png)
+
 
 ## Team:
 - [Benjamin Estela](https://github.com/nebunr)

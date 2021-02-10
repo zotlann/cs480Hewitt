@@ -1,4 +1,11 @@
 # PA7: Solar System
+## Images:
+#Sun Scaled down so other celestial bodies are visible:
+![Scaled Sun 1](docs/solar01.png)
+![Scaled Sun 2](docs/solar02.png)
+#Realistically Scaled:
+![Realistically Scaled](docs/realistic.png)
+
 
 ## Team:
 - [Benjamin Estela](https://github.com/nebunr)
